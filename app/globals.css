@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #0a0a0f;
+  --foreground: #ffffff;
+  --bekky-purple: #a855f7;
+  --bekky-purple-dark: #7e22ce;
+  --neon-pink: #ff10f0;
+  --neon-blue: #00f0ff;
+  --neon-green: #39ff14;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-body);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .glow-purple {
+    text-shadow: 0 0 10px var(--bekky-purple), 0 0 20px var(--bekky-purple);
+  }
+
+  .glow-neon-pink {
+    text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink);
+  }
+
+  .glow-neon-blue {
+    text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
+  }
+
+  .border-glow-purple {
+    box-shadow: 0 0 10px var(--bekky-purple), 0 0 20px var(--bekky-purple);
+  }
+
+  .gradient-bekky {
+    background: linear-gradient(135deg, #a855f7 0%, #7e22ce 50%, #6b21a8 100%);
+  }
+
+  .gradient-neon {
+    background: linear-gradient(135deg, #ff10f0 0%, #00f0ff 50%, #39ff14 100%);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a2e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bekky-purple);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--bekky-purple-dark);
+}
