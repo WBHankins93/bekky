@@ -16,9 +16,9 @@ const fredoka = Fredoka({
 });
 
 export const metadata: Metadata = {
-  title: "Bekky World - Join the Purple Llama Community",
-  description: "Welcome to Bekky World! The exclusive community platform for Bekky fans. Earn Bekky Bucks, explore festival adventures, and connect with fellow llama lovers.",
-  keywords: ["Bekky", "purple llama", "festival", "community", "EDM", "rave"],
+  title: "Bekky - Big Butt Association | Official Community",
+  description: "Welcome to the Big Butt Association - the official home of Bekky the purple llama! Join our exclusive community, earn Bekky Bucks, and connect with fellow fans.",
+  keywords: ["Bekky", "Big Butt Association", "BBA", "purple llama", "Bekky Bucks", "community", "festival", "EDM"],
 };
 
 export default function RootLayout({
