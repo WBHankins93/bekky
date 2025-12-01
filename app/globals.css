@@ -3,13 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --background: #0a0a0f;
+  --background: #000000;
   --foreground: #ffffff;
-  --bekky-purple: #a855f7;
-  --bekky-purple-dark: #7e22ce;
-  --neon-pink: #ff10f0;
-  --neon-blue: #00f0ff;
-  --neon-green: #39ff14;
+  --bekky-purple: #5b21b6;
+  --bekky-purple-light: #8b5cf6;
+  --bekky-gold: #fbbf24;
+  --bekky-gold-dark: #d97706;
 }
 
 body {
@@ -24,27 +23,31 @@ body {
   }
 
   .glow-purple {
-    text-shadow: 0 0 10px var(--bekky-purple), 0 0 20px var(--bekky-purple);
+    text-shadow: 0 0 10px var(--bekky-purple-light), 0 0 20px var(--bekky-purple-light), 0 0 30px var(--bekky-purple);
   }
 
-  .glow-neon-pink {
-    text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink);
-  }
-
-  .glow-neon-blue {
-    text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
+  .glow-gold {
+    text-shadow: 0 0 10px var(--bekky-gold), 0 0 20px var(--bekky-gold), 0 0 30px var(--bekky-gold-dark);
   }
 
   .border-glow-purple {
-    box-shadow: 0 0 10px var(--bekky-purple), 0 0 20px var(--bekky-purple);
+    box-shadow: 0 0 15px var(--bekky-purple), 0 0 30px var(--bekky-purple-light);
+  }
+
+  .border-glow-gold {
+    box-shadow: 0 0 15px var(--bekky-gold-dark), 0 0 30px var(--bekky-gold);
   }
 
   .gradient-bekky {
-    background: linear-gradient(135deg, #a855f7 0%, #7e22ce 50%, #6b21a8 100%);
+    background: linear-gradient(135deg, #5b21b6 0%, #7c3aed 50%, #8b5cf6 100%);
   }
 
-  .gradient-neon {
-    background: linear-gradient(135deg, #ff10f0 0%, #00f0ff 50%, #39ff14 100%);
+  .gradient-bekky-gold {
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+  }
+
+  .gradient-hero {
+    background: linear-gradient(180deg, #000000 0%, #5b21b6 50%, #000000 100%);
   }
 }
 
@@ -54,14 +57,14 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #1a1a2e;
+  background: #000000;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--bekky-purple);
+  background: var(--bekky-gold);
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--bekky-purple-dark);
+  background: var(--bekky-gold-dark);
 }

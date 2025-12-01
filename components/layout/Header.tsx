@@ -8,22 +8,27 @@ export default function Header() {
 
   const navLinks = [
     { href: "/", label: "Home" },
-    { href: "/blog", label: "Adventures" },
+    { href: "/blog", label: "Blog" },
     { href: "/gallery", label: "Gallery" },
     { href: "/bekky-bucks", label: "Bekky Bucks" },
-    { href: "/account", label: "Profile" },
+    { href: "/account", label: "Account" },
   ];
 
   return (
-    <header className="fixed top-0 w-full z-50 bg-gray-900/80 backdrop-blur-md border-b border-bekky-purple-700/50">
+    <header className="fixed top-0 w-full z-50 bg-black/90 backdrop-blur-md border-b border-bekky-gold-400/50">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-3 group">
-            <span className="text-3xl group-hover:animate-bounce">🦙</span>
-            <span className="text-2xl font-display font-bold text-bekky-purple-300 group-hover:glow-purple transition-all">
-              BEKKY
-            </span>
+            <span className="text-4xl group-hover:animate-bounce">🦙</span>
+            <div className="flex flex-col">
+              <span className="text-2xl font-display font-bold text-bekky-gold-400 group-hover:glow-gold transition-all">
+                BEKKY
+              </span>
+              <span className="text-xs font-display text-bekky-purple-400 -mt-1">
+                BIG BUTT ASSOCIATION
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
@@ -32,7 +37,7 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-gray-300 hover:text-bekky-purple-300 hover:glow-purple transition-all font-medium"
+                className="text-white hover:text-bekky-gold-400 hover:glow-gold transition-all font-medium"
               >
                 {link.label}
               </Link>
@@ -42,7 +47,7 @@ export default function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden text-gray-300 hover:text-bekky-purple-300 transition-colors"
+            className="md:hidden text-white hover:text-bekky-gold-400 transition-colors"
             aria-label="Toggle menu"
           >
             <svg
@@ -72,14 +77,14 @@ export default function Header() {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden pb-4">
+          <div className="md:hidden pb-4 bg-black/95">
             <div className="flex flex-col space-y-3">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
                   onClick={() => setIsMenuOpen(false)}
-                  className="text-gray-300 hover:text-bekky-purple-300 hover:glow-purple transition-all font-medium py-2"
+                  className="text-white hover:text-bekky-gold-400 hover:glow-gold transition-all font-medium py-2"
                 >
                   {link.label}
                 </Link>
