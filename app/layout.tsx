@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Poppins, Fredoka } from "next/font/google";
+import { Montserrat, Fredoka, Staatliches, Creepster } from "next/font/google";
 import "./globals.css";
 import MainLayout from "@/components/layout/MainLayout";
 
-const poppins = Poppins({
+const montserrat = Montserrat({
   weight: ['400', '500', '600', '700', '800'],
   subsets: ["latin"],
   variable: '--font-body',
@@ -13,6 +13,18 @@ const fredoka = Fredoka({
   weight: ['400', '500', '600', '700'],
   subsets: ["latin"],
   variable: '--font-display',
+});
+
+const staatliches = Staatliches({
+  weight: ['400'],
+  subsets: ["latin"],
+  variable: '--font-heading',
+});
+
+const creepster = Creepster({
+  weight: ['400'],
+  subsets: ["latin"],
+  variable: '--font-metal',
 });
 
 export const metadata: Metadata = {
@@ -29,7 +41,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.variable} ${fredoka.variable} font-body antialiased`}
+        className={`${montserrat.variable} ${fredoka.variable} ${staatliches.variable} ${creepster.variable} font-body antialiased`}
       >
         <MainLayout>{children}</MainLayout>
       </body>

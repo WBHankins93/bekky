@@ -5,16 +5,81 @@
 :root {
   --background: #000000;
   --foreground: #ffffff;
-  --bekky-purple: #5b21b6;
-  --bekky-purple-light: #8b5cf6;
-  --bekky-gold: #fbbf24;
-  --bekky-gold-dark: #d97706;
+  /* Muted neon palette from demo */
+  --bekky-purple: #5B4B8A;
+  --bekky-purple-light: #7D6BA8;
+  --bekky-purple-dark: #3D2F5C;
+  --bekky-purple-neon: #9B7FFF;
+  --bekky-purple-glow: rgba(155, 127, 255, 0.5);
+  --bekky-gold: #FFD700;
+  --bekky-gold-light: #FFE55C;
+  --bekky-gold-dark: #B8960C;
+  --bekky-gold-neon: #FFF67E;
+  --bekky-gold-glow: rgba(255, 246, 126, 0.5);
+  --bekky-green: #00FF41;
+  --bekky-green-glow: rgba(0, 255, 65, 0.5);
+  --bekky-white: #FFFFFF;
+  --bekky-black: #000000;
+  --bekky-gray-dark: #1A1A1A;
+  --bekky-gray: #333333;
+  --bekky-gray-light: #666666;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: var(--font-body);
+@layer base {
+  * {
+    @apply box-border;
+  }
+
+  html {
+    @apply scroll-smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply text-white bg-black font-body;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-bold tracking-wide uppercase mb-4;
+  }
+
+  h1 {
+    @apply text-5xl text-bekky-gold;
+  }
+
+  h2 {
+    @apply text-4xl text-bekky-purple-neon;
+  }
+
+  h3 {
+    @apply text-3xl;
+  }
+
+  h4 {
+    @apply text-2xl;
+  }
+
+  h5 {
+    @apply text-xl;
+  }
+
+  h6 {
+    @apply text-lg;
+  }
+
+  a {
+    @apply text-bekky-purple-neon no-underline transition-all;
+  }
+
+  a:hover {
+    @apply text-bekky-gold-neon;
+  }
+
+  a:focus {
+    @apply outline-2 outline-bekky-purple-neon outline-offset-2;
+  }
 }
 
 @layer utilities {
@@ -22,32 +87,247 @@ body {
     text-wrap: balance;
   }
 
-  .glow-purple {
-    text-shadow: 0 0 10px var(--bekky-purple-light), 0 0 20px var(--bekky-purple-light), 0 0 30px var(--bekky-purple);
+  /* Neon Text Effects */
+  .neon-text-purple {
+    @apply text-bekky-purple-neon;
+    text-shadow: 0 0 10px rgba(155, 127, 255, 0.5), 0 0 20px rgba(155, 127, 255, 0.5), 0 0 30px rgba(155, 127, 255, 0.5);
+    animation: flicker-purple 3s infinite alternate;
   }
 
-  .glow-gold {
-    text-shadow: 0 0 10px var(--bekky-gold), 0 0 20px var(--bekky-gold), 0 0 30px var(--bekky-gold-dark);
+  .neon-text-gold {
+    @apply text-bekky-gold-neon;
+    text-shadow: 0 0 10px rgba(255, 246, 126, 0.5), 0 0 20px rgba(255, 246, 126, 0.5), 0 0 30px rgba(255, 246, 126, 0.5);
+    animation: flicker-gold 3s infinite alternate;
   }
 
-  .border-glow-purple {
-    box-shadow: 0 0 15px var(--bekky-purple), 0 0 30px var(--bekky-purple-light);
+  .neon-text-green {
+    @apply text-bekky-green;
+    text-shadow: 0 0 10px rgba(0, 255, 65, 0.5), 0 0 20px rgba(0, 255, 65, 0.5), 0 0 30px rgba(0, 255, 65, 0.5);
+    animation: flicker-green 3s infinite alternate;
   }
 
-  .border-glow-gold {
-    box-shadow: 0 0 15px var(--bekky-gold-dark), 0 0 30px var(--bekky-gold);
+  /* Display Heading (Metal Logo Style) */
+  .display-heading {
+    @apply font-display text-6xl text-bekky-green tracking-wider leading-none;
+    text-shadow: 0 0 10px #00FF41, 0 0 20px #00FF41, 0 0 40px #00FF41, 0 0 80px #00FF41;
   }
 
-  .gradient-bekky {
-    background: linear-gradient(135deg, #5b21b6 0%, #7c3aed 50%, #8b5cf6 100%);
+  /* Neon Buttons */
+  .neon-button {
+    @apply relative px-6 py-4 font-heading text-lg font-bold uppercase tracking-wider bg-transparent border-2 border-bekky-purple-neon text-bekky-purple-neon shadow-neon-purple-md transition-all overflow-hidden cursor-pointer;
   }
 
-  .gradient-bekky-gold {
-    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+  .neon-button::before {
+    content: '';
+    @apply absolute top-0 -left-full w-full h-full bg-bekky-purple-neon opacity-0 transition-all -z-10;
   }
 
-  .gradient-hero {
-    background: linear-gradient(180deg, #000000 0%, #5b21b6 50%, #000000 100%);
+  .neon-button:hover {
+    @apply text-black shadow-neon-purple-lg -translate-y-0.5;
+  }
+
+  .neon-button:hover::before {
+    @apply left-0 opacity-100;
+  }
+
+  .neon-button:active {
+    @apply translate-y-0;
+  }
+
+  .neon-button-gold {
+    @apply border-bekky-gold-neon text-bekky-gold-neon shadow-neon-gold-md;
+  }
+
+  .neon-button-gold::before {
+    @apply bg-bekky-gold-neon;
+  }
+
+  .neon-button-gold:hover {
+    @apply shadow-neon-gold-lg;
+  }
+
+  .neon-button-sm {
+    @apply px-4 py-2 text-base;
+  }
+
+  .neon-button-lg {
+    @apply px-8 py-6 text-xl;
+  }
+
+  /* Neon Cards */
+  .neon-card {
+    @apply relative border-2 border-bekky-purple-neon rounded-2xl shadow-neon-purple-md p-8 transition-all backdrop-blur-sm;
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+
+  .neon-card:hover {
+    @apply shadow-neon-purple-lg -translate-y-1 border-bekky-gold-neon;
+  }
+
+  .neon-card-gold {
+    @apply relative border-2 border-bekky-gold-neon rounded-2xl shadow-neon-gold-md p-8 transition-all backdrop-blur-sm;
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+
+  .neon-card-gold:hover {
+    @apply shadow-neon-gold-lg -translate-y-1;
+  }
+
+  /* Scan Line Effect */
+  .scan-line {
+    @apply relative overflow-hidden;
+  }
+
+  .scan-line::before {
+    content: '';
+    @apply absolute top-0 -left-full w-full h-full;
+    background: linear-gradient(90deg, transparent, rgba(155, 127, 255, 0.3), transparent);
+    animation: scan 2s linear infinite;
+  }
+
+  /* Neon Badge */
+  .neon-badge {
+    @apply inline-block px-4 py-1 text-sm font-bold uppercase tracking-wide border border-bekky-purple-neon rounded-full text-bekky-purple-neon shadow-neon-purple-sm;
+    background-color: rgba(155, 127, 255, 0.1);
+  }
+
+  .neon-badge-gold {
+    @apply border-bekky-gold-neon text-bekky-gold-neon shadow-neon-gold-sm;
+    background-color: rgba(255, 246, 126, 0.1);
+  }
+
+  /* Glow on Hover */
+  .glow-on-hover {
+    @apply transition-all;
+  }
+
+  .glow-on-hover:hover {
+    filter: drop-shadow(0 0 20px #9B7FFF) drop-shadow(0 0 40px rgba(155, 127, 255, 0.5));
+  }
+
+  /* Neon Divider */
+  .neon-divider {
+    @apply h-0.5 my-8;
+    background: linear-gradient(90deg, transparent 0%, #9B7FFF 50%, transparent 100%);
+    box-shadow: 0 0 10px rgba(155, 127, 255, 0.5), 0 0 20px rgba(155, 127, 255, 0.5), 0 0 30px rgba(155, 127, 255, 0.5);
+  }
+
+  .neon-divider-gold {
+    background: linear-gradient(90deg, transparent 0%, #FFF67E 50%, transparent 100%);
+    box-shadow: 0 0 10px rgba(255, 246, 126, 0.5), 0 0 20px rgba(255, 246, 126, 0.5), 0 0 30px rgba(255, 246, 126, 0.5);
+  }
+
+  /* Form Inputs */
+  .form-input {
+    @apply w-full px-4 py-3 border-2 rounded-lg text-white text-base transition-all;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(155, 127, 255, 0.3);
+  }
+
+  .form-input:focus {
+    @apply border-bekky-purple-neon shadow-neon-purple-sm outline-none;
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .form-input::placeholder {
+    @apply text-bekky-gray-light;
+  }
+
+  /* Product Card */
+  .product-card {
+    @apply relative bg-bekky-gray-dark border rounded-2xl overflow-hidden transition-all;
+    border-color: rgba(155, 127, 255, 0.2);
+  }
+
+  .product-card:hover {
+    @apply border-bekky-purple-neon shadow-neon-purple-md -translate-y-1;
+  }
+
+  .product-card-img {
+    @apply w-full aspect-square object-cover transition-transform duration-500;
+  }
+
+  .product-card:hover .product-card-img {
+    @apply scale-110;
+  }
+
+  /* Section Header */
+  .section-header {
+    @apply text-center mb-12;
+  }
+
+  .section-title {
+    @apply text-4xl mb-4;
+  }
+
+  .section-subtitle {
+    @apply text-lg text-bekky-gray-light max-w-2xl mx-auto;
+  }
+
+  /* Container */
+  .container {
+    @apply w-full max-w-7xl mx-auto px-6;
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      @apply px-4;
+    }
+  }
+}
+
+@layer components {
+  /* Animations */
+  @keyframes flicker-purple {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+      text-shadow: 0 0 10px rgba(155, 127, 255, 0.5), 0 0 20px rgba(155, 127, 255, 0.5), 0 0 30px rgba(155, 127, 255, 0.5);
+      opacity: 1;
+    }
+    20%, 24%, 55% {
+      text-shadow: 0 0 5px rgba(155, 127, 255, 0.5), 0 0 10px rgba(155, 127, 255, 0.5);
+      opacity: 0.9;
+    }
+  }
+
+  @keyframes flicker-gold {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+      text-shadow: 0 0 10px rgba(255, 246, 126, 0.5), 0 0 20px rgba(255, 246, 126, 0.5), 0 0 30px rgba(255, 246, 126, 0.5);
+      opacity: 1;
+    }
+    20%, 24%, 55% {
+      text-shadow: 0 0 5px rgba(255, 246, 126, 0.5), 0 0 10px rgba(255, 246, 126, 0.5);
+      opacity: 0.9;
+    }
+  }
+
+  @keyframes flicker-green {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+      text-shadow: 0 0 10px rgba(0, 255, 65, 0.5), 0 0 20px rgba(0, 255, 65, 0.5), 0 0 30px rgba(0, 255, 65, 0.5);
+      opacity: 1;
+    }
+    20%, 24%, 55% {
+      text-shadow: 0 0 5px rgba(0, 255, 65, 0.5), 0 0 10px rgba(0, 255, 65, 0.5);
+      opacity: 0.9;
+    }
+  }
+
+  @keyframes scan {
+    0% {
+      left: -100%;
+    }
+    100% {
+      left: 100%;
+    }
+  }
+
+  /* Reduce motion for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .neon-text-purple,
+    .neon-text-gold,
+    .neon-text-green,
+    .scan-line::before {
+      animation: none !important;
+    }
   }
 }
 
@@ -57,14 +337,13 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #000000;
+  @apply bg-black;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--bekky-gold);
-  border-radius: 5px;
+  @apply bg-bekky-gold rounded-md;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--bekky-gold-dark);
+  @apply bg-bekky-gold-dark;
 }
