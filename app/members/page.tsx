@@ -5,18 +5,18 @@ import Image from "next/image";
 
 export default function MembersPage() {
   return (
-    <div className="min-h-screen bg-black py-24">
+    <div className="min-h-screen bg-black py-12 sm:py-16 md:py-24">
       <div className="container">
         {/* Hero Section */}
-        <div className="text-center mb-16">
-          <h1 className="display-heading mb-6">Join BBA Members 👑</h1>
-          <p className="section-subtitle">
+        <div className="text-center mb-12 sm:mb-16 px-4">
+          <h1 className="display-heading mb-4 sm:mb-6 text-3xl sm:text-4xl md:text-6xl">Join BBA Members 👑</h1>
+          <p className="section-subtitle text-sm sm:text-base md:text-lg">
             Unlock exclusive rewards, earn BekkyBucks, and join Bekky&apos;s inner circle!
           </p>
         </div>
 
         {/* Member Benefits Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 mb-12 sm:mb-16 items-stretch px-4">
           <div className="neon-card scan-line text-center flex flex-col">
             <div className="mb-6 h-20 flex items-center justify-center">
               <span className="text-6xl animate-float leading-none">💰</span>
@@ -49,12 +49,12 @@ export default function MembersPage() {
         </div>
 
         {/* Sign Up Section */}
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-2xl mx-auto px-4">
           <div className="neon-card text-center">
             <div className="mb-8">
               <Image
                 src="/logo/bekky-no-background.png"
-                alt="Bekky"
+                alt="Bekky the Purple Llama - Big Butt Association Mascot"
                 width={150}
                 height={150}
                 className="mx-auto mb-6 rounded-full"

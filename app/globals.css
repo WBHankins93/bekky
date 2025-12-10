@@ -34,11 +34,13 @@
     @apply scroll-smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }
+}
 
-  body {
+body {
     @apply text-white bg-black font-body;
     overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -46,27 +48,27 @@
   }
 
   h1 {
-    @apply text-5xl text-bekky-gold;
+    @apply text-3xl sm:text-4xl md:text-5xl text-bekky-gold;
   }
 
   h2 {
-    @apply text-4xl text-bekky-purple-neon;
+    @apply text-2xl sm:text-3xl md:text-4xl text-bekky-purple-neon;
   }
 
   h3 {
-    @apply text-3xl;
+    @apply text-xl sm:text-2xl md:text-3xl;
   }
 
   h4 {
-    @apply text-2xl;
+    @apply text-lg sm:text-xl md:text-2xl;
   }
 
   h5 {
-    @apply text-xl;
+    @apply text-base sm:text-lg md:text-xl;
   }
 
   h6 {
-    @apply text-lg;
+    @apply text-sm sm:text-base md:text-lg;
   }
 
   a {
@@ -115,6 +117,9 @@
   /* Neon Buttons */
   .neon-button {
     @apply relative px-6 py-4 font-heading text-lg font-bold uppercase tracking-wider bg-transparent border-2 border-bekky-purple-neon text-bekky-purple-neon shadow-neon-purple-md transition-all overflow-hidden cursor-pointer;
+    min-height: 44px;
+    min-width: 44px;
+    touch-action: manipulation;
   }
 
   .neon-button::before {
@@ -148,10 +153,12 @@
 
   .neon-button-sm {
     @apply px-4 py-2 text-base;
+    min-height: 44px;
   }
 
   .neon-button-lg {
-    @apply px-8 py-6 text-xl;
+    @apply px-6 py-4 md:px-8 md:py-6 text-lg md:text-xl;
+    min-height: 48px;
   }
 
   /* Neon Cards */
@@ -222,6 +229,10 @@
     @apply w-full px-4 py-3 border-2 rounded-lg text-white text-base transition-all;
     background-color: rgba(255, 255, 255, 0.05);
     border-color: rgba(155, 127, 255, 0.3);
+    min-height: 44px;
+    font-size: 16px; /* Prevents zoom on iOS */
+    -webkit-appearance: none;
+    touch-action: manipulation;
   }
 
   .form-input:focus {
@@ -346,4 +357,61 @@
 
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-bekky-gold-dark;
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+  /* Prevent text size adjustment on iOS */
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  /* Improve touch targets */
+  button, a, input, select, textarea {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Better spacing on mobile */
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Prevent horizontal scroll */
+  * {
+    max-width: 100%;
+  }
+
+  img, video, iframe {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Improve readability */
+  p {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  /* Better mobile menu */
+  .mobile-menu {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Prevent zoom on input focus (iOS) */
+@media screen and (max-width: 768px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="search"],
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
 }

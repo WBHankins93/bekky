@@ -13,9 +13,9 @@ export default function CartPage() {
   const total = subtotal + shipping;
 
   return (
-    <div className="min-h-screen bg-black py-24">
-      <div className="container">
-        <h1 className="display-heading text-center mb-12">Shopping Cart</h1>
+    <div className="min-h-screen bg-black py-12 sm:py-16 md:py-24">
+      <div className="container px-4">
+        <h1 className="display-heading text-center mb-8 sm:mb-12 text-3xl sm:text-4xl md:text-6xl">Shopping Cart</h1>
 
         {cartItems.length === 0 ? (
           <div className="text-center py-16">
@@ -29,7 +29,7 @@ export default function CartPage() {
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
             {/* Cart Items */}
             <div className="lg:col-span-2 space-y-4">
               {cartItems.map((item) => (

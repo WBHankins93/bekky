@@ -28,23 +28,23 @@ export default function ShopPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-black py-24">
+    <div className="min-h-screen bg-black py-12 sm:py-16 md:py-24">
       <div className="container">
         {/* Page Header */}
-        <div className="section-header mb-12">
-          <h1 className="display-heading mb-4">Shop The Collection</h1>
-          <p className="section-subtitle">
+        <div className="section-header mb-8 sm:mb-12">
+          <h1 className="display-heading mb-4 text-3xl sm:text-4xl md:text-6xl">Shop The Collection</h1>
+          <p className="section-subtitle text-sm sm:text-base md:text-lg px-4">
             Bold, bootylicious, and festival-ready. Gear up for the next rave!
           </p>
         </div>
 
         {/* Category Filter */}
-        <div className="flex flex-wrap gap-4 justify-center mb-12">
+        <div className="flex flex-wrap gap-2 sm:gap-4 justify-center mb-8 sm:mb-12 px-4">
           {categories.map((category) => (
             <Link
               key={category.id}
               href={category.id === "all" ? "/shop" : `/shop?category=${category.id}`}
-              className={`px-6 py-3 font-heading font-bold uppercase tracking-wide rounded-lg transition-all inline-block ${
+              className={`px-4 sm:px-6 py-2 sm:py-3 font-heading font-bold uppercase tracking-wide rounded-lg transition-all inline-block text-sm sm:text-base min-h-[44px] flex items-center justify-center ${
                 selectedCategory === category.id
                   ? "neon-button-gold neon-button"
                   : "neon-button"
@@ -92,7 +92,7 @@ export default function ShopPage() {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 mb-8 sm:mb-12">
               {products
                 .filter((product) =>
                   selectedCategory === "all" ? true : product.category === selectedCategory

@@ -5,20 +5,20 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-bekky-gray-dark border-t-2 border-bekky-purple-neon shadow-[0_-4px_20px_rgba(155,127,255,0.2)] py-12 mt-32">
-      <div className="container">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+    <footer className="bg-bekky-gray-dark border-t-2 border-bekky-purple-neon shadow-[0_-4px_20px_rgba(155,127,255,0.2)] py-8 sm:py-12 mt-16 sm:mt-24 md:mt-32">
+      <div className="container px-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-6 sm:mb-8">
           {/* Brand */}
           <div className="space-y-4">
             <div className="flex items-center gap-3 mb-4">
               <Image
                 src="/logo/bekky-no-background.png"
-                alt="Bekky the Llama"
+                alt="Big Butt Association Logo - Bekky the Purple Llama"
                 width={40}
                 height={40}
                 className="h-10 w-auto"
               />
-              <span className="font-metal text-xl text-bekky-purple-neon tracking-wider neon-text-purple">
+              <span className="font-metal text-lg sm:text-xl text-bekky-purple-neon tracking-wider neon-text-purple">
                 Big Butt Association
               </span>
             </div>
@@ -71,21 +71,21 @@ export default function Footer() {
           <div>
             <h3 className="text-bekky-gold text-xl mb-6 font-heading">About BBA</h3>
             <div className="flex flex-col gap-2">
-              <Link href="#" className="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
+              <Link href="/about" className="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
                 Our Story
               </Link>
-              <Link href="#" className="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
+              <Link href="/about#bekky" className="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
                 Meet Bekky
-              </Link>
+                </Link>
               <Link href="/members" className="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
                 Members & BekkyBucks
-              </Link>
+                </Link>
               <Link href="/blog" className="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
                 Festival Blog
-              </Link>
+                </Link>
               <Link href="#" className="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
                 Contact Us
-              </Link>
+                </Link>
             </div>
           </div>
 
