@@ -7,25 +7,25 @@
   {%- comment -%} Scan line pattern overlay {%- endcomment -%}
   <div class="absolute inset-0 opacity-30 pointer-events-none" style="background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(155, 127, 255, 0.03) 2px, rgba(155, 127, 255, 0.03) 4px);"></div>
   
-  <div class="relative z-10 text-center px-4 sm:px-8 py-12 sm:py-16">
+  <div class="relative z-10 text-center px-4 sm:px-6 py-8 sm:py-12 max-w-5xl mx-auto">
     {%- comment -%} Bekky Mascot - At Top {%- endcomment -%}
-    <div class="flex justify-center mb-6 sm:mb-8">
+    <div class="flex justify-center mb-4 sm:mb-6">
       <img
         src="{{ 'bekky-no-background.png' | asset_url }}"
         alt="Bekky the Purple Llama Queen - Big Butt Association Mascot"
         width="300"
         height="300"
-        class="max-w-[200px] sm:max-w-[300px] md:max-w-[400px] h-auto animate-float"
+        class="max-w-[180px] sm:max-w-[250px] md:max-w-[320px] h-auto animate-float"
         loading="eager"
       />
     </div>
 
-    <h1 class="text-3xl sm:text-5xl md:text-7xl lg:text-8xl mb-4 sm:mb-6 leading-tight">
+    <h1 class="text-3xl sm:text-4xl md:text-6xl lg:text-7xl mb-3 sm:mb-4 leading-tight">
       <span class="neon-text-gold block mb-1 sm:mb-2">{{ section.settings.hero_title_line1 | default: 'Festival Clothing' }}</span>
       <span class="neon-text-purple block">{{ section.settings.hero_title_line2 | default: 'For The Trippy & Bootylicious' }}</span>
     </h1>
 
-    <p class="text-base sm:text-xl md:text-2xl text-bekky-gray-light mb-6 sm:mb-8 max-w-2xl mx-auto px-4">
+    <p class="text-base sm:text-lg md:text-xl text-bekky-gray-light mb-5 sm:mb-6 max-w-2xl mx-auto px-4">
       {{ section.settings.hero_description | default: "We're Big Butt Association (BBA)—where bass meets booty and style meets statement. Whether you're headbanging at the rail or shuffling under neon lights, BBA is here to make sure you look as bold as you feel." }}
     </p>
 

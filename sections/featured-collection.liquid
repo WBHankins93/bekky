@@ -3,10 +3,10 @@
   Converted from app/page.tsx products section
 {%- endcomment -%}
 
-<section id="shop" class="py-12 sm:py-16 md:py-24">
+<section id="shop" class="py-10 sm:py-12 md:py-16">
   <div class="container">
-    <div class="section-header mb-8 sm:mb-12">
-      <h2 class="section-title display-heading text-3xl sm:text-4xl md:text-6xl">{{ section.settings.title | default: 'Shop The Collection' }}</h2>
+    <div class="section-header mb-6 sm:mb-8">
+      <h2 class="section-title display-heading text-3xl sm:text-4xl md:text-5xl">{{ section.settings.title | default: 'Shop The Collection' }}</h2>
       <p class="section-subtitle text-sm sm:text-base md:text-lg px-4">
         {{ section.settings.subtitle | default: 'Bold, bootylicious, and festival-ready. Gear up for the next rave!' }}
       </p>
@@ -14,7 +14,7 @@
   
     {%- assign collection = collections[section.settings.collection] -%}
     {%- if collection and collection.products_count > 0 -%}
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 mt-6 sm:mt-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mt-4 sm:mt-6">
         {%- for product in collection.products limit: section.settings.products_to_show -%}
           <div class="product-card">
             <a href="{{ product.url }}">
@@ -38,7 +38,7 @@
       </div>
     {%- endif -%}
     
-    <div class="text-center mt-12">
+    <div class="text-center mt-8">
       <a href="{{ section.settings.view_all_link | default: routes.collections_url }}" class="neon-button neon-button-lg">
         {{ section.settings.view_all_text | default: 'View All Products' }}
       </a>

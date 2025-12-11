@@ -175,7 +175,7 @@ p {
 /* Container */
 .container {
   width: 100%;
-  max-width: 1280px; /* max-w-7xl */
+  max-width: 1200px; /* More compact than 1280px */
   margin-left: auto;
   margin-right: auto;
   padding-left: 1.5rem;
@@ -213,11 +213,23 @@ p {
 /* Display Heading (Metal Logo Style) */
 .display-heading {
   font-family: var(--font-display);
-  font-size: 3.75rem; /* 6xl */
+  font-size: 3rem; /* Reduced from 3.75rem for more compact look */
   color: var(--bekky-green);
   letter-spacing: 0.1em;
   line-height: 1;
   text-shadow: 0 0 10px #00FF41, 0 0 20px #00FF41, 0 0 40px #00FF41, 0 0 80px #00FF41;
+}
+
+@media (min-width: 640px) {
+  .display-heading {
+    font-size: 3.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .display-heading {
+    font-size: 4rem;
+  }
 }
 
 /* ============================================

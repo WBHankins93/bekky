@@ -3,12 +3,12 @@
   Converted from app/page.tsx about bekky section
 {%- endcomment -%}
 
-<section class="py-12 sm:py-16 md:py-24 bg-black">
+<section class="py-10 sm:py-12 md:py-16 bg-black">
   <div class="container">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 items-center px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-center px-4">
       <div class="space-y-4">
-        <h2 class="neon-text-purple text-4xl mb-4 font-heading">{{ section.settings.title | default: 'Meet Bekky' }}</h2>
-        <h3 class="neon-text-gold text-2xl mb-4 font-heading">{{ section.settings.subtitle | default: 'The Llama Queen with the Big Butt' }}</h3>
+        <h2 class="neon-text-purple text-3xl sm:text-4xl mb-3 font-heading">{{ section.settings.title | default: 'Meet Bekky' }}</h2>
+        <h3 class="neon-text-gold text-xl sm:text-2xl mb-3 font-heading">{{ section.settings.subtitle | default: 'The Llama Queen with the Big Butt' }}</h3>
         <div class="text-bekky-gray-light leading-relaxed">
           {{ section.settings.description }}
         </div>
