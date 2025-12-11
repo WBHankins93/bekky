@@ -68,15 +68,43 @@ The shop page is handled by Shopify Collections:
 - **Template:** `templates/collection.liquid` (already created)
 - **No setup needed** - Collections automatically use this template
 
-## Quick Setup Script
+## Quick Setup Options
 
-If you want to automate this, you can use the Shopify Admin API. However, the easiest way is to create them manually:
-
+### Option 1: Manual Setup (Easiest - ~5 minutes)
 1. Go to **Online Store > Pages**
 2. Click **Add page** for each page above
 3. Fill in the details
 4. Select the appropriate template
 5. Save
+
+### Option 2: Automated Script (Requires API Access)
+If you have Shopify Admin API access:
+
+1. **Create a Private App:**
+   - Go to: Settings > Apps and sales channels > Develop apps
+   - Click "Create an app"
+   - Name it "Page Creator" or similar
+   - Enable "Read and write" access to "Online Store > Pages"
+   - Install the app
+   - Copy the Admin API access token
+
+2. **Run the script:**
+   ```bash
+   export SHOPIFY_STORE=zkq0gh-tg.myshopify.com
+   export SHOPIFY_TOKEN=your_admin_api_token_here
+   node scripts/create-pages-api.js
+   ```
+
+   Or create a `.env` file:
+   ```
+   SHOPIFY_STORE=zkq0gh-tg.myshopify.com
+   SHOPIFY_TOKEN=your_token_here
+   ```
+
+3. **Verify in Shopify Admin:**
+   - Go to Online Store > Pages
+   - Check that all pages were created
+   - Edit each page to verify template assignment
 
 ## Verification
 
