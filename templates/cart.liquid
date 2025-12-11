@@ -1,0 +1,183 @@
+{%- comment -%}
+  Cart Page Template
+  Converted from app/cart/page.tsx
+{%- endcomment -%}
+
+<div class="min-h-screen bg-black py-12 sm:py-16 md:py-24">
+  <div class="container px-4">
+    <h1 class="display-heading text-center mb-8 sm:mb-12 text-3xl sm:text-4xl md:text-6xl">Shopping Cart</h1>
+
+    {%- if cart.item_count == 0 -%}
+      <div class="text-center py-16">
+        <div class="text-6xl mb-6">🛒</div>
+        <h2 class="neon-text-purple text-3xl mb-4 font-heading">Your cart is empty</h2>
+        <p class="text-bekky-gray-light mb-8">
+          Start shopping to add items to your cart!
+        </p>
+        <a href="{{ routes.collections_url }}" class="neon-button neon-button-lg">
+          Continue Shopping
+        </a>
+      </div>
+    {%- else -%}
+      <form action="{{ routes.cart_url }}" method="post" id="cart-form">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+          {%- comment -%} Cart Items {%- endcomment -%}
+          <div class="lg:col-span-2 space-y-4">
+            {%- for item in cart.items -%}
+              <div class="neon-card flex flex-col md:flex-row gap-6">
+                <div class="w-full md:w-32 h-32 bg-bekky-gray-dark rounded-lg flex-shrink-0 overflow-hidden">
+                  {%- if item.image -%}
+                    <img
+                      src="{{ item.image | image_url: width: 128 }}"
+                      alt="{{ item.image.alt | escape }}"
+                      class="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  {%- endif -%}
+                </div>
+                <div class="flex-1">
+                  <h3 class="text-xl font-heading text-bekky-gold-neon mb-2">
+                    <a href="{{ item.product.url }}">{{ item.product.title }}</a>
+                  </h3>
+                  {%- if item.variant.title != 'Default Title' -%}
+                    <p class="text-bekky-gray-light mb-4">{{ item.variant.title }}</p>
+                  {%- endif -%}
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                      <button
+                        type="button"
+                        class="w-8 h-8 border-2 border-bekky-purple-neon rounded flex items-center justify-center hover:bg-bekky-purple-neon hover:text-black transition-all cart-quantity-decrease"
+                        data-item-key="{{ item.key }}"
+                        aria-label="Decrease quantity"
+                      >
+                        −
+                      </button>
+                      <input
+                        type="number"
+                        name="updates[]"
+                        value="{{ item.quantity }}"
+                        min="0"
+                        class="w-16 text-center text-white font-bold bg-transparent border-2 border-bekky-purple-neon rounded"
+                        data-item-key="{{ item.key }}"
+                      />
+                      <button
+                        type="button"
+                        class="w-8 h-8 border-2 border-bekky-purple-neon rounded flex items-center justify-center hover:bg-bekky-purple-neon hover:text-black transition-all cart-quantity-increase"
+                        data-item-key="{{ item.key }}"
+                        aria-label="Increase quantity"
+                      >
+                        +
+                      </button>
+                    </div>
+                    <div class="text-right">
+                      <p class="text-bekky-gold-neon text-xl font-bold">
+                        {{ item.final_line_price | money }}
+                      </p>
+                      <button
+                        type="button"
+                        class="text-bekky-gray-light hover:text-bekky-purple-neon text-sm mt-2 cart-remove"
+                        data-item-key="{{ item.key }}"
+                        aria-label="Remove item"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+
+          {%- comment -%} Cart Summary {%- endcomment -%}
+          <div class="lg:col-span-1">
+            <div class="neon-card sticky top-24">
+              <h2 class="neon-text-gold text-2xl mb-6 font-heading">Order Summary</h2>
+              
+              <div class="space-y-4 mb-6">
+                <div class="flex justify-between text-bekky-gray-light">
+                  <span>Subtotal</span>
+                  <span class="text-white">{{ cart.total_price | money }}</span>
+                </div>
+                <div class="flex justify-between text-bekky-gray-light">
+                  <span>Shipping</span>
+                  <span class="text-white">Calculated at checkout</span>
+                </div>
+                <div class="neon-divider-gold"></div>
+                <div class="flex justify-between text-xl">
+                  <span class="neon-text-gold font-bold">Total</span>
+                  <span class="neon-text-gold font-bold">{{ cart.total_price | money }}</span>
+                </div>
+              </div>
+
+              <a
+                href="{{ routes.cart_url }}/checkout"
+                class="neon-button-gold neon-button-lg w-full block text-center mb-4"
+              >
+                Checkout
+              </a>
+              
+              <a
+                href="{{ routes.collections_url }}"
+                class="neon-button neon-button w-full block text-center"
+              >
+                Continue Shopping
+              </a>
+
+              {%- comment -%} BekkyBucks Info {%- endcomment -%}
+              <div class="mt-6 p-4 bg-bekky-gold-neon/10 border border-bekky-gold-neon rounded-lg">
+                <p class="text-sm text-bekky-gold-neon text-center">
+                  💰 You'll earn <strong>{{ cart.total_price | divided_by: 1000 | floor }}</strong> BekkyBucks on this order!
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  // Cart quantity and remove functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('cart-form');
+    if (!form) return;
+
+    // Quantity increase
+    document.querySelectorAll('.cart-quantity-increase').forEach(button => {
+      button.addEventListener('click', function() {
+        const key = this.dataset.itemKey;
+        const input = form.querySelector(`input[data-item-key="${key}"]`);
+        if (input) {
+          input.value = parseInt(input.value) + 1;
+          form.submit();
+        }
+      });
+    });
+
+    // Quantity decrease
+    document.querySelectorAll('.cart-quantity-decrease').forEach(button => {
+      button.addEventListener('click', function() {
+        const key = this.dataset.itemKey;
+        const input = form.querySelector(`input[data-item-key="${key}"]`);
+        if (input && parseInt(input.value) > 0) {
+          input.value = parseInt(input.value) - 1;
+          form.submit();
+        }
+      });
+    });
+
+    // Remove item
+    document.querySelectorAll('.cart-remove').forEach(button => {
+      button.addEventListener('click', function() {
+        const key = this.dataset.itemKey;
+        const input = form.querySelector(`input[data-item-key="${key}"]`);
+        if (input) {
+          input.value = 0;
+          form.submit();
+        }
+      });
+    });
+  });
+</script>
+

@@ -1,0 +1,146 @@
+{%- comment -%}
+  Product Template
+  Standard Shopify product template with BBA styling
+{%- endcomment -%}
+
+<div class="min-h-screen bg-black py-12 sm:py-16 md:py-24">
+  <div class="container px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 mb-12">
+      {%- comment -%} Product Images {%- endcomment -%}
+      <div>
+        {%- if product.featured_image -%}
+          <div class="mb-4">
+            <img
+              src="{{ product.featured_image | image_url: width: 800 }}"
+              alt="{{ product.featured_image.alt | escape }}"
+              class="w-full rounded-2xl border-2 border-bekky-purple-neon shadow-neon-purple-md"
+              id="main-product-image"
+              loading="eager"
+            />
+          </div>
+        {%- endif -%}
+        {%- if product.images.size > 1 -%}
+          <div class="grid grid-cols-4 gap-4">
+            {%- for image in product.images -%}
+              <button
+                type="button"
+                class="border-2 rounded-lg overflow-hidden hover:border-bekky-purple-neon transition-all product-thumbnail"
+                data-image-url="{{ image | image_url: width: 800 }}"
+              >
+                <img
+                  src="{{ image | image_url: width: 200 }}"
+                  alt="{{ image.alt | escape }}"
+                  class="w-full aspect-square object-cover"
+                  loading="lazy"
+                />
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Product Info {%- endcomment -%}
+      <div>
+        <h1 class="neon-text-purple text-3xl sm:text-4xl md:text-5xl mb-4 font-heading">{{ product.title }}</h1>
+        
+        {%- if product.vendor != blank -%}
+          <p class="text-bekky-gray-light mb-4">By {{ product.vendor }}</p>
+        {%- endif -%}
+
+        <div class="mb-6">
+          {%- if product.compare_at_price > product.price -%}
+            <del class="text-bekky-gray-light text-xl mr-2">
+              {{ product.compare_at_price | money }}
+            </del>
+          {%- endif -%}
+          <span class="neon-text-gold text-3xl font-bold">
+            {{ product.price | money }}
+          </span>
+        </div>
+
+        {%- if product.description != blank -%}
+          <div class="mb-8 text-bekky-gray-light leading-relaxed">
+            {{ product.description }}
+          </div>
+        {%- endif -%}
+
+        <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" class="space-y-6">
+          {%- if product.variants.size > 1 -%}
+            <div>
+              <label for="product-select" class="block mb-2 font-heading text-bekky-purple-neon">
+                Select Variant
+              </label>
+              <select
+                name="id"
+                id="product-select"
+                class="form-input"
+                required
+              >
+                {%- for variant in product.variants -%}
+                  <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %}>
+                    {{ variant.title }} - {{ variant.price | money }}
+                  </option>
+                {%- endfor -%}
+              </select>
+            </div>
+          {%- else -%}
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+          {%- endif -%}
+
+          <div>
+            <label for="quantity" class="block mb-2 font-heading text-bekky-purple-neon">
+              Quantity
+            </label>
+            <input
+              type="number"
+              id="quantity"
+              name="quantity"
+              value="1"
+              min="1"
+              class="form-input w-24"
+            />
+          </div>
+
+          <button
+            type="submit"
+            name="add"
+            class="neon-button-gold neon-button-lg w-full"
+            {% unless product.available %}disabled{% endunless %}
+          >
+            {%- if product.available -%}
+              Add to Cart
+            {%- else -%}
+              Sold Out
+            {%- endif -%}
+          </button>
+        </form>
+
+        {%- if product.tags.size > 0 -%}
+          <div class="mt-8 flex flex-wrap gap-2">
+            {%- for tag in product.tags -%}
+              <span class="neon-badge">{{ tag }}</span>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Product image thumbnail switching
+  document.addEventListener('DOMContentLoaded', function() {
+    const mainImage = document.getElementById('main-product-image');
+    const thumbnails = document.querySelectorAll('.product-thumbnail');
+    
+    thumbnails.forEach(thumb => {
+      thumb.addEventListener('click', function() {
+        const imageUrl = this.dataset.imageUrl;
+        if (mainImage && imageUrl) {
+          mainImage.src = imageUrl;
+        }
+      });
+    });
+  });
+</script>
+

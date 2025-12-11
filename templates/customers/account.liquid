@@ -1,0 +1,112 @@
+{%- comment -%}
+  Customer Account Dashboard Template
+  Converted from app/members/dashboard/page.tsx
+{%- endcomment -%}
+
+<div class="min-h-screen bg-black py-12 sm:py-16 md:py-24">
+  <div class="container">
+    {%- comment -%} Header {%- endcomment -%}
+    <div class="text-center mb-8 sm:mb-12 px-4">
+      <h1 class="display-heading mb-4 sm:mb-6 text-3xl sm:text-4xl md:text-6xl">
+        Member Dashboard
+      </h1>
+      <p class="section-subtitle text-sm sm:text-base md:text-lg">
+        Track your BekkyBucks and purchase history
+      </p>
+    </div>
+
+    {%- comment -%} 2 Column Layout: BekkyBucks (Left) and Purchase History (Right) {%- endcomment -%}
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 px-4 max-w-7xl mx-auto">
+      {%- comment -%} Left Column: BekkyBucks Balance Card {%- endcomment -%}
+      <div>
+        <div class="neon-card-gold scan-line text-center">
+          <div class="mb-6">
+            <span class="text-6xl animate-float leading-none block mb-4">💰</span>
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-heading text-bekky-gold-neon mb-2">
+              Your BekkyBucks
+            </h2>
+            {%- assign bekkybucks = customer.metafields.custom.bekkybucks_balance | default: 0 -%}
+            <div class="text-5xl sm:text-6xl md:text-7xl font-bold neon-text-gold mb-4">
+              {{ bekkybucks }}
+            </div>
+            <p class="text-bekky-gray-light text-sm sm:text-base">
+              Earn 1 BekkyBuck for every $10 spent
+            </p>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="{{ routes.collections_url }}"
+              class="neon-button-gold neon-button-lg px-6 py-3 text-sm sm:text-base"
+            >
+              Shop Now →
+            </a>
+            <a
+              href="{{ routes.account_url }}"
+              class="neon-button neon-button-lg px-6 py-3 text-sm sm:text-base"
+            >
+              Learn More
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {%- comment -%} Right Column: Purchase History (Scrolling) {%- endcomment -%}
+      <div>
+        <div class="neon-card flex flex-col h-[600px]">
+          <h2 class="text-2xl sm:text-3xl font-heading text-bekky-purple-neon mb-6 sm:mb-8 text-center flex-shrink-0">
+            Purchase History
+          </h2>
+
+          {%- if customer.orders.size == 0 -%}
+            <div class="text-center py-12 flex-grow flex flex-col items-center justify-center">
+              <p class="text-bekky-gray-light text-lg mb-4">No purchases yet</p>
+              <a href="{{ routes.collections_url }}" class="neon-button-gold neon-button-lg inline-block">
+                Start Shopping →
+              </a>
+            </div>
+          {%- else -%}
+            <div class="flex-grow overflow-y-auto pr-2 space-y-4 sm:space-y-6 scrollbar-purple">
+              {%- for order in customer.orders -%}
+                <div class="border border-bekky-purple-neon/20 rounded-lg p-4 sm:p-6 hover:border-bekky-purple-neon/40 transition-all bg-black/50">
+                  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+                    <div>
+                      <h3 class="text-lg sm:text-xl font-heading text-bekky-purple-neon mb-2">
+                        Order #{{ order.order_number }}
+                      </h3>
+                      <p class="text-bekky-gray-light text-sm sm:text-base">
+                        {{ order.created_at | date: "%B %d, %Y" }}
+                      </p>
+                    </div>
+                    <div class="text-right">
+                      <p class="text-xl sm:text-2xl font-bold text-bekky-gold-neon mb-1">
+                        {{ order.total_price | money }}
+                      </p>
+                      {%- assign order_bekkybucks = order.total_price | divided_by: 1000 | floor -%}
+                      <p class="text-sm text-bekky-green">
+                        +{{ order_bekkybucks }} BekkyBucks earned
+                      </p>
+                    </div>
+                  </div>
+                  <div class="border-t border-bekky-purple-neon/20 pt-4">
+                    <p class="text-bekky-gray-light text-sm sm:text-base mb-2">
+                      Items:
+                    </p>
+                    <ul class="space-y-1">
+                      {%- for line_item in order.line_items -%}
+                        <li class="text-white text-sm sm:text-base flex items-center gap-2">
+                          <span class="text-bekky-green">✓</span>
+                          {{ line_item.title }} ({{ line_item.quantity }})
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  </div>
+                </div>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

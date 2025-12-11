@@ -1,0 +1,31 @@
+{%- comment -%}
+  Neon Card Snippet
+  Converted from components/ui/NeonCard.tsx
+  
+  Usage:
+  {% render 'neon-card', variant: 'purple', scan_line: true %}
+    Card content here
+  {% endrender %}
+{%- endcomment -%}
+
+{%- liquid
+  assign variant = variant | default: 'purple'
+  assign scan_line = scan_line | default: false
+  assign class = class | default: ''
+  
+  assign base_classes = 'neon-card'
+  if variant == 'gold'
+    assign base_classes = 'neon-card-gold'
+  endif
+  if scan_line
+    assign base_classes = base_classes | append: ' scan-line'
+  endif
+  if class != blank
+    assign base_classes = base_classes | append: ' ' | append: class
+  endif
+-%}
+
+<div class="{{ base_classes }}" {{ attributes }}>
+  {{ content }}
+</div>
+

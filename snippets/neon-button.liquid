@@ -1,0 +1,45 @@
+{%- comment -%}
+  Neon Button Snippet
+  Converted from components/ui/NeonButton.tsx
+  
+  Usage:
+  {% render 'neon-button', variant: 'purple', size: 'md', href: '/shop', text: 'Shop Now' %}
+  {% render 'neon-button', variant: 'gold', size: 'lg', type: 'button', text: 'Submit' %}
+{%- endcomment -%}
+
+{%- liquid
+  assign variant = variant | default: 'purple'
+  assign size = size | default: 'md'
+  assign href = href | default: ''
+  assign text = text | default: ''
+  assign type = type | default: 'link'
+  assign class = class | default: ''
+  
+  assign base_classes = 'neon-button'
+  if variant == 'gold'
+    assign base_classes = base_classes | append: ' neon-button-gold'
+  endif
+  if size == 'sm'
+    assign base_classes = base_classes | append: ' neon-button-sm'
+  elsif size == 'lg'
+    assign base_classes = base_classes | append: ' neon-button-lg'
+  endif
+  if class != blank
+    assign base_classes = base_classes | append: ' ' | append: class
+  endif
+-%}
+
+{%- if type == 'link' and href != blank -%}
+  <a href="{{ href }}" class="{{ base_classes }}">
+    {{ text }}
+  </a>
+{%- elsif type == 'button' -%}
+  <button type="{{ button_type | default: 'button' }}" class="{{ base_classes }}" {{ attributes }}>
+    {{ text }}
+  </button>
+{%- else -%}
+  <div class="{{ base_classes }}">
+    {{ text }}
+  </div>
+{%- endif -%}
+
