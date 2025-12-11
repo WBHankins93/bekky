@@ -1,7 +1,21 @@
 {%- comment -%}
   Collection/Shop Page Template
   Converted from app/shop/page.tsx
+  Handles category filtering and "coming soon" page for lingerie
 {%- endcomment -%}
+
+{%- liquid
+  assign category_param = request.params.category | default: 'all'
+  assign selected_category = category_param
+  
+  comment
+    Check if we're viewing the lingerie collection (coming soon)
+  endcomment
+  assign is_lingerie = false
+  if collection.handle == 'lingerie' or selected_category == 'lingerie'
+    assign is_lingerie = true
+  endif
+-%}
 
 <div class="min-h-screen bg-black py-12 sm:py-16 md:py-24">
   <div class="container">
@@ -15,20 +29,48 @@
 
     {%- comment -%} Category Filter {%- endcomment -%}
     <div class="flex flex-wrap gap-2 sm:gap-4 justify-center mb-8 sm:mb-12 px-4">
-      <a href="{{ routes.collections_url }}" class="px-4 sm:px-6 py-2 sm:py-3 font-heading font-bold uppercase tracking-wide rounded-lg transition-all inline-block text-sm sm:text-base min-h-[44px] flex items-center justify-center neon-button{% if collection.handle == blank %} neon-button-gold{% endif %}">
+      <a href="{{ routes.collections_url }}" class="px-4 sm:px-6 py-2 sm:py-3 font-heading font-bold uppercase tracking-wide rounded-lg transition-all inline-block text-sm sm:text-base min-h-[44px] flex items-center justify-center neon-button{% unless collection %} neon-button-gold{% endunless %}">
         All Products
       </a>
-      {%- for collection_item in collections -%}
-        {%- if collection_item.handle != 'all' -%}
-          <a href="{{ collection_item.url }}" class="px-4 sm:px-6 py-2 sm:py-3 font-heading font-bold uppercase tracking-wide rounded-lg transition-all inline-block text-sm sm:text-base min-h-[44px] flex items-center justify-center neon-button{% if collection.handle == collection_item.handle %} neon-button-gold{% endif %}">
-            {{ collection_item.title }}
+      {%- comment -%} Hardcoded categories to match React version {%- endcomment -%}
+      {%- assign categories = 'jerseys,lingerie,hoodies,tees,accessories' | split: ',' -%}
+      {%- for cat in categories -%}
+        {%- assign cat_collection = collections[cat] -%}
+        {%- if cat_collection -%}
+          <a href="{{ cat_collection.url }}" class="px-4 sm:px-6 py-2 sm:py-3 font-heading font-bold uppercase tracking-wide rounded-lg transition-all inline-block text-sm sm:text-base min-h-[44px] flex items-center justify-center neon-button{% if collection.handle == cat %} neon-button-gold{% endif %}">
+            {%- if cat == 'jerseys' -%}Jerseys
+            {%- elsif cat == 'lingerie' -%}Lingerie
+            {%- elsif cat == 'hoodies' -%}Hoodies & Jackets
+            {%- elsif cat == 'tees' -%}Tees & Tanks
+            {%- elsif cat == 'accessories' -%}Accessories
+            {%- else -%}{{ cat_collection.title }}
+            {%- endif -%}
           </a>
         {%- endif -%}
       {%- endfor -%}
     </div>
 
-    {%- comment -%} Products Grid {%- endcomment -%}
-    {%- if collection and collection.products_count > 0 -%}
+    {%- comment -%} Coming Soon Page for Lingerie {%- endcomment -%}
+    {%- if is_lingerie -%}
+      <div class="text-center py-16">
+        <div class="text-6xl mb-6 animate-float">👙</div>
+        <h2 class="neon-text-purple text-4xl md:text-5xl mb-4 font-heading">Lingerie Collection</h2>
+        <p class="neon-text-gold text-2xl mb-6 font-heading">Coming Soon</p>
+        <p class="text-bekky-gray-light mb-8 max-w-2xl mx-auto text-lg">
+          Get ready for something sultry and bootylicious! Our exclusive lingerie collection is dropping soon. 
+          Join BBA Members to get early access and exclusive previews! 👑
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="/pages/members" class="neon-button-gold neon-button-lg">
+            Join Members for Early Access 👑
+          </a>
+          <a href="{{ routes.collections_url }}" class="neon-button neon-button-lg">
+            Browse Other Collections
+          </a>
+        </div>
+      </div>
+    {%- elsif collection and collection.products_count > 0 -%}
+      {%- comment -%} Products Grid {%- endcomment -%}
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 mb-8 sm:mb-12">
         {%- for product in collection.products -%}
           <div class="product-card">
@@ -74,6 +116,7 @@
         {%- endfor -%}
       </div>
     {%- else -%}
+      {%- comment -%} Empty State {%- endcomment -%}
       <div class="text-center py-16">
         <div class="text-6xl mb-6">🛍️</div>
         <h2 class="neon-text-purple text-3xl mb-4 font-heading">Products Coming Soon</h2>
@@ -95,11 +138,10 @@
         <p class="text-bekky-gray-light mb-6">
           Get notified when we release new products and exclusive member-only items!
         </p>
-        <a href="{{ routes.account_url }}" class="neon-button-gold neon-button-lg inline-block">
+        <a href="/pages/members" class="neon-button-gold neon-button-lg inline-block">
           Join Members for Early Access 👑
         </a>
       </div>
     </div>
   </div>
 </div>
-
