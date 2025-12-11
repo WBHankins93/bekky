@@ -1,0 +1,37 @@
+{%- comment -%}
+  Meta tags snippet for SEO
+{%- endcomment -%}
+
+{%- if template.name == 'index' -%}
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ shop.name }}">
+  <meta property="og:description" content="{{ shop.description | default: shop.name }}">
+  <meta property="og:url" content="{{ shop.url }}">
+  <meta property="og:site_name" content="{{ shop.name }}">
+{%- elsif template.name == 'product' -%}
+  <meta property="og:type" content="product">
+  <meta property="og:title" content="{{ product.title | escape }}">
+  <meta property="og:description" content="{{ product.description | strip_html | escape }}">
+  <meta property="og:url" content="{{ shop.url }}{{ product.url }}">
+  <meta property="og:image" content="{{ product.featured_image | image_url: width: 1200 }}">
+  <meta property="product:price:amount" content="{{ product.price | money_without_currency }}">
+  <meta property="product:price:currency" content="{{ cart.currency.iso_code }}">
+{%- elsif template.name == 'article' -%}
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="{{ article.title | escape }}">
+  <meta property="og:description" content="{{ article.excerpt | default: article.summary | strip_html | escape }}">
+  <meta property="og:url" content="{{ shop.url }}{{ article.url }}">
+  {%- if article.image -%}
+    <meta property="og:image" content="{{ article.image | image_url: width: 1200 }}">
+  {%- endif -%}
+{%- else -%}
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ page_title | escape }}">
+  <meta property="og:description" content="{{ page_description | default: shop.description | escape }}">
+  <meta property="og:url" content="{{ canonical_url }}">
+{%- endif -%}
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ page_title | escape }}">
+<meta name="twitter:description" content="{{ page_description | default: shop.description | escape }}">
+
