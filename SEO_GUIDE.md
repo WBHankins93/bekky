@@ -130,7 +130,7 @@ Update social media links in `StructuredData.tsx`:
 - EDM apparel
 - Rave wear
 - BekkyBucks
-- Bekky the llama
+- Bekky the alpaca
 
 ### Long-tail Keywords
 - Festival clothing for EDM fans
@@ -138,7 +138,7 @@ Update social media links in `StructuredData.tsx`:
 - EDM festival apparel
 - Exclusive festival merch
 - BekkyBucks loyalty program
-- Purple llama festival brand
+- Purple alpaca festival brand
 
 ### Competitor Keywords
 - Festival clothing brands

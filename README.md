@@ -1,6 +1,6 @@
 # 🦙 Bekky World - Community Platform
 
-Welcome to **Bekky World**, the exclusive community platform for fans of Bekky, the purple llama! This is a members-only platform that integrates with Shopify to reward loyal fans with Bekky Bucks, festival content, and exclusive perks.
+Welcome to **Bekky World**, the exclusive community platform for fans of Bekky, the purple alpaca! This is a members-only platform that integrates with Shopify to reward loyal fans with Bekky Bucks, festival content, and exclusive perks.
 
 ## 🎨 Project Overview
 
@@ -159,7 +159,7 @@ The entire platform is built **mobile-first** to ensure optimal experience on ph
 
 ## 🎨 Branding
 
-- **Character**: Bekky - a purple llama plush with a big personality
+- **Character**: Bekky - a purple alpaca plush with a big personality
 - **Community**: @bekkywithabigbutt on Instagram
 - **Vibe**: Festival energy, quirky, fun, inclusive
 - **Target Audience**: EDM festival-goers, plush collectors, community supporters
@@ -174,4 +174,4 @@ Proprietary - All rights reserved by the Bekky brand owner.
 
 ---
 
-Built with 💜 for the Bekky community | 🦙 Purple Llama Forever
+Built with 💜 for the Bekky community | 🦙 Purple Alpaca Forever

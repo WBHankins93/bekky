@@ -49,6 +49,14 @@ const pages = [
     body_html: '<p>Stay updated with the latest from Big Butt Association!</p>',
     published: true,
     note: 'Uses generic page template - you can edit this content in Shopify Admin'
+  },
+  {
+    title: 'Shop',
+    handle: 'shop',
+    template_suffix: 'shop',
+    body_html: '', // Template handles all content - no body needed
+    published: true,
+    note: 'Template (page.shop.liquid) contains all content - displays all products from collections'
   }
 ];
 

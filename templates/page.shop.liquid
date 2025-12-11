@@ -1,0 +1,207 @@
+{%- comment -%}
+  Shop Page Template
+  This page displays all products from the "all" collection
+  URL: /pages/shop
+{%- endcomment -%}
+
+{%- liquid
+  assign category_param = request.params.category | default: 'all'
+  assign selected_category = category_param
+  
+  comment
+    Check if we're viewing the lingerie collection (coming soon)
+  endcomment
+  assign is_lingerie = false
+  if selected_category == 'lingerie'
+    assign is_lingerie = true
+  endif
+  
+  comment
+    Get the "all" collection to display all products
+  endcomment
+  assign all_collection = collections.all
+-%}
+
+<div class="min-h-screen bg-black py-12 sm:py-16 md:py-24">
+  <div class="container">
+    {%- comment -%} Page Header {%- endcomment -%}
+    <div class="section-header mb-8 sm:mb-12">
+      <h1 class="display-heading mb-4 text-3xl sm:text-4xl md:text-6xl">Shop The Collection</h1>
+      <p class="section-subtitle text-sm sm:text-base md:text-lg px-4">
+        Bold, bootylicious, and festival-ready. Gear up for the next rave!
+      </p>
+    </div>
+
+    {%- comment -%} Category Filter {%- endcomment -%}
+    <div class="flex flex-wrap gap-2 sm:gap-4 justify-center mb-8 sm:mb-12 px-4">
+      <a href="/pages/shop" class="px-4 sm:px-6 py-2 sm:py-3 font-heading font-bold uppercase tracking-wide rounded-lg transition-all inline-block text-sm sm:text-base min-h-[44px] flex items-center justify-center neon-button neon-button-gold">
+        All Products
+      </a>
+      {%- comment -%} Hardcoded categories to match React version {%- endcomment -%}
+      {%- assign categories = 'jerseys,lingerie,hoodies,tees,accessories' | split: ',' -%}
+      {%- for cat in categories -%}
+        {%- assign cat_collection = collections[cat] -%}
+        {%- if cat_collection -%}
+          <a href="{{ cat_collection.url }}" class="px-4 sm:px-6 py-2 sm:py-3 font-heading font-bold uppercase tracking-wide rounded-lg transition-all inline-block text-sm sm:text-base min-h-[44px] flex items-center justify-center neon-button">
+            {%- if cat == 'jerseys' -%}Jerseys
+            {%- elsif cat == 'lingerie' -%}Lingerie
+            {%- elsif cat == 'hoodies' -%}Hoodies & Jackets
+            {%- elsif cat == 'tees' -%}Tees & Tanks
+            {%- elsif cat == 'accessories' -%}Accessories
+            {%- else -%}{{ cat_collection.title }}
+            {%- endif -%}
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    {%- comment -%} Coming Soon Page for Lingerie {%- endcomment -%}
+    {%- if is_lingerie -%}
+      <div class="text-center py-16">
+        <div class="text-6xl mb-6 animate-float">👙</div>
+        <h2 class="neon-text-purple text-4xl md:text-5xl mb-4 font-heading">Lingerie Collection</h2>
+        <p class="neon-text-gold text-2xl mb-6 font-heading">Coming Soon</p>
+        <p class="text-bekky-gray-light mb-8 max-w-2xl mx-auto text-lg">
+          Get ready for something sultry and bootylicious! Our exclusive lingerie collection is dropping soon. 
+          Join BBA Fam to get early access and exclusive previews! 👑
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="{{ routes.account_register_url }}" class="neon-button-gold neon-button-lg">
+            Join BBA Fam for Early Access 👑
+          </a>
+          <a href="/pages/shop" class="neon-button neon-button-lg">
+            Browse Other Collections
+          </a>
+        </div>
+      </div>
+    {%- elsif all_collection and all_collection.products_count > 0 -%}
+      {%- comment -%} Show all products {%- endcomment -%}
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 mb-8 sm:mb-12">
+        {%- for product in all_collection.products limit: 48 -%}
+          <div class="product-card">
+            {%- if product.tags contains 'new' or product.tags contains 'sale' -%}
+              <span class="neon-badge neon-badge-gold absolute top-4 right-4 z-10">
+                {%- if product.tags contains 'new' -%}New{%- else -%}Sale{%- endif -%}
+              </span>
+            {%- endif -%}
+            <a href="{{ product.url }}">
+              <div class="product-card-img bg-bekky-gray-dark flex items-center justify-center">
+                {%- if product.featured_image -%}
+                  <img
+                    src="{{ product.featured_image | image_url: width: 400 }}"
+                    alt="{{ product.featured_image.alt | escape }}"
+                    class="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                {%- else -%}
+                  <span class="text-4xl">🦙</span>
+                {%- endif -%}
+              </div>
+            </a>
+            <div class="p-4">
+              <h3 class="text-lg font-heading text-bekky-purple-neon mb-2">{{ product.title }}</h3>
+              <div class="mb-4">
+                {%- if product.compare_at_price > product.price -%}
+                  <del class="text-bekky-gray-light text-lg mr-2">
+                    {{ product.compare_at_price | money }}
+                  </del>
+                {%- endif -%}
+                <span class="text-bekky-gold-neon text-2xl font-bold">
+                  {{ product.price | money }}
+                </span>
+              </div>
+              <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                <button type="submit" class="neon-button w-full" name="add">
+                  Add to Cart
+                </button>
+              </form>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      {%- comment -%} Fallback: Show products from first available collection {%- endcomment -%}
+      {%- assign has_products = false -%}
+      {%- for collection_item in collections -%}
+        {%- if collection_item.products_count > 0 -%}
+          {%- assign has_products = true -%}
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 mb-8 sm:mb-12">
+            {%- for product in collection_item.products limit: 48 -%}
+              <div class="product-card">
+                {%- if product.tags contains 'new' or product.tags contains 'sale' -%}
+                  <span class="neon-badge neon-badge-gold absolute top-4 right-4 z-10">
+                    {%- if product.tags contains 'new' -%}New{%- else -%}Sale{%- endif -%}
+                  </span>
+                {%- endif -%}
+                <a href="{{ product.url }}">
+                  <div class="product-card-img bg-bekky-gray-dark flex items-center justify-center">
+                    {%- if product.featured_image -%}
+                      <img
+                        src="{{ product.featured_image | image_url: width: 400 }}"
+                        alt="{{ product.featured_image.alt | escape }}"
+                        class="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    {%- else -%}
+                      <span class="text-4xl">🦙</span>
+                    {%- endif -%}
+                  </div>
+                </a>
+                <div class="p-4">
+                  <h3 class="text-lg font-heading text-bekky-purple-neon mb-2">{{ product.title }}</h3>
+                  <div class="mb-4">
+                    {%- if product.compare_at_price > product.price -%}
+                      <del class="text-bekky-gray-light text-lg mr-2">
+                        {{ product.compare_at_price | money }}
+                      </del>
+                    {%- endif -%}
+                    <span class="text-bekky-gold-neon text-2xl font-bold">
+                      {{ product.price | money }}
+                    </span>
+                  </div>
+                  <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                    <button type="submit" class="neon-button w-full" name="add">
+                      Add to Cart
+                    </button>
+                  </form>
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- unless has_products -%}
+        {%- comment -%} Empty State {%- endcomment -%}
+        <div class="text-center py-16">
+          <div class="text-6xl mb-6">🛍️</div>
+          <h2 class="neon-text-purple text-3xl mb-4 font-heading">Products Coming Soon</h2>
+          <p class="text-bekky-gray-light mb-8 max-w-md mx-auto">
+            We're getting our inventory ready! Check back soon for the latest festival gear.
+          </p>
+          <a href="{{ routes.root_url }}" class="neon-button neon-button-lg">
+            Back to Home
+          </a>
+        </div>
+      {%- endunless -%}
+    {%- endif -%}
+
+    {%- comment -%} Newsletter CTA {%- endcomment -%}
+    <div class="mt-24 text-center">
+      <div class="neon-card max-w-2xl mx-auto">
+        <h2 class="neon-text-gold text-3xl mb-4 font-heading">
+          Stay Updated on New Drops
+        </h2>
+        <p class="text-bekky-gray-light mb-6">
+          Get notified when we release new products and exclusive member-only items!
+        </p>
+        <a href="/pages/members" class="neon-button-gold neon-button-lg inline-block">
+          Join BBA Fam for Early Access 👑
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
