@@ -1,0 +1,62 @@
+{%- comment -%}
+  404 Not Found Page Template
+  Custom 404 page matching Big Butt Association design
+{%- endcomment -%}
+
+<div class="min-h-screen bg-black py-12 sm:py-16 md:py-24 flex items-center justify-center">
+  <div class="container text-center px-4">
+    <div class="neon-card max-w-2xl mx-auto">
+      <div class="mb-8">
+        <span class="text-8xl block mb-6 animate-float">🦙</span>
+        <h1 class="display-heading mb-4 text-3xl sm:text-4xl md:text-6xl">404</h1>
+        <h2 class="neon-text-purple text-2xl sm:text-3xl md:text-4xl mb-6 font-heading">Not Found</h2>
+      </div>
+      
+      <p class="text-bekky-gray-light text-lg mb-4">
+        The page you were looking for does not exist.
+      </p>
+      <p class="text-bekky-gray-light text-lg mb-8">
+        Maybe you want to try the search instead?
+      </p>
+
+      {%- comment -%} Search Form {%- endcomment -%}
+      <form action="{{ routes.search_url }}" method="get" class="mb-8 max-w-md mx-auto">
+        <div class="flex gap-2">
+          <input
+            type="search"
+            name="q"
+            placeholder="Search..."
+            class="form-input flex-1"
+            value="{{ search.terms | escape }}"
+          />
+          <button type="submit" class="neon-button neon-button-lg">
+            Search
+          </button>
+        </div>
+      </form>
+
+      {%- comment -%} Navigation Links {%- endcomment -%}
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center text-sm text-bekky-gray-light">
+        <a href="{{ routes.root_url }}" class="neon-text-purple hover:text-bekky-gold-neon transition-colors">
+          Back to Big Butt Association
+        </a>
+        <span class="hidden sm:inline">|</span>
+        <a href="javascript:history.back()" class="neon-text-purple hover:text-bekky-gold-neon transition-colors">
+          Previous page
+        </a>
+      </div>
+
+      {%- comment -%} Quick Links {%- endcomment -%}
+      <div class="mt-12 pt-8 border-t border-bekky-purple-neon/20">
+        <p class="text-bekky-gray-light mb-4">Popular Pages:</p>
+        <div class="flex flex-wrap gap-3 justify-center">
+          <a href="{{ routes.root_url }}" class="neon-button">Home</a>
+          <a href="{{ routes.collections_url }}" class="neon-button">Shop</a>
+          <a href="/pages/about" class="neon-button">About</a>
+          <a href="/pages/members" class="neon-button-gold">Members</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
