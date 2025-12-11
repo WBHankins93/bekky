@@ -1,0 +1,71 @@
+{%- comment -%}
+  About Bekky Section
+  Converted from app/page.tsx about bekky section
+{%- endcomment -%}
+
+<section class="py-12 sm:py-16 md:py-24 bg-black">
+  <div class="container">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 items-center px-4">
+      <div class="space-y-4">
+        <h2 class="neon-text-purple text-4xl mb-4 font-heading">{{ section.settings.title | default: 'Meet Bekky' }}</h2>
+        <h3 class="neon-text-gold text-2xl mb-4 font-heading">{{ section.settings.subtitle | default: 'The Llama Queen with the Big Butt' }}</h3>
+        <div class="text-bekky-gray-light leading-relaxed">
+          {{ section.settings.description }}
+        </div>
+      </div>
+      <div class="flex justify-center">
+        <img
+          src="{{ section.settings.bekky_image | default: 'bekky-no-background.png' | asset_url }}"
+          alt="{{ section.settings.bekky_image_alt | default: 'Bekky the Purple Llama with a Big Butt - Big Butt Association Mascot' }}"
+          width="400"
+          height="400"
+          class="w-full max-w-[400px] h-auto rounded-2xl border-2 border-bekky-purple-neon shadow-neon-purple-md glow-on-hover"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About Bekky",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Meet Bekky"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Section Subtitle",
+      "default": "The Llama Queen with the Big Butt"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Bekky isn't just our mascot—she's the vibe, the energy, the whole damn party. With her fuzzy purple fur and gold chain that says \"BBA,\" Bekky represents everything we stand for: confidence, celebration, and never taking life too seriously.</p><p>Born from the bass-heavy beats of underground raves and the freedom of festival culture, Bekky reminds us all to embrace who we are, shake what we got, and live every moment to the fullest.</p><p>Join Bekky's crew, rock the merch, and let's make every festival a statement. 🦙👑</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "bekky_image",
+      "label": "Bekky Image"
+    },
+    {
+      "type": "text",
+      "id": "bekky_image_alt",
+      "label": "Bekky Image Alt Text",
+      "default": "Bekky the Purple Llama with a Big Butt - Big Butt Association Mascot"
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Bekky"
+    }
+  ]
+}
+{% endschema %}
+

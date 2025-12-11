@@ -1,0 +1,70 @@
+{%- comment -%}
+  Newsletter Signup Section
+  Converted from app/page.tsx newsletter section
+{%- endcomment -%}
+
+<section class="py-12 sm:py-16 bg-gradient-to-br from-bekky-purple to-bekky-purple-dark">
+  <div class="container text-center px-4">
+    <h2 class="neon-text-gold text-2xl sm:text-3xl md:text-4xl mb-4 font-heading">{{ section.settings.title | default: 'Stay In The Loop' }}</h2>
+    <p class="text-base sm:text-lg text-bekky-gray-light mb-6 sm:mb-8 max-w-2xl mx-auto">
+      {{ section.settings.subtitle | default: 'Get exclusive drops, festival tips, and BekkyBucks bonus offers straight to your inbox!' }}
+    </p>
+    
+    {%- form 'customer', class: 'flex flex-col items-center gap-4 max-w-md mx-auto w-full' -%}
+      <input 
+        type="email" 
+        name="contact[email]"
+        class="form-input text-center" 
+        placeholder="{{ section.settings.placeholder | default: 'Enter your email' }}" 
+        required
+      />
+      <button type="submit" class="neon-button-gold neon-button-lg w-full">
+        {{ section.settings.button_text | default: 'Subscribe 🎉' }}
+      </button>
+    {%- endform -%}
+  </div>
+</section>
+
+<style>
+  .bg-gradient-to-br {
+    background: linear-gradient(to bottom right, var(--bekky-purple), var(--bekky-purple-dark));
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Stay In The Loop"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Section Subtitle",
+      "default": "Get exclusive drops, festival tips, and BekkyBucks bonus offers straight to your inbox!"
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Email Input Placeholder",
+      "default": "Enter your email"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Subscribe 🎉"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter"
+    }
+  ]
+}
+{% endschema %}
+

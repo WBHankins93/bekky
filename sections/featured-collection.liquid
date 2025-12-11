@@ -1,0 +1,104 @@
+{%- comment -%}
+  Featured Collection Section
+  Converted from app/page.tsx products section
+{%- endcomment -%}
+
+<section id="shop" class="py-12 sm:py-16 md:py-24">
+  <div class="container">
+    <div class="section-header mb-8 sm:mb-12">
+      <h2 class="section-title display-heading text-3xl sm:text-4xl md:text-6xl">{{ section.settings.title | default: 'Shop The Collection' }}</h2>
+      <p class="section-subtitle text-sm sm:text-base md:text-lg px-4">
+        {{ section.settings.subtitle | default: 'Bold, bootylicious, and festival-ready. Gear up for the next rave!' }}
+      </p>
+    </div>
+  
+    {%- assign collection = collections[section.settings.collection] -%}
+    {%- if collection and collection.products_count > 0 -%}
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 mt-6 sm:mt-8">
+        {%- for product in collection.products limit: section.settings.products_to_show -%}
+          <div class="product-card">
+            <a href="{{ product.url }}">
+              <img
+                src="{{ product.featured_image | image_url: width: 400 }}"
+                alt="{{ product.featured_image.alt | escape }}"
+                class="product-card-img"
+                loading="lazy"
+              />
+              <div class="p-4">
+                <h3 class="text-lg font-heading text-bekky-purple-neon mb-2">{{ product.title }}</h3>
+                <p class="text-bekky-gold text-xl font-bold">{{ product.price | money }}</p>
+              </div>
+            </a>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div class="text-center py-12 text-bekky-gray-light">
+        <p>{{ section.settings.empty_message | default: 'Products coming soon...' }}</p>
+      </div>
+    {%- endif -%}
+    
+    <div class="text-center mt-12">
+      <a href="{{ section.settings.view_all_link | default: routes.collections_url }}" class="neon-button neon-button-lg">
+        {{ section.settings.view_all_text | default: 'View All Products' }}
+      </a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured Collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Shop The Collection"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Section Subtitle",
+      "default": "Bold, bootylicious, and festival-ready. Gear up for the next rave!"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to show",
+      "min": 4,
+      "max": 12,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "text",
+      "id": "view_all_text",
+      "label": "View All Button Text",
+      "default": "View All Products"
+    },
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "View All Button Link"
+    },
+    {
+      "type": "text",
+      "id": "empty_message",
+      "label": "Empty State Message",
+      "default": "Products coming soon..."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Collection"
+    }
+  ]
+}
+{% endschema %}
+
