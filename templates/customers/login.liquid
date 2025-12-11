@@ -26,6 +26,23 @@
           />
         </div>
 
+        {%- comment -%} Google SSO Login Button (Shopify Customer Account API) {%- endcomment -%}
+        {%- if shop.customer_accounts_enabled -%}
+          <div class="mb-6">
+            <a href="{{ routes.account_login_url }}" class="neon-button neon-button-lg w-full block text-center mb-4">
+              Continue with Google
+            </a>
+            <div class="relative flex items-center justify-center my-6">
+              <div class="absolute inset-0 flex items-center">
+                <div class="w-full border-t border-bekky-purple-neon/20"></div>
+              </div>
+              <div class="relative bg-black px-4">
+                <span class="text-sm text-bekky-gray-light">or</span>
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+
         {%- form 'customer_login', class: 'space-y-6' -%}
           {%- if form.errors -%}
             <div class="bg-red-500/10 border-2 border-red-500 rounded-lg p-4 mb-6">
