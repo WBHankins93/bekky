@@ -22,29 +22,33 @@ const pages = [
     title: 'About',
     handle: 'about',
     template_suffix: 'about',
-    body_html: '<p>Meet the crew behind the bootylicious brand and discover our festival-fueled story.</p>',
-    published: true
+    body_html: '', // Template handles all content - no body needed
+    published: true,
+    note: 'Template (page.about.liquid) contains all content - body_html is ignored'
   },
   {
     title: 'Members',
     handle: 'members',
     template_suffix: 'members',
-    body_html: '<p>Join BBA Members to unlock exclusive rewards, earn BekkyBucks, and join Bekky\'s inner circle!</p>',
-    published: true
+    body_html: '', // Template handles all content - no body needed
+    published: true,
+    note: 'Template (page.members.liquid) contains all content - body_html is ignored'
   },
   {
     title: 'Gallery',
     handle: 'gallery',
     template_suffix: null,
     body_html: '<p>Check out our festival photos and community highlights!</p>',
-    published: true
+    published: true,
+    note: 'Uses generic page template - you can edit this content in Shopify Admin'
   },
   {
     title: 'Blog',
     handle: 'blog',
     template_suffix: null,
     body_html: '<p>Stay updated with the latest from Big Butt Association!</p>',
-    published: true
+    published: true,
+    note: 'Uses generic page template - you can edit this content in Shopify Admin'
   }
 ];
 
@@ -142,18 +146,24 @@ async function main() {
     if (created) {
       console.log(`✅ Created: ${page.title}`);
       console.log(`   URL: /pages/${page.handle}`);
-      console.log(`   Template: ${page.template_suffix ? `page.${page.template_suffix}` : 'page'}\n`);
+      console.log(`   Template: ${page.template_suffix ? `page.${page.template_suffix}` : 'page'}`);
+      if (page.note) {
+        console.log(`   Note: ${page.note}`);
+      }
+      console.log('');
     } else {
       console.log(`❌ Failed to create ${page.title}\n`);
     }
   }
 
   console.log('\n✅ Done!');
-  console.log('\nNote: After creating pages, make sure to:');
-  console.log('1. Go to Shopify Admin > Online Store > Pages');
-  console.log('2. Edit each page and verify the template is assigned correctly');
-  console.log('3. For About page: Select template "page.about"');
-  console.log('4. For Members page: Select template "page.members"');
+  console.log('\n📝 Important Notes:');
+  console.log('1. About & Members pages: Templates contain ALL content - page body is ignored');
+  console.log('2. Gallery & Blog pages: Use generic template - you can edit content in Shopify Admin');
+  console.log('3. Verify templates: Go to Shopify Admin > Online Store > Pages');
+  console.log('   - About page should use template "page.about"');
+  console.log('   - Members page should use template "page.members"');
+  console.log('   - Gallery & Blog use template "page" (generic)');
 }
 
 main().catch(console.error);
