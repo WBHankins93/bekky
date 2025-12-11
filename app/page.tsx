@@ -79,7 +79,7 @@ export default function HomePage() {
             We&apos;re Big Butt Association (BBA)—where bass meets booty and style meets statement. 
             Whether you&apos;re headbanging at the rail or shuffling under neon lights, BBA is here to make sure you look as bold as you feel.
           </p>
-          
+
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center px-4">
             <Link href="/shop" className="neon-button neon-button-lg w-full sm:w-auto text-center">
               Shop Now
@@ -100,7 +100,7 @@ export default function HomePage() {
               Earn BekkyBucks on every purchase and unlock exclusive rewards, discounts, and festival vibes!
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mt-6 sm:mt-8 items-stretch">
             <div className="neon-card scan-line text-center flex flex-col">
               <div className="mb-6 h-20 flex items-center justify-center">
@@ -134,7 +134,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-      
+
       {/* Products Section */}
       <section id="shop" className="py-12 sm:py-16 md:py-24">
         <div className="container">
@@ -160,7 +160,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-      
+
       {/* About Bekky Section */}
       <section className="py-12 sm:py-16 md:py-24 bg-black">
         <div className="container">

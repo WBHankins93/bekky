@@ -18,7 +18,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 left-0 w-full h-16 sm:h-20 bg-black/95 border-b-2 border-bekky-purple-neon shadow-neon-purple-sm shadow-lg z-[100] backdrop-blur-md">
       <nav className="container h-full flex justify-between items-center px-4 sm:px-6">
-        {/* Logo */}
+          {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group">
           <Image
             src="/logo/bekky-no-background.png"
@@ -29,24 +29,24 @@ export default function Header() {
           />
           <span className="font-metal text-lg sm:text-xl md:text-2xl lg:text-3xl text-bekky-purple-neon tracking-wider neon-text-purple hidden sm:block">
             Big Butt Association
-          </span>
-        </Link>
+              </span>
+          </Link>
 
-        {/* Desktop Navigation */}
+          {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
               className="font-heading text-base font-bold uppercase tracking-wide text-white py-2 relative transition-all group"
               onClick={() => setIsMenuOpen(false)}
-            >
+              >
               <span className="group-hover:text-bekky-purple-neon transition-colors">
                 {link.label}
               </span>
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-bekky-purple-neon shadow-neon-purple-sm transition-all group-hover:w-full origin-right"></span>
-            </Link>
-          ))}
+              </Link>
+            ))}
           
           {/* Member Button */}
           <Link href="/members" className="px-4 py-2 bg-transparent border-2 border-bekky-gold-neon text-bekky-gold-neon rounded-lg font-heading font-bold uppercase tracking-wide transition-all shadow-neon-gold-sm hover:bg-bekky-gold-neon hover:text-black hover:shadow-neon-gold-md">
@@ -60,19 +60,19 @@ export default function Header() {
               0
             </span>
           </Link>
-        </div>
+          </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
           className="md:hidden flex flex-col gap-1.5 bg-transparent border-none cursor-pointer p-3 min-w-[44px] min-h-[44px] items-center justify-center"
           aria-label="Toggle mobile menu"
           aria-expanded={isMenuOpen}
-        >
+          >
           <span className={`block w-6 h-0.5 bg-white transition-all ${isMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
           <span className={`block w-6 h-0.5 bg-white transition-all ${isMenuOpen ? 'opacity-0' : ''}`}></span>
           <span className={`block w-6 h-0.5 bg-white transition-all ${isMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
-        </button>
+          </button>
       </nav>
 
       {/* Mobile Navigation */}
@@ -81,23 +81,23 @@ export default function Header() {
           isMenuOpen ? 'flex translate-x-0' : 'hidden -translate-x-full'
         }`}
       >
-        {navLinks.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            onClick={() => setIsMenuOpen(false)}
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setIsMenuOpen(false)}
             className="font-heading text-lg font-bold uppercase tracking-wide text-white w-full py-4 px-4 transition-all hover:text-bekky-purple-neon min-h-[48px] flex items-center"
-          >
-            {link.label}
-          </Link>
-        ))}
+                >
+                  {link.label}
+                </Link>
+              ))}
         <Link href="/members" className="px-6 py-4 bg-transparent border-2 border-bekky-gold-neon text-bekky-gold-neon rounded-lg font-heading font-bold uppercase tracking-wide transition-all shadow-neon-gold-sm hover:bg-bekky-gold-neon hover:text-black hover:shadow-neon-gold-md w-full mt-2 text-center block min-h-[48px] flex items-center justify-center">
           👑 Members
         </Link>
         <Link href="/cart" className="px-6 py-4 bg-transparent border-2 border-bekky-gold-neon text-bekky-gold-neon rounded-lg font-heading font-bold uppercase tracking-wide transition-all shadow-neon-gold-sm hover:bg-bekky-gold-neon hover:text-black hover:shadow-neon-gold-md w-full mt-2 text-center block min-h-[48px] flex items-center justify-center">
           🛒 Cart
         </Link>
-      </div>
+          </div>
     </header>
   );
 }
