@@ -1,0 +1,77 @@
+{%- comment -%}
+  Generic Page Template
+  Used for pages that don't have a specific template assigned
+  Converted from Next.js page structure
+{%- endcomment -%}
+
+<div class="min-h-screen bg-black py-12 sm:py-16 md:py-24">
+  <div class="container">
+    {%- if page.title != blank -%}
+      <div class="section-header mb-8 sm:mb-12">
+        <h1 class="display-heading mb-4 text-3xl sm:text-4xl md:text-6xl">{{ page.title }}</h1>
+        {%- if page.content != blank -%}
+          <div class="section-subtitle text-sm sm:text-base md:text-lg px-4">
+            {{ page.excerpt | default: page.content | strip_html | truncate: 200 }}
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if page.content != blank -%}
+      <div class="max-w-4xl mx-auto px-4">
+        <div class="neon-card">
+          <div class="prose prose-invert max-w-none text-bekky-gray-light leading-relaxed">
+            {{ page.content }}
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<style>
+  .prose {
+    color: var(--bekky-gray-light);
+  }
+  
+  .prose h2 {
+    color: var(--bekky-purple-neon);
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .prose h3 {
+    color: var(--bekky-gold-neon);
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .prose p {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+  }
+  
+  .prose a {
+    color: var(--bekky-purple-neon);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .prose a:hover {
+    color: var(--bekky-gold-neon);
+  }
+  
+  .prose ul, .prose ol {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .prose li {
+    margin-bottom: 0.5rem;
+  }
+</style>
+

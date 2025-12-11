@@ -1,0 +1,100 @@
+{%- comment -%}
+  Customer Login Page
+  Converted from app/account/page.tsx redirect logic
+  This is the login page for existing customers
+{%- endcomment -%}
+
+<div class="min-h-screen bg-black py-12 sm:py-16 md:py-24">
+  <div class="container">
+    <div class="max-w-2xl mx-auto px-4">
+      <div class="text-center mb-8 sm:mb-12">
+        <h1 class="display-heading mb-4 text-3xl sm:text-4xl md:text-6xl">Member Login</h1>
+        <p class="section-subtitle text-sm sm:text-base md:text-lg">
+          Welcome back! Sign in to access your account and BekkyBucks.
+        </p>
+      </div>
+
+      <div class="neon-card">
+        <div class="mb-8 text-center">
+          <img
+            src="{{ 'bekky-no-background.png' | asset_url }}"
+            alt="Bekky the Purple Llama - Big Butt Association Mascot"
+            width="120"
+            height="120"
+            class="mx-auto mb-6 rounded-full"
+            loading="lazy"
+          />
+        </div>
+
+        {%- form 'customer_login', class: 'space-y-6' -%}
+          {%- if form.errors -%}
+            <div class="bg-red-500/10 border-2 border-red-500 rounded-lg p-4 mb-6">
+              <p class="text-red-400 text-sm">{{ form.errors | default_errors }}</p>
+            </div>
+          {%- endif -%}
+
+          <div>
+            <label for="customer_email" class="form-label block mb-2">
+              Email
+            </label>
+            <input
+              type="email"
+              id="customer_email"
+              name="customer[email]"
+              class="form-input"
+              placeholder="your@email.com"
+              required
+              autocomplete="email"
+            />
+          </div>
+          
+          <div>
+            <label for="customer_password" class="form-label block mb-2">
+              Password
+            </label>
+            <input
+              type="password"
+              id="customer_password"
+              name="customer[password]"
+              class="form-input"
+              placeholder="Enter your password"
+              required
+              autocomplete="current-password"
+            />
+          </div>
+          
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <input
+                type="checkbox"
+                id="remember_me"
+                name="customer[remember_me]"
+                class="w-5 h-5 accent-bekky-purple"
+              />
+              <label for="remember_me" class="text-sm text-bekky-gray-light">
+                Remember me
+              </label>
+            </div>
+            <a href="{{ routes.account_recover_url }}" class="text-sm text-bekky-purple-neon hover:text-bekky-gold-neon transition-colors">
+              Forgot password?
+            </a>
+          </div>
+          
+          <button type="submit" class="neon-button-gold neon-button-lg w-full">
+            Sign In →
+          </button>
+        {%- endform -%}
+        
+        <div class="mt-6 pt-6 border-t border-bekky-purple-neon/20 text-center">
+          <p class="text-sm text-bekky-gray-light mb-4">
+            Don't have an account?
+          </p>
+          <a href="{{ routes.account_register_url }}" class="neon-button neon-button-lg w-full block text-center">
+            Sign Up Free →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
