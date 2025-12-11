@@ -26,7 +26,7 @@
         <span class="group-hover:text-bekky-purple-neon transition-colors">Home</span>
         <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-bekky-purple-neon shadow-neon-purple-sm transition-all group-hover:w-full origin-right"></span>
       </a>
-      <a href="{{ routes.collections_url }}" class="font-heading text-base font-bold uppercase tracking-wide text-white py-2 relative transition-all group">
+      <a href="/pages/shop" class="font-heading text-base font-bold uppercase tracking-wide text-white py-2 relative transition-all group">
         <span class="group-hover:text-bekky-purple-neon transition-colors">Shop</span>
         <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-bekky-purple-neon shadow-neon-purple-sm transition-all group-hover:w-full origin-right"></span>
       </a>
@@ -38,13 +38,14 @@
         <span class="group-hover:text-bekky-purple-neon transition-colors">Blog</span>
         <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-bekky-purple-neon shadow-neon-purple-sm transition-all group-hover:w-full origin-right"></span>
       </a>
-      <a href="/pages/gallery" class="font-heading text-base font-bold uppercase tracking-wide text-white py-2 relative transition-all group">
+      {%- assign gallery_page = pages['gallery'] | default: pages['gallery-1'] -%}
+      <a href="{{ gallery_page.url | default: '/pages/gallery' }}" class="font-heading text-base font-bold uppercase tracking-wide text-white py-2 relative transition-all group">
         <span class="group-hover:text-bekky-purple-neon transition-colors">Gallery</span>
         <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-bekky-purple-neon shadow-neon-purple-sm transition-all group-hover:w-full origin-right"></span>
       </a>
       
       {%- comment -%} Member Button {%- endcomment -%}
-      <a href="{{ routes.account_login_url }}" class="px-4 py-2 bg-transparent border-2 border-bekky-gold-neon text-bekky-gold-neon rounded-lg font-heading font-bold uppercase tracking-wide transition-all shadow-neon-gold-sm hover:bg-bekky-gold-neon hover:text-black hover:shadow-neon-gold-md">
+      <a href="/pages/members" class="px-4 py-2 bg-transparent border-2 border-bekky-gold-neon text-bekky-gold-neon rounded-lg font-heading font-bold uppercase tracking-wide transition-all shadow-neon-gold-sm hover:bg-bekky-gold-neon hover:text-black hover:shadow-neon-gold-md">
         👑 Members
       </a>
 
@@ -75,13 +76,14 @@
     class="md:hidden fixed top-16 sm:top-20 left-0 w-full h-[calc(100vh-4rem)] sm:h-[calc(100vh-5rem)] bg-black/98 flex-col justify-start p-6 gap-4 border-r-2 border-bekky-purple-neon shadow-neon-purple-md transition-transform z-50 overflow-y-auto -webkit-overflow-scrolling-touch mobile-menu hidden -translate-x-full"
   >
     <a href="{{ routes.root_url }}" class="font-heading text-lg font-bold uppercase tracking-wide text-white w-full py-4 px-4 transition-all hover:text-bekky-purple-neon min-h-[48px] flex items-center mobile-menu-link">Home</a>
-    <a href="{{ routes.collections_url }}" class="font-heading text-lg font-bold uppercase tracking-wide text-white w-full py-4 px-4 transition-all hover:text-bekky-purple-neon min-h-[48px] flex items-center mobile-menu-link">Shop</a>
+      <a href="/pages/shop" class="font-heading text-lg font-bold uppercase tracking-wide text-white w-full py-4 px-4 transition-all hover:text-bekky-purple-neon min-h-[48px] flex items-center mobile-menu-link">Shop</a>
     <a href="/pages/about" class="font-heading text-lg font-bold uppercase tracking-wide text-white w-full py-4 px-4 transition-all hover:text-bekky-purple-neon min-h-[48px] flex items-center mobile-menu-link">About</a>
     <a href="/pages/blog" class="font-heading text-lg font-bold uppercase tracking-wide text-white w-full py-4 px-4 transition-all hover:text-bekky-purple-neon min-h-[48px] flex items-center mobile-menu-link">Blog</a>
-    <a href="/pages/gallery" class="font-heading text-lg font-bold uppercase tracking-wide text-white w-full py-4 px-4 transition-all hover:text-bekky-purple-neon min-h-[48px] flex items-center mobile-menu-link">Gallery</a>
-    <a href="{{ routes.account_login_url }}" class="px-6 py-4 bg-transparent border-2 border-bekky-gold-neon text-bekky-gold-neon rounded-lg font-heading font-bold uppercase tracking-wide transition-all shadow-neon-gold-sm hover:bg-bekky-gold-neon hover:text-black hover:shadow-neon-gold-md w-full mt-2 text-center block min-h-[48px] flex items-center justify-center mobile-menu-link">
-      👑 Members
-    </a>
+      {%- assign gallery_page = pages['gallery'] | default: pages['gallery-1'] -%}
+      <a href="{{ gallery_page.url | default: '/pages/gallery' }}" class="font-heading text-lg font-bold uppercase tracking-wide text-white w-full py-4 px-4 transition-all hover:text-bekky-purple-neon min-h-[48px] flex items-center mobile-menu-link">Gallery</a>
+      <a href="/pages/members" class="px-6 py-4 bg-transparent border-2 border-bekky-gold-neon text-bekky-gold-neon rounded-lg font-heading font-bold uppercase tracking-wide transition-all shadow-neon-gold-sm hover:bg-bekky-gold-neon hover:text-black hover:shadow-neon-gold-md w-full mt-2 text-center block min-h-[48px] flex items-center justify-center mobile-menu-link">
+        👑 Members
+      </a>
     <a href="{{ routes.cart_url }}" class="px-6 py-4 bg-transparent border-2 border-bekky-gold-neon text-bekky-gold-neon rounded-lg font-heading font-bold uppercase tracking-wide transition-all shadow-neon-gold-sm hover:bg-bekky-gold-neon hover:text-black hover:shadow-neon-gold-md w-full mt-2 text-center block min-h-[48px] flex items-center justify-center mobile-menu-link">
       🛒 Cart
     </a>

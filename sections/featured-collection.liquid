@@ -39,7 +39,7 @@
     {%- endif -%}
     
     <div class="text-center mt-8">
-      <a href="{{ section.settings.view_all_link | default: routes.collections_url }}" class="neon-button neon-button-lg">
+      <a href="{{ section.settings.view_all_link | default: '/pages/shop' }}" class="neon-button neon-button-lg">
         {{ section.settings.view_all_text | default: 'View All Products' }}
       </a>
     </div>

@@ -30,7 +30,7 @@
     </p>
 
     <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center px-4">
-      <a href="{{ section.settings.shop_button_link | default: routes.collections_url }}" class="neon-button neon-button-lg w-full sm:w-auto text-center">
+      <a href="{{ section.settings.shop_button_link | default: '/pages/shop' }}" class="neon-button neon-button-lg w-full sm:w-auto text-center">
         {{ section.settings.shop_button_text | default: 'Shop Now' }}
       </a>
       <a href="{{ section.settings.members_button_link | default: routes.account_register_url }}" class="neon-button-gold neon-button-lg w-full sm:w-auto text-center">
