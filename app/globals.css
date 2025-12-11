@@ -359,6 +359,25 @@ body {
   @apply bg-bekky-gold-dark;
 }
 
+/* Custom scrollbar for purchase history */
+.scrollbar-purple::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-purple::-webkit-scrollbar-track {
+  background: rgba(91, 75, 138, 0.1);
+  border-radius: 4px;
+}
+
+.scrollbar-purple::-webkit-scrollbar-thumb {
+  background: rgba(155, 127, 255, 0.5);
+  border-radius: 4px;
+}
+
+.scrollbar-purple::-webkit-scrollbar-thumb:hover {
+  background: rgba(155, 127, 255, 0.7);
+}
+
 /* Mobile Optimizations */
 @media (max-width: 768px) {
   /* Prevent text size adjustment on iOS */
