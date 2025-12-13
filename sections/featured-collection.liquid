@@ -18,17 +18,23 @@
         {%- for product in collection.products limit: section.settings.products_to_show -%}
           <div class="product-card">
             <a href="{{ product.url }}">
-              <img
-                src="{{ product.featured_image | image_url: width: 400 }}"
-                alt="{{ product.featured_image.alt | escape }}"
-                class="product-card-img"
-                loading="lazy"
-              />
-              <div class="p-4">
-                <h3 class="text-lg font-heading text-bekky-purple-neon mb-2">{{ product.title }}</h3>
-                <p class="text-bekky-gold text-xl font-bold">{{ product.price | money }}</p>
+              <div class="product-card-img bg-bekky-gray-dark flex items-center justify-center overflow-hidden">
+                {%- if product.featured_image -%}
+                  <img
+                    src="{{ product.featured_image | image_url: width: 400 }}"
+                    alt="{{ product.featured_image.alt | escape }}"
+                    class="w-full h-full object-cover transition-transform duration-500"
+                    loading="lazy"
+                  />
+                {%- else -%}
+                  <span class="text-4xl">🦙</span>
+                {%- endif -%}
               </div>
             </a>
+            <div class="p-4 relative z-10 bg-bekky-gray-dark">
+              <h3 class="text-lg font-heading text-bekky-purple-neon mb-2">{{ product.title }}</h3>
+              <p class="text-bekky-gold text-xl font-bold">{{ product.price | money }}</p>
+            </div>
           </div>
         {%- endfor -%}
       </div>

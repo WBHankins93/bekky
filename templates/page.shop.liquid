@@ -85,12 +85,12 @@
               </span>
             {%- endif -%}
             <a href="{{ product.url }}">
-              <div class="product-card-img bg-bekky-gray-dark flex items-center justify-center">
+              <div class="product-card-img bg-bekky-gray-dark flex items-center justify-center overflow-hidden">
                 {%- if product.featured_image -%}
                   <img
                     src="{{ product.featured_image | image_url: width: 400 }}"
                     alt="{{ product.featured_image.alt | escape }}"
-                    class="w-full h-full object-cover"
+                    class="w-full h-full object-cover transition-transform duration-500"
                     loading="lazy"
                   />
                 {%- else -%}
@@ -98,7 +98,7 @@
                 {%- endif -%}
               </div>
             </a>
-            <div class="p-4">
+            <div class="p-4 relative z-10 bg-bekky-gray-dark">
               <h3 class="text-lg font-heading text-bekky-purple-neon mb-2">{{ product.title }}</h3>
               <div class="mb-4">
                 {%- if product.compare_at_price > product.price -%}
@@ -135,12 +135,12 @@
                   </span>
                 {%- endif -%}
                 <a href="{{ product.url }}">
-                  <div class="product-card-img bg-bekky-gray-dark flex items-center justify-center">
+                  <div class="product-card-img bg-bekky-gray-dark flex items-center justify-center overflow-hidden">
                     {%- if product.featured_image -%}
                       <img
                         src="{{ product.featured_image | image_url: width: 400 }}"
                         alt="{{ product.featured_image.alt | escape }}"
-                        class="w-full h-full object-cover"
+                        class="w-full h-full object-cover transition-transform duration-500"
                         loading="lazy"
                       />
                     {%- else -%}
@@ -148,7 +148,7 @@
                     {%- endif -%}
                   </div>
                 </a>
-                <div class="p-4">
+                <div class="p-4 relative z-10 bg-bekky-gray-dark">
                   <h3 class="text-lg font-heading text-bekky-purple-neon mb-2">{{ product.title }}</h3>
                   <div class="mb-4">
                     {%- if product.compare_at_price > product.price -%}
@@ -189,7 +189,7 @@
     {%- endif -%}
 
     {%- comment -%} Newsletter CTA {%- endcomment -%}
-    <div class="mt-24 text-center">
+    <div class="mt-16 sm:mt-24 text-center px-4">
       <div class="neon-card max-w-2xl mx-auto">
         <h2 class="neon-text-gold text-3xl mb-4 font-heading">
           Stay Updated on New Drops

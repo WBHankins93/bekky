@@ -16,17 +16,7 @@
     {%- comment -%} Bekky Section {%- endcomment -%}
     <section id="bekky" class="mb-16 sm:mb-24 md:mb-32">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 items-center px-4">
-        <div class="flex justify-center order-2 md:order-1">
-          <img
-            src="{{ 'bekky-no-background.png' | asset_url }}"
-            alt="Bekky the Purple Alpaca Queen - Big Butt Association Mascot Character"
-            width="400"
-            height="400"
-            class="w-full max-w-[400px] h-auto rounded-2xl border-2 border-bekky-purple-neon shadow-neon-purple-md glow-on-hover"
-            loading="lazy"
-          />
-        </div>
-        <div class="space-y-6 order-1 md:order-2">
+        <div class="space-y-6 order-1">
           <h2 class="neon-text-purple text-4xl mb-6 font-heading">Meet Bekky</h2>
           <h3 class="neon-text-gold text-2xl mb-6 font-heading">The Alpaca Queen with the Big Butt</h3>
           <p class="text-bekky-gray-light leading-relaxed text-lg">
@@ -42,13 +32,28 @@
             Join Bekky's crew, rock the merch, and let's make every festival a statement. 🦙👑
           </p>
         </div>
+        <div class="flex justify-center order-2">
+          <img
+            src="{{ 'bekky-no-background.png' | asset_url }}"
+            alt="Bekky the Purple Alpaca Queen - Big Butt Association Mascot Character"
+            width="400"
+            height="400"
+            class="w-full max-w-[400px] h-auto rounded-2xl border-2 border-bekky-purple-neon shadow-neon-purple-md glow-on-hover"
+            loading="lazy"
+          />
+        </div>
       </div>
     </section>
 
     {%- comment -%} Jarred Section {%- endcomment -%}
-    <section id="jarred" class="mb-16 sm:mb-24 md:mb-32">
+    <section id="jarred" class="mb-16 sm:mb-24 md:mb-32 mt-8 sm:mt-12">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 items-center px-4">
-        <div class="space-y-6">
+        <div class="flex justify-center order-2 md:order-1">
+          <div class="w-full max-w-[400px] h-[400px] bg-bekky-gray-dark rounded-2xl border-2 border-bekky-gold-neon shadow-neon-gold-md flex items-center justify-center">
+            <span class="text-8xl">👤</span>
+          </div>
+        </div>
+        <div class="space-y-6 order-1 md:order-2">
           <h2 class="neon-text-gold text-4xl mb-6 font-heading">Jarred</h2>
           <h3 class="neon-text-purple text-2xl mb-6 font-heading">The Hostest with the Mostest</h3>
           <p class="text-bekky-gray-light leading-relaxed text-lg">
@@ -65,11 +70,6 @@
             When you're at a BBA event, you're not just attending—you're part of the family. 
             That's the Jarred way. 🎉
           </p>
-        </div>
-        <div class="flex justify-center">
-          <div class="w-full max-w-[400px] h-[400px] bg-bekky-gray-dark rounded-2xl border-2 border-bekky-gold-neon shadow-neon-gold-md flex items-center justify-center">
-            <span class="text-8xl">🎤</span>
-          </div>
         </div>
       </div>
     </section>
@@ -117,8 +117,8 @@
     </section>
 
     {%- comment -%} CTA Section {%- endcomment -%}
-    <section class="text-center">
-      <div class="neon-card-gold max-w-2xl mx-auto">
+    <section class="text-center mt-16 sm:mt-24">
+      <div class="neon-card-gold max-w-2xl mx-auto px-4">
         <h2 class="neon-text-gold text-3xl mb-4 font-heading">Join the Movement</h2>
         <p class="text-bekky-gray-light mb-6 text-lg">
           Ready to become part of the Big Butt Association? Join BBA Fam and unlock exclusive 
