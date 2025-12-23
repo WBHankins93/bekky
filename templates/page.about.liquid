@@ -13,66 +13,54 @@
       </p>
     </div>
 
-    {%- comment -%} Two Column Layout: Bekky & Jarred {%- endcomment -%}
-    <section class="mb-16 sm:mb-24 md:mb-32">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 px-4">
-        {%- comment -%} Column 1: Bekky Text + Jarred Picture {%- endcomment -%}
-        <div class="space-y-8 sm:space-y-12">
-          {%- comment -%} BekkyWithABigButt Text {%- endcomment -%}
-          <div class="space-y-6">
-            <h2 class="neon-text-purple text-4xl mb-6 font-heading">Meet BekkyWithABigButt</h2>
-            <h3 class="neon-text-gold text-2xl mb-6 font-heading">Our Fearless Leader</h3>
-            <p class="text-bekky-gray-light leading-relaxed text-lg">
-              Our fearless leader? None other than BekkyWithABigButt, a multidimensional purple alpaca 
-              with curves for days and an attitude to match. She's our spirit animal—wild, free, and 
-              unapologetically herself.
-            </p>
-            <p class="text-bekky-gray-light leading-relaxed text-lg">
-              If it's Bekky Approved, you know it's fire.
-            </p>
-          </div>
-          
-          {%- comment -%} Jarred Picture {%- endcomment -%}
-          <div class="flex justify-center">
-            <div class="w-full max-w-[400px] h-[400px] bg-bekky-gray-dark rounded-2xl border-2 border-bekky-gold-neon shadow-neon-gold-md flex items-center justify-center">
-              <span class="text-8xl">👤</span>
-            </div>
+    {%- comment -%} BekkyWithABigButt Section - 2 Column Layout {%- endcomment -%}
+    <section class="mb-16 sm:mb-24 md:mb-32 px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 items-center">
+        {%- comment -%} Text Content - Left Column {%- endcomment -%}
+        <div class="space-y-6">
+          <h2 class="neon-text-purple text-4xl mb-6 font-heading">Meet BekkyWithABigButt</h2>
+          <h3 class="neon-text-gold text-2xl mb-6 font-heading">Our Fearless Leader</h3>
+          <p class="text-bekky-gray-light leading-relaxed text-lg">
+            Our fearless leader? None other than BekkyWithABigButt, a multidimensional purple alpaca 
+            with curves for days and an attitude to match. She's our spirit animal—wild, free, and 
+            unapologetically herself.
+          </p>
+          <p class="text-bekky-gray-light leading-relaxed text-lg">
+            If it's Bekky Approved, you know it's fire.
+          </p>
+        </div>
+        {%- comment -%} Bekky Image - Right Column {%- endcomment -%}
+        <div class="flex justify-center">
+          <img
+            src="{{ 'bekky-no-background.png' | asset_url }}"
+            alt="Bekky the Purple Alpaca Queen - Big Butt Association Mascot Character"
+            width="400"
+            height="400"
+            class="w-full max-w-[400px] h-auto rounded-2xl border-2 border-bekky-purple-neon shadow-neon-purple-md glow-on-hover"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </section>
+
+    {%- comment -%} Jarred Section - 2 Column Layout {%- endcomment -%}
+    <section class="mb-16 sm:mb-24 md:mb-32 px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 items-center">
+        {%- comment -%} Jarred Image - Left Column {%- endcomment -%}
+        <div class="flex justify-center order-2 md:order-1">
+          <div class="w-full max-w-[400px] h-[400px] bg-bekky-gray-dark rounded-2xl border-2 border-bekky-gold-neon shadow-neon-gold-md flex items-center justify-center">
+            <span class="text-8xl">👤</span>
           </div>
         </div>
-        
-        {%- comment -%} Column 2: Bekky Picture + Jarred Text {%- endcomment -%}
-        <div class="space-y-8 sm:space-y-12">
-          {%- comment -%} Bekky Picture {%- endcomment -%}
-          <div class="flex justify-center">
-            <img
-              src="{{ 'bekky-no-background.png' | asset_url }}"
-              alt="Bekky the Purple Alpaca Queen - Big Butt Association Mascot Character"
-              width="400"
-              height="400"
-              class="w-full max-w-[400px] h-auto rounded-2xl border-2 border-bekky-purple-neon shadow-neon-purple-md glow-on-hover"
-              loading="lazy"
-            />
-          </div>
-          
-          {%- comment -%} Jarred Text {%- endcomment -%}
-          <div class="space-y-6">
-            <h2 class="neon-text-gold text-4xl mb-6 font-heading">Jarred</h2>
-            <h3 class="neon-text-purple text-2xl mb-6 font-heading">The Hostest with the Mostest</h3>
-            <p class="text-bekky-gray-light leading-relaxed text-lg">
-              Jarred is the mastermind behind the Big Butt Association, bringing the energy, the vision, 
-              and the absolute best vibes to every event. Known as "The Hostest with the Mostest," 
-              Jarred knows how to throw a party and create unforgettable festival experiences.
-            </p>
-            <p class="text-bekky-gray-light leading-relaxed text-lg">
-              With a passion for EDM culture, community building, and making sure everyone feels welcome, 
-              Jarred has built BBA into more than just a brand—it's a movement. From curating the perfect 
-              festival lineup to designing gear that makes you stand out, Jarred brings the magic.
-            </p>
-            <p class="text-bekky-gray-light leading-relaxed text-lg">
-              When you're at a BBA event, you're not just attending—you're part of the family. 
-              That's the Jarred way. 🎉
-            </p>
-          </div>
+        {%- comment -%} Jarred Text - Right Column {%- endcomment -%}
+        <div class="space-y-6 order-1 md:order-2">
+          <h2 class="neon-text-gold text-4xl mb-6 font-heading">Jarred</h2>
+          <h3 class="neon-text-purple text-2xl mb-6 font-heading">The Most Valuable Wook</h3>
+          <p class="text-bekky-gray-light leading-relaxed text-lg">
+            Jared aka Dr.KushKing & BekkyWithABigButt is the mastermind behind the Big Butt Association, bringing the energy, the vision, 
+            and the absolute best vibes to every event. Known as "The most valuable Wook" 
+            Jared knows how to throw a party and create unforgettable festival vibes & connections.
+          </p>
         </div>
       </div>
     </section>

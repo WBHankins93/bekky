@@ -4,10 +4,10 @@
 {%- endcomment -%}
 
 <section class="py-10 sm:py-12 md:py-16 bg-black">
-  <div class="container">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-center px-4">
+  <div class="container px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 items-center">
       {%- comment -%} Text Content - Left Column {%- endcomment -%}
-      <div class="space-y-4 order-1 md:order-1">
+      <div class="space-y-4">
         <h2 class="neon-text-purple text-3xl sm:text-4xl mb-3 font-heading">{{ section.settings.title | default: 'Meet BekkyWithABigButt' }}</h2>
         <h3 class="neon-text-gold text-xl sm:text-2xl mb-3 font-heading">{{ section.settings.subtitle | default: 'Our Fearless Leader' }}</h3>
         <div class="text-bekky-gray-light leading-relaxed">
@@ -15,7 +15,7 @@
         </div>
       </div>
       {%- comment -%} Bekky Image - Right Column {%- endcomment -%}
-      <div class="flex justify-center order-2 md:order-2">
+      <div class="flex justify-center">
         <img
           src="{{ section.settings.bekky_image | default: 'bekky-no-background.png' | asset_url }}"
           alt="{{ section.settings.bekky_image_alt | default: 'Bekky the Purple Alpaca with a Big Butt - Big Butt Association Mascot' }}"
