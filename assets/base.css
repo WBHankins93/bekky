@@ -517,6 +517,14 @@ p {
   transform: translateY(-4px);
 }
 
+/* Remove hover effects for cart items */
+.cart .neon-card:hover,
+#cart-form .neon-card:hover {
+  border-color: rgba(155, 127, 255, 0.2) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
 .product-card-img {
   width: 100%;
   aspect-ratio: 1 / 1;
