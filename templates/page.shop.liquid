@@ -32,27 +32,11 @@
       </p>
     </div>
 
-    {%- comment -%} Category Filter {%- endcomment -%}
+    {%- comment -%} Category Filter - Only All Products {%- endcomment -%}
     <div class="flex flex-wrap gap-2 sm:gap-4 justify-center mb-8 sm:mb-12 px-4">
       <a href="/pages/shop" class="px-4 sm:px-6 py-2 sm:py-3 font-heading font-bold uppercase tracking-wide rounded-lg transition-all inline-block text-sm sm:text-base min-h-[44px] flex items-center justify-center neon-button neon-button-gold">
         All Products
       </a>
-      {%- comment -%} Hardcoded categories to match React version {%- endcomment -%}
-      {%- assign categories = 'jerseys,lingerie,hoodies,tees,accessories' | split: ',' -%}
-      {%- for cat in categories -%}
-        {%- assign cat_collection = collections[cat] -%}
-        {%- if cat_collection -%}
-          <a href="{{ cat_collection.url }}" class="px-4 sm:px-6 py-2 sm:py-3 font-heading font-bold uppercase tracking-wide rounded-lg transition-all inline-block text-sm sm:text-base min-h-[44px] flex items-center justify-center neon-button">
-            {%- if cat == 'jerseys' -%}Jerseys
-            {%- elsif cat == 'lingerie' -%}Lingerie
-            {%- elsif cat == 'hoodies' -%}Hoodies & Jackets
-            {%- elsif cat == 'tees' -%}Tees & Tanks
-            {%- elsif cat == 'accessories' -%}Accessories
-            {%- else -%}{{ cat_collection.title }}
-            {%- endif -%}
-          </a>
-        {%- endif -%}
-      {%- endfor -%}
     </div>
 
     {%- comment -%} Coming Soon Page for Lingerie {%- endcomment -%}
@@ -99,18 +83,11 @@
               </div>
             </a>
             <div class="p-4 relative z-10 bg-bekky-gray-dark">
-              <h3 class="text-lg font-heading text-bekky-purple-neon mb-2">{{ product.title }}</h3>
-              <div class="mb-4">
-                {%- if product.compare_at_price > product.price -%}
-                  <del class="text-bekky-gray-light text-lg mr-2">
-                    {{ product.compare_at_price | money }}
-                  </del>
-                {%- endif -%}
-                <span class="text-bekky-gold-neon text-2xl font-bold">
-                  {{ product.price | money }}
-                </span>
+              <div class="flex items-center justify-between gap-2 mb-4">
+                <h3 class="text-lg font-heading text-bekky-purple-neon flex-1">{{ product.title }}</h3>
+                <p class="text-bekky-gold text-xl font-bold flex-shrink-0 text-right">{{ product.price | money }}</p>
               </div>
-              <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data">
+              <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" class="mt-4">
                 <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
                 <button type="submit" class="neon-button w-full" name="add">
                   Add to Cart
@@ -149,18 +126,11 @@
                   </div>
                 </a>
                 <div class="p-4 relative z-10 bg-bekky-gray-dark">
-                  <h3 class="text-lg font-heading text-bekky-purple-neon mb-2">{{ product.title }}</h3>
-                  <div class="mb-4">
-                    {%- if product.compare_at_price > product.price -%}
-                      <del class="text-bekky-gray-light text-lg mr-2">
-                        {{ product.compare_at_price | money }}
-                      </del>
-                    {%- endif -%}
-                    <span class="text-bekky-gold-neon text-2xl font-bold">
-                      {{ product.price | money }}
-                    </span>
+                  <div class="flex items-center justify-between gap-2 mb-4">
+                    <h3 class="text-lg font-heading text-bekky-purple-neon flex-1">{{ product.title }}</h3>
+                    <p class="text-bekky-gold text-xl font-bold flex-shrink-0 text-right">{{ product.price | money }}</p>
                   </div>
-                  <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data">
+                  <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" class="mt-4">
                     <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
                     <button type="submit" class="neon-button w-full" name="add">
                       Add to Cart
@@ -190,16 +160,18 @@
 
     {%- comment -%} Newsletter CTA {%- endcomment -%}
     <div class="mt-16 sm:mt-24 px-4">
-      <div class="neon-card max-w-2xl mx-auto text-center">
-        <h2 class="neon-text-gold text-3xl mb-4 font-heading">
-          Stay Updated on New Drops
-        </h2>
-        <p class="text-bekky-gray-light mb-6">
-          Get notified when we release new products and exclusive member-only items!
-        </p>
-        <a href="/pages/members" class="neon-button-gold neon-button-lg inline-block">
-          Join BBA Fam for Early Access 👑
-        </a>
+      <div class="flex justify-center">
+        <div class="neon-card max-w-2xl mx-auto text-center">
+          <h2 class="neon-text-gold text-3xl mb-4 font-heading">
+            Stay Updated on New Drops
+          </h2>
+          <p class="text-bekky-gray-light mb-6">
+            Get notified when we release new products and exclusive member-only items!
+          </p>
+          <a href="/pages/members" class="neon-button-gold neon-button-lg inline-block">
+            Join BBA Fam for Early Access 👑
+          </a>
+        </div>
       </div>
     </div>
   </div>

@@ -500,6 +500,17 @@ p {
   transition: all 0.3s ease;
 }
 
+/* Ensure buttons in product cards don't get cut off */
+.product-card .p-4 {
+  padding-bottom: 1.5rem !important;
+}
+
+.product-card button.neon-button {
+  margin-top: 0.5rem;
+  position: relative;
+  z-index: 1;
+}
+
 .product-card:hover {
   border-color: var(--bekky-purple-neon);
   box-shadow: 0 0 10px rgba(155, 127, 255, 0.5), 0 0 20px rgba(155, 127, 255, 0.5), 0 0 30px rgba(155, 127, 255, 0.5);
