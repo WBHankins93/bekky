@@ -12,7 +12,7 @@
       </p>
       
       {%- comment -%} Form in its own box for differentiation {%- endcomment -%}
-      <div class="flex flex-col items-center w-full max-w-md mx-auto mb-8 sm:mb-10">
+      <div class="newsletter-form-wrapper flex flex-col items-center max-w-md mx-auto mb-8 sm:mb-10">
         <div class="neon-card p-6 w-full">
           {%- form 'customer', class: 'flex flex-col items-center gap-4 w-full' -%}
             <input 
@@ -76,6 +76,17 @@
     margin-left: auto !important;
     margin-right: auto !important;
     text-align: center !important;
+  }
+  
+  /* Ensure form container is properly centered */
+  .newsletter-section .newsletter-form-wrapper {
+    width: 100% !important;
+    max-width: 28rem !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
   }
 </style>
 
