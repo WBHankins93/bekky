@@ -45,49 +45,29 @@
       </div>
     </div>
     
-    {%- comment -%} Mobile: Single combined card (only visible on mobile) {%- endcomment -%}
-    <div class="md:hidden max-w-2xl mx-auto mt-6">
-      <div class="neon-card p-6 space-y-6">
-        <style>
-          @media (max-width: 767px) {
-            .what-we-about-mobile-item-2 h3 {
-              text-align: right !important;
-              display: block !important;
-              width: 100% !important;
-            }
-            .member-benefits-mobile-item-2 h3 {
-              text-align: right !important;
-              display: block !important;
-              width: 100% !important;
-            }
-          }
-        </style>
-        <div class="flex items-center gap-4 mb-4">
-          <span class="text-4xl">{{ section.settings.point1_icon | default: '💃' }}</span>
-          <h3 class="neon-text-purple text-xl font-heading">
-            {{ section.settings.point1_title | default: 'Festival Fits That Slap' }}
-          </h3>
-        </div>
+    {%- comment -%} Mobile: Simple vertical stack (only visible on mobile) {%- endcomment -%}
+    <div class="md:hidden max-w-2xl mx-auto mt-6 space-y-4">
+      <div class="neon-card p-5 text-center">
+        <div class="text-5xl mb-3">{{ section.settings.point1_icon | default: '💃' }}</div>
+        <h3 class="neon-text-purple text-lg font-heading mb-2">
+          {{ section.settings.point1_title | default: 'Festival Fits That Slap' }}
+        </h3>
         <p class="text-bekky-gray-light text-sm">{{ section.settings.point1_description | default: 'Designed for comfort, movement, and straight-up slayage.' }}</p>
-        
-        <div class="border-t border-bekky-purple-neon/20 pt-6"></div>
-        
-        <div class="flex items-center justify-end gap-4 mb-4 what-we-about-mobile-item-2">
-          <h3 class="neon-text-gold text-xl font-heading flex-1" style="text-align: right !important;">
-            {{ section.settings.point2_title | default: 'Bass-Boosted Drip' }}
-          </h3>
-          <span class="text-4xl flex-shrink-0">{{ section.settings.point2_icon | default: '🔊' }}</span>
-        </div>
-        <p class="text-bekky-gray-light text-sm text-right">{{ section.settings.point2_description | default: 'Inspired by the all-wise BekkyWithABigButt, who has traveled into multiple dimensions to acquire the ultimate taste in festival wear.' }}</p>
-        
-        <div class="border-t border-bekky-purple-neon/20 pt-6"></div>
-        
-        <div class="flex items-center gap-4 mb-4">
-          <span class="text-4xl">{{ section.settings.point3_icon | default: '💜' }}</span>
-          <h3 class="neon-text-purple text-xl font-heading">
-            {{ section.settings.point3_title | default: 'Big Booty Energy' }}
-          </h3>
-        </div>
+      </div>
+      
+      <div class="neon-card-gold p-5 text-center">
+        <div class="text-5xl mb-3">{{ section.settings.point2_icon | default: '🔊' }}</div>
+        <h3 class="neon-text-gold text-lg font-heading mb-2">
+          {{ section.settings.point2_title | default: 'Bass-Boosted Drip' }}
+        </h3>
+        <p class="text-bekky-gray-light text-sm">{{ section.settings.point2_description | default: 'Inspired by the all-wise BekkyWithABigButt, who has traveled into multiple dimensions to acquire the ultimate taste in festival wear.' }}</p>
+      </div>
+      
+      <div class="neon-card p-5 text-center">
+        <div class="text-5xl mb-3">{{ section.settings.point3_icon | default: '💜' }}</div>
+        <h3 class="neon-text-purple text-lg font-heading mb-2">
+          {{ section.settings.point3_title | default: 'Big Booty Energy' }}
+        </h3>
         <p class="text-bekky-gray-light text-sm">{{ section.settings.point3_description | default: 'Because confidence looks good on everyone, no matter the shape or size.' }}</p>
       </div>
     </div>

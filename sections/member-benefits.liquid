@@ -51,44 +51,29 @@
       </div>
     </div>
     
-    {%- comment -%} Mobile: Single combined card {%- endcomment -%}
-    <div class="md:hidden max-w-2xl mx-auto mt-6">
-      <div class="neon-card p-6 space-y-6">
-        <style>
-          @media (max-width: 767px) {
-            .member-benefits-mobile-item-2 h3 {
-              text-align: right !important;
-              display: block !important;
-              width: 100% !important;
-            }
-          }
-        </style>
-        <div class="flex items-center gap-4 mb-2">
-          <span class="text-5xl">{{ section.settings.benefit1_icon | default: '💵' }}</span>
-          <h3 class="text-xl text-bekky-purple-neon font-heading">
-            {{ section.settings.benefit1_title | default: 'Earn BekkyBucks' }}
-          </h3>
-        </div>
+    {%- comment -%} Mobile: Simple vertical stack {%- endcomment -%}
+    <div class="md:hidden max-w-2xl mx-auto mt-6 space-y-4">
+      <div class="neon-card p-5 text-center">
+        <div class="text-5xl mb-3">{{ section.settings.benefit1_icon | default: '💵' }}</div>
+        <h3 class="text-lg text-bekky-purple-neon font-heading mb-2">
+          {{ section.settings.benefit1_title | default: 'Earn BekkyBucks' }}
+        </h3>
         <p class="text-bekky-gray-light text-sm">{{ section.settings.benefit1_description | default: "Get 1 BekkyBuck for every $10 spent. Stack 'em up, cash 'em in!" }}</p>
-        
-        <div class="border-t border-bekky-purple-neon/20 pt-6"></div>
-        
-        <div class="flex items-center justify-end gap-4 mb-2 member-benefits-mobile-item-2">
-          <h3 class="text-xl text-bekky-gold-neon font-heading flex-1" style="text-align: right !important;">
-            {{ section.settings.benefit2_title | default: 'Exclusive Discounts' }}
-          </h3>
-          <span class="text-5xl flex-shrink-0">{{ section.settings.benefit2_icon | default: '🎁' }}</span>
-        </div>
-        <p class="text-bekky-gray-light text-sm text-right">{{ section.settings.benefit2_description | default: 'Member-only sales, early access to drops, and special promo codes.' }}</p>
-        
-        <div class="border-t border-bekky-purple-neon/20 pt-6"></div>
-        
-        <div class="flex items-center gap-4 mb-2">
-          <span class="text-5xl">{{ section.settings.benefit3_icon | default: '🦙' }}</span>
-          <h3 class="text-xl text-bekky-purple-neon font-heading">
-            {{ section.settings.benefit3_title | default: "BekkyWithABigButt's Inner Circle" }}
-          </h3>
-        </div>
+      </div>
+      
+      <div class="neon-card-gold p-5 text-center">
+        <div class="text-5xl mb-3">{{ section.settings.benefit2_icon | default: '🎁' }}</div>
+        <h3 class="text-lg text-bekky-gold-neon font-heading mb-2">
+          {{ section.settings.benefit2_title | default: 'Exclusive Discounts' }}
+        </h3>
+        <p class="text-bekky-gray-light text-sm">{{ section.settings.benefit2_description | default: 'Member-only sales, early access to drops, and special promo codes.' }}</p>
+      </div>
+      
+      <div class="neon-card p-5 text-center">
+        <div class="text-5xl mb-3">{{ section.settings.benefit3_icon | default: '🦙' }}</div>
+        <h3 class="text-lg text-bekky-purple-neon font-heading mb-2">
+          {{ section.settings.benefit3_title | default: "BekkyWithABigButt's Inner Circle" }}
+        </h3>
         <p class="text-bekky-gray-light text-sm">{{ section.settings.benefit3_description | default: "Join the alpaca queen's exclusive crew. Festival fam perks and more!" }}</p>
       </div>
     </div>

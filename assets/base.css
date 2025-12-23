@@ -1044,28 +1044,27 @@ p {
 .carousel-container {
   position: relative;
   width: 100%;
+  overflow: hidden;
 }
 
 .carousel-track {
   display: flex;
   gap: 1rem;
-  animation: scroll linear infinite;
-  will-change: transform;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  cursor: grab;
+}
+
+.carousel-track::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.carousel-track:active {
+  cursor: grabbing;
 }
 
 .carousel-item {
   flex-shrink: 0;
-}
-
-@keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-.carousel-track:hover {
-  animation-play-state: paused;
 }

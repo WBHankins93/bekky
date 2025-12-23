@@ -19,7 +19,7 @@
     {%- if collection and collection.products_count > 0 -%}
       {%- comment -%} Carousel Container {%- endcomment -%}
       <div class="carousel-container overflow-hidden mt-4 sm:mt-6 mb-0" style="margin-bottom: 0 !important;">
-        <div class="carousel-track" data-carousel-speed="{{ section.settings.carousel_speed | default: 40 }}">
+        <div class="carousel-track" data-carousel-speed="{{ section.settings.carousel_speed | default: 30 }}">
           {%- comment -%} First set of products {%- endcomment -%}
           {%- for product in collection.products limit: section.settings.products_to_show -%}
             <div class="carousel-item flex-shrink-0">
@@ -127,7 +127,7 @@
       "min": 10,
       "max": 60,
       "step": 5,
-      "default": 40
+      "default": 30
     },
     {
       "type": "text",
