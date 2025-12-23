@@ -3,17 +3,18 @@
   Converted from app/page.tsx member benefits section
 {%- endcomment -%}
 
-<section class="py-10 sm:py-12 bg-bekky-purple-dark relative overflow-hidden">
-  <div class="container">
-    <div class="section-header mb-6 sm:mb-8">
+<section class="py-12 sm:py-16 md:py-20 bg-bekky-purple-dark relative overflow-hidden">
+  <div class="container px-4 sm:px-6 lg:px-8">
+    <div class="section-header mb-8 sm:mb-10">
       <h2 class="section-title neon-text-gold text-2xl sm:text-3xl md:text-3xl">{{ section.settings.title | default: 'Join BBA Fam' }}</h2>
       <p class="section-subtitle text-sm sm:text-base md:text-lg px-4">
         {{ section.settings.subtitle | default: 'Earn BekkyBucks on every purchase and unlock exclusive rewards, discounts, and festival vibes!' }}
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 mt-4 sm:mt-6 items-stretch">
-      <div class="neon-card scan-line text-center flex flex-col">
+    {%- comment -%} Cards grid with proper spacing {%- endcomment -%}
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mt-6 sm:mt-8 items-stretch max-w-6xl mx-auto">
+      <div class="neon-card scan-line text-center flex flex-col p-6">
         <div class="mb-6 h-20 flex items-center justify-center">
           <span class="text-6xl animate-float leading-none">{{ section.settings.benefit1_icon | default: '💰' }}</span>
         </div>
@@ -25,7 +26,7 @@
         </p>
       </div>
       
-      <div class="neon-card-gold scan-line text-center flex flex-col">
+      <div class="neon-card-gold scan-line text-center flex flex-col p-6">
         <div class="mb-6 h-20 flex items-center justify-center">
           <span class="text-6xl animate-float leading-none">{{ section.settings.benefit2_icon | default: '🎁' }}</span>
         </div>
@@ -37,7 +38,7 @@
         </p>
       </div>
       
-      <div class="neon-card scan-line text-center flex flex-col">
+      <div class="neon-card scan-line text-center flex flex-col p-6">
         <div class="mb-6 h-20 flex items-center justify-center">
           <span class="text-6xl animate-float leading-none">{{ section.settings.benefit3_icon | default: '🦙' }}</span>
         </div>
@@ -50,8 +51,9 @@
       </div>
     </div>
     
-    <div class="text-center mt-6 sm:mt-8 px-4">
-      <a href="{{ section.settings.cta_link | default: routes.account_register_url }}" class="neon-button-gold neon-button-lg w-full sm:w-auto inline-block">
+    {%- comment -%} CTA Button - centered with proper spacing and reasonable width {%- endcomment -%}
+    <div class="text-center mt-10 sm:mt-12">
+      <a href="{{ section.settings.cta_link | default: routes.account_register_url }}" class="neon-button-gold neon-button-lg inline-block px-12 sm:px-16">
         {{ section.settings.cta_text | default: 'Sign Up Free →' }}
       </a>
     </div>
@@ -147,4 +149,3 @@
   ]
 }
 {% endschema %}
-
