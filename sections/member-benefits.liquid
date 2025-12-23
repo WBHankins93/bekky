@@ -64,13 +64,13 @@
         
         <div class="border-t border-bekky-purple-neon/20 pt-6"></div>
         
-        <div class="flex items-center gap-4 mb-2">
-          <span class="text-5xl">{{ section.settings.benefit2_icon | default: '🎁' }}</span>
-          <h3 class="text-xl text-bekky-gold-neon font-heading">
+        <div class="flex items-center justify-end gap-4 mb-2">
+          <h3 class="text-xl text-bekky-gold-neon font-heading text-right">
             {{ section.settings.benefit2_title | default: 'Exclusive Discounts' }}
           </h3>
+          <span class="text-5xl">{{ section.settings.benefit2_icon | default: '🎁' }}</span>
         </div>
-        <p class="text-bekky-gray-light text-sm">{{ section.settings.benefit2_description | default: 'Member-only sales, early access to drops, and special promo codes.' }}</p>
+        <p class="text-bekky-gray-light text-sm text-right">{{ section.settings.benefit2_description | default: 'Member-only sales, early access to drops, and special promo codes.' }}</p>
         
         <div class="border-t border-bekky-purple-neon/20 pt-6"></div>
         
