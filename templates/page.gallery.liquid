@@ -5,14 +5,89 @@
 
 <div class="min-h-screen bg-black py-12 sm:py-16 md:py-24">
   <div class="container">
-    <div class="text-center px-4">
+    <div class="text-center px-4 mb-12 sm:mb-16">
       <h1 class="display-heading mb-4 sm:mb-6 text-3xl sm:text-4xl md:text-6xl">
         BekkyWithABigButt in the Wild
       </h1>
       <p class="text-bekky-gray-light text-lg sm:text-xl max-w-2xl mx-auto">
-        Coming soon: Photos from festivals, events, and adventures!
+        Photos from festivals, events, and adventures!
       </p>
+    </div>
+
+    {%- comment -%} Gallery Grid {%- endcomment -%}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-4">
+      {%- comment -%} Image 1: bong-bekky.JPG {%- endcomment -%}
+      <div class="gallery-item overflow-hidden rounded-2xl border-2 border-bekky-purple-neon shadow-neon-purple-md hover:shadow-neon-purple-lg transition-all">
+        <img
+          src="{{ 'bong-bekky.JPG' | asset_url }}"
+          alt="Bekky at festival event"
+          class="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+          loading="lazy"
+        />
+      </div>
+
+      {%- comment -%} Image 2: edsea-bekky.JPEG {%- endcomment -%}
+      <div class="gallery-item overflow-hidden rounded-2xl border-2 border-bekky-purple-neon shadow-neon-purple-md hover:shadow-neon-purple-lg transition-all">
+        <img
+          src="{{ 'edsea-bekky.JPEG' | asset_url }}"
+          alt="Bekky at EdSea festival"
+          class="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+          loading="lazy"
+        />
+      </div>
+
+      {%- comment -%} Image 3: jared-edsea.PNG {%- endcomment -%}
+      <div class="gallery-item overflow-hidden rounded-2xl border-2 border-bekky-gold-neon shadow-neon-gold-md hover:shadow-neon-gold-lg transition-all">
+        <img
+          src="{{ 'jared-edsea.PNG' | asset_url }}"
+          alt="Jarred at EdSea festival"
+          class="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+          loading="lazy"
+        />
+      </div>
+
+      {%- comment -%} Image 4: merch-booth.jpg {%- endcomment -%}
+      <div class="gallery-item overflow-hidden rounded-2xl border-2 border-bekky-purple-neon shadow-neon-purple-md hover:shadow-neon-purple-lg transition-all">
+        <img
+          src="{{ 'merch-booth.jpg' | asset_url }}"
+          alt="BBA Merch Booth at festival"
+          class="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+          loading="lazy"
+        />
+      </div>
+
+      {%- comment -%} Image 5: smoothie-2-bekky.jpg {%- endcomment -%}
+      <div class="gallery-item overflow-hidden rounded-2xl border-2 border-bekky-purple-neon shadow-neon-purple-md hover:shadow-neon-purple-lg transition-all">
+        <img
+          src="{{ 'smoothie-2-bekky.jpg' | asset_url }}"
+          alt="Bekky with smoothie"
+          class="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+          loading="lazy"
+        />
+      </div>
+
+      {%- comment -%} Image 6: smoothie-bekky.jpg {%- endcomment -%}
+      <div class="gallery-item overflow-hidden rounded-2xl border-2 border-bekky-purple-neon shadow-neon-purple-md hover:shadow-neon-purple-lg transition-all">
+        <img
+          src="{{ 'smoothie-bekky.jpg' | asset_url }}"
+          alt="Bekky with smoothie"
+          class="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+          loading="lazy"
+        />
+      </div>
     </div>
   </div>
 </div>
+
+<style>
+  .gallery-item {
+    aspect-ratio: 1 / 1;
+    min-height: 300px;
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+  }
+</style>
 
