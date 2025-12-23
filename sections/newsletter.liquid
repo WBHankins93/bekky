@@ -3,9 +3,9 @@
   Converted from app/page.tsx newsletter section
 {%- endcomment -%}
 
-<section class="py-16 sm:py-20 md:py-24 bg-gradient-to-br from-bekky-purple to-bekky-purple-dark text-center">
-  <div class="container px-4">
-    <div class="text-center max-w-2xl mx-auto w-full">
+<section class="newsletter-section py-16 sm:py-20 md:py-24 bg-gradient-to-br from-bekky-purple to-bekky-purple-dark text-center">
+  <div class="container">
+    <div class="text-center max-w-2xl mx-auto">
       <h2 class="neon-text-gold text-2xl sm:text-3xl md:text-3xl mb-3 font-heading">{{ section.settings.title | default: 'Stay In The Loop' }}</h2>
       <p class="text-base sm:text-lg text-bekky-gray-light mb-5 sm:mb-6">
         {{ section.settings.subtitle | default: 'Get exclusive drops, festival tips, and BekkyBucks bonus offers straight to your inbox!' }}
@@ -67,6 +67,15 @@
 <style>
   .bg-gradient-to-br {
     background: linear-gradient(to bottom right, var(--bekky-purple), var(--bekky-purple-dark));
+  }
+  
+  /* Ensure proper centering of newsletter content */
+  .newsletter-section .container > div {
+    width: 100% !important;
+    max-width: 42rem !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center !important;
   }
 </style>
 
