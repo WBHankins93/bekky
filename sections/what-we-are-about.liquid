@@ -1,0 +1,121 @@
+{%- comment -%}
+  What We're About Section
+  Original copy from client's page
+{%- endcomment -%}
+
+<section class="py-10 sm:py-12 md:py-16 bg-black">
+  <div class="container px-4">
+    <div class="section-header mb-6 sm:mb-8">
+      <h2 class="section-title neon-text-gold text-2xl sm:text-3xl md:text-4xl text-center">{{ section.settings.title | default: "What We're About" }}</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
+      {%- comment -%} Festival Fits That Slap {%- endcomment -%}
+      <div class="neon-card text-center flex flex-col p-6">
+        <div class="mb-4 text-5xl">{{ section.settings.point1_icon | default: '🔥' }}</div>
+        <h3 class="neon-text-purple text-xl sm:text-2xl mb-4 font-heading">
+          {{ section.settings.point1_title | default: 'Festival Fits That Slap' }}
+        </h3>
+        <p class="text-bekky-gray-light text-sm sm:text-base">
+          {{ section.settings.point1_description | default: 'Designed for comfort, movement, and straight-up slayage.' }}
+        </p>
+      </div>
+
+      {%- comment -%} Bass-Boosted Drip {%- endcomment -%}
+      <div class="neon-card-gold text-center flex flex-col p-6">
+        <div class="mb-4 text-5xl">{{ section.settings.point2_icon | default: '🎵' }}</div>
+        <h3 class="neon-text-gold text-xl sm:text-2xl mb-4 font-heading">
+          {{ section.settings.point2_title | default: 'Bass-Boosted Drip' }}
+        </h3>
+        <p class="text-bekky-gray-light text-sm sm:text-base">
+          {{ section.settings.point2_description | default: 'Inspired by the all-wise BekkyWithABigButt, who has traveled into multiple dimensions to acquire the ultimate taste in festival wear.' }}
+        </p>
+      </div>
+
+      {%- comment -%} Big Booty Energy {%- endcomment -%}
+      <div class="neon-card text-center flex flex-col p-6">
+        <div class="mb-4 text-5xl">{{ section.settings.point3_icon | default: '💜' }}</div>
+        <h3 class="neon-text-purple text-xl sm:text-2xl mb-4 font-heading">
+          {{ section.settings.point3_title | default: 'Big Booty Energy' }}
+        </h3>
+        <p class="text-bekky-gray-light text-sm sm:text-base">
+          {{ section.settings.point3_description | default: 'Because confidence looks good on everyone, no matter the shape or size.' }}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "What We're About",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "What We're About"
+    },
+    {
+      "type": "text",
+      "id": "point1_icon",
+      "label": "Point 1 Icon",
+      "default": "🔥"
+    },
+    {
+      "type": "text",
+      "id": "point1_title",
+      "label": "Point 1 Title",
+      "default": "Festival Fits That Slap"
+    },
+    {
+      "type": "textarea",
+      "id": "point1_description",
+      "label": "Point 1 Description",
+      "default": "Designed for comfort, movement, and straight-up slayage."
+    },
+    {
+      "type": "text",
+      "id": "point2_icon",
+      "label": "Point 2 Icon",
+      "default": "🎵"
+    },
+    {
+      "type": "text",
+      "id": "point2_title",
+      "label": "Point 2 Title",
+      "default": "Bass-Boosted Drip"
+    },
+    {
+      "type": "textarea",
+      "id": "point2_description",
+      "label": "Point 2 Description",
+      "default": "Inspired by the all-wise BekkyWithABigButt, who has traveled into multiple dimensions to acquire the ultimate taste in festival wear."
+    },
+    {
+      "type": "text",
+      "id": "point3_icon",
+      "label": "Point 3 Icon",
+      "default": "💜"
+    },
+    {
+      "type": "text",
+      "id": "point3_title",
+      "label": "Point 3 Title",
+      "default": "Big Booty Energy"
+    },
+    {
+      "type": "textarea",
+      "id": "point3_description",
+      "label": "Point 3 Description",
+      "default": "Because confidence looks good on everyone, no matter the shape or size."
+    }
+  ],
+  "presets": [
+    {
+      "name": "What We're About"
+    }
+  ]
+}
+{% endschema %}
+
