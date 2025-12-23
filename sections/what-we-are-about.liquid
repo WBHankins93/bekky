@@ -9,10 +9,11 @@
       <h2 class="section-title neon-text-gold text-2xl sm:text-3xl md:text-4xl text-center">{{ section.settings.title | default: "What We're About" }}</h2>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
+    {%- comment -%} Desktop: 3 columns, Mobile: Single combined card {%- endcomment -%}
+    <div class="hidden md:grid grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
       {%- comment -%} Festival Fits That Slap {%- endcomment -%}
       <div class="neon-card text-center flex flex-col p-6">
-        <div class="mb-4 text-5xl">{{ section.settings.point1_icon | default: '🔥' }}</div>
+        <div class="mb-4 text-5xl">{{ section.settings.point1_icon | default: '💃' }}</div>
         <h3 class="neon-text-purple text-xl sm:text-2xl mb-4 font-heading">
           {{ section.settings.point1_title | default: 'Festival Fits That Slap' }}
         </h3>
@@ -23,7 +24,7 @@
 
       {%- comment -%} Bass-Boosted Drip {%- endcomment -%}
       <div class="neon-card-gold text-center flex flex-col p-6">
-        <div class="mb-4 text-5xl">{{ section.settings.point2_icon | default: '🎵' }}</div>
+        <div class="mb-4 text-5xl">{{ section.settings.point2_icon | default: '🔊' }}</div>
         <h3 class="neon-text-gold text-xl sm:text-2xl mb-4 font-heading">
           {{ section.settings.point2_title | default: 'Bass-Boosted Drip' }}
         </h3>
@@ -43,6 +44,39 @@
         </p>
       </div>
     </div>
+    
+    {%- comment -%} Mobile: Single combined card {%- endcomment -%}
+    <div class="md:hidden max-w-2xl mx-auto">
+      <div class="neon-card p-6 space-y-6">
+        <div class="flex items-center gap-4 mb-4">
+          <span class="text-4xl">{{ section.settings.point1_icon | default: '💃' }}</span>
+          <h3 class="neon-text-purple text-xl font-heading">
+            {{ section.settings.point1_title | default: 'Festival Fits That Slap' }}
+          </h3>
+        </div>
+        <p class="text-bekky-gray-light text-sm">{{ section.settings.point1_description | default: 'Designed for comfort, movement, and straight-up slayage.' }}</p>
+        
+        <div class="border-t border-bekky-purple-neon/20 pt-6"></div>
+        
+        <div class="flex items-center gap-4 mb-4">
+          <span class="text-4xl">{{ section.settings.point2_icon | default: '🔊' }}</span>
+          <h3 class="neon-text-gold text-xl font-heading">
+            {{ section.settings.point2_title | default: 'Bass-Boosted Drip' }}
+          </h3>
+        </div>
+        <p class="text-bekky-gray-light text-sm">{{ section.settings.point2_description | default: 'Inspired by the all-wise BekkyWithABigButt, who has traveled into multiple dimensions to acquire the ultimate taste in festival wear.' }}</p>
+        
+        <div class="border-t border-bekky-purple-neon/20 pt-6"></div>
+        
+        <div class="flex items-center gap-4 mb-4">
+          <span class="text-4xl">{{ section.settings.point3_icon | default: '💜' }}</span>
+          <h3 class="neon-text-purple text-xl font-heading">
+            {{ section.settings.point3_title | default: 'Big Booty Energy' }}
+          </h3>
+        </div>
+        <p class="text-bekky-gray-light text-sm">{{ section.settings.point3_description | default: 'Because confidence looks good on everyone, no matter the shape or size.' }}</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -60,7 +94,7 @@
       "type": "text",
       "id": "point1_icon",
       "label": "Point 1 Icon",
-      "default": "🔥"
+      "default": "💃"
     },
     {
       "type": "text",
@@ -78,7 +112,7 @@
       "type": "text",
       "id": "point2_icon",
       "label": "Point 2 Icon",
-      "default": "🎵"
+      "default": "🔊"
     },
     {
       "type": "text",
