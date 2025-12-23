@@ -506,7 +506,7 @@ p {
 }
 
 .product-card button.neon-button {
-  margin-top: 0.5rem;
+  margin-top: 0.25rem;
   position: relative;
   z-index: 1;
 }
