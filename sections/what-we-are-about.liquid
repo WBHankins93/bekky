@@ -48,6 +48,20 @@
     {%- comment -%} Mobile: Single combined card (only visible on mobile) {%- endcomment -%}
     <div class="md:hidden max-w-2xl mx-auto mt-6">
       <div class="neon-card p-6 space-y-6">
+        <style>
+          @media (max-width: 767px) {
+            .what-we-about-mobile-item-2 h3 {
+              text-align: right !important;
+              display: block !important;
+              width: 100% !important;
+            }
+            .member-benefits-mobile-item-2 h3 {
+              text-align: right !important;
+              display: block !important;
+              width: 100% !important;
+            }
+          }
+        </style>
         <div class="flex items-center gap-4 mb-4">
           <span class="text-4xl">{{ section.settings.point1_icon | default: '💃' }}</span>
           <h3 class="neon-text-purple text-xl font-heading">
@@ -58,7 +72,7 @@
         
         <div class="border-t border-bekky-purple-neon/20 pt-6"></div>
         
-        <div class="flex items-center justify-end gap-4 mb-4">
+        <div class="flex items-center justify-end gap-4 mb-4 what-we-about-mobile-item-2">
           <h3 class="neon-text-gold text-xl font-heading flex-1" style="text-align: right !important;">
             {{ section.settings.point2_title | default: 'Bass-Boosted Drip' }}
           </h3>

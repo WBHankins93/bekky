@@ -54,6 +54,15 @@
     {%- comment -%} Mobile: Single combined card {%- endcomment -%}
     <div class="md:hidden max-w-2xl mx-auto mt-6">
       <div class="neon-card p-6 space-y-6">
+        <style>
+          @media (max-width: 767px) {
+            .member-benefits-mobile-item-2 h3 {
+              text-align: right !important;
+              display: block !important;
+              width: 100% !important;
+            }
+          }
+        </style>
         <div class="flex items-center gap-4 mb-2">
           <span class="text-5xl">{{ section.settings.benefit1_icon | default: '💵' }}</span>
           <h3 class="text-xl text-bekky-purple-neon font-heading">
@@ -64,7 +73,7 @@
         
         <div class="border-t border-bekky-purple-neon/20 pt-6"></div>
         
-        <div class="flex items-center justify-end gap-4 mb-2">
+        <div class="flex items-center justify-end gap-4 mb-2 member-benefits-mobile-item-2">
           <h3 class="text-xl text-bekky-gold-neon font-heading flex-1" style="text-align: right !important;">
             {{ section.settings.benefit2_title | default: 'Exclusive Discounts' }}
           </h3>
