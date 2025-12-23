@@ -5,29 +5,31 @@
 
 <section class="py-16 sm:py-20 md:py-24 bg-gradient-to-br from-bekky-purple to-bekky-purple-dark text-center">
   <div class="container px-4">
-    <div class="text-center max-w-2xl mx-auto">
+    <div class="text-center max-w-2xl mx-auto w-full">
       <h2 class="neon-text-gold text-2xl sm:text-3xl md:text-3xl mb-3 font-heading">{{ section.settings.title | default: 'Stay In The Loop' }}</h2>
       <p class="text-base sm:text-lg text-bekky-gray-light mb-5 sm:mb-6">
         {{ section.settings.subtitle | default: 'Get exclusive drops, festival tips, and BekkyBucks bonus offers straight to your inbox!' }}
       </p>
       
-      {%- comment -%} Form centered with flex column and items-center {%- endcomment -%}
-      <div class="flex flex-col items-center w-full">
-        {%- form 'customer', class: 'flex flex-col items-center gap-4 w-full max-w-md' -%}
-          <input 
-            type="email" 
-            name="contact[email]"
-            class="form-input text-center w-full" 
-            placeholder="{{ section.settings.placeholder | default: 'Enter your email' }}" 
-            required
-          />
-          <button type="submit" class="neon-button-gold neon-button-lg w-full">
-            {{ section.settings.button_text | default: 'Subscribe 🎉' }}
-          </button>
-        {%- endform -%}
+      {%- comment -%} Form in its own box for differentiation {%- endcomment -%}
+      <div class="flex flex-col items-center w-full max-w-md mx-auto mb-8 sm:mb-10">
+        <div class="neon-card p-6 w-full">
+          {%- form 'customer', class: 'flex flex-col items-center gap-4 w-full' -%}
+            <input 
+              type="email" 
+              name="contact[email]"
+              class="form-input text-center w-full" 
+              placeholder="{{ section.settings.placeholder | default: 'Enter your email' }}" 
+              required
+            />
+            <button type="submit" class="neon-button-gold neon-button-lg w-full">
+              {{ section.settings.button_text | default: 'Subscribe 🎉' }}
+            </button>
+          {%- endform -%}
+        </div>
       </div>
       
-      <div class="mt-8 sm:mt-10 space-y-4">
+      <div class="space-y-4">
         <p class="text-bekky-gray-light text-sm sm:text-base">
           👉 Follow BekkyWithABigButt & the BBA fam. Stay dripped, stay vibin', and most importantly—<strong class="neon-text-gold">Stay Trippy, Drink Water</strong>.
         </p>
@@ -53,9 +55,9 @@
           </div>
         </div>
         <div class="flex flex-wrap justify-center gap-2 sm:gap-3 pt-2">
-          <span class="text-bekky-purple-neon text-xs sm:text-sm">#BigBootyEnergy</span>
-          <span class="text-bekky-purple-neon text-xs sm:text-sm">#BekkyWithABigButt</span>
-          <span class="text-bekky-purple-neon text-xs sm:text-sm">#BBAFam</span>
+          <a href="https://www.instagram.com/explore/tags/bigbootyenergy/" target="_blank" rel="noopener noreferrer" class="text-bekky-purple-neon text-xs sm:text-sm hover:text-bekky-gold-neon transition-colors">#BigBootyEnergy</a>
+          <a href="https://www.instagram.com/explore/tags/bekkywithabigbutt/" target="_blank" rel="noopener noreferrer" class="text-bekky-purple-neon text-xs sm:text-sm hover:text-bekky-gold-neon transition-colors">#BekkyWithABigButt</a>
+          <a href="https://www.instagram.com/explore/tags/bbafam/" target="_blank" rel="noopener noreferrer" class="text-bekky-purple-neon text-xs sm:text-sm hover:text-bekky-gold-neon transition-colors">#BBAFam</a>
         </div>
       </div>
     </div>
