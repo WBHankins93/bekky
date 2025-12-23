@@ -794,6 +794,8 @@ p {
   .sm\:px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
   .sm\:px-8 { padding-left: 2rem; padding-right: 2rem; }
   .sm\:mb-8 { margin-bottom: 2rem; }
+  .sm\:mb-12 { margin-bottom: 3rem; }
+  .sm\:mb-16 { margin-bottom: 4rem; }
   .sm\:mt-24 { margin-top: 6rem; }
 }
 
@@ -808,6 +810,8 @@ p {
   .md\:text-5xl { font-size: 3rem; }
   .md\:text-6xl { font-size: 3.75rem; }
   .md\:text-7xl { font-size: 4.5rem; }
+  .md\:mb-12 { margin-bottom: 3rem; }
+  .md\:mb-16 { margin-bottom: 4rem; }
   .md\:mt-20 { margin-top: 5rem; }
   .md\:mt-24 { margin-top: 6rem; }
   .md\:mt-32 { margin-top: 8rem; }
@@ -884,6 +888,8 @@ p {
 .mb-4 { margin-bottom: 1rem; }
 .mb-6 { margin-bottom: 1.5rem; }
 .mb-8 { margin-bottom: 2rem; }
+.mb-12 { margin-bottom: 3rem; }
+.mb-16 { margin-bottom: 4rem; }
 .mt-2 { margin-top: 0.5rem; }
 .mt-16 { margin-top: 4rem; }
 .mt-20 { margin-top: 5rem; }
