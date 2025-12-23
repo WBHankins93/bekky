@@ -9,80 +9,104 @@ document.addEventListener('DOMContentLoaded', function() {
   
   carouselTracks.forEach(function(track) {
     const speed = parseInt(track.getAttribute('data-carousel-speed')) || 30;
-    const fps = 60;
-    
-    // Calculate total width for seamless loop
-    const items = track.querySelectorAll('.carousel-item');
-    if (items.length > 0) {
-      const itemWidth = items[0].offsetWidth;
-      const gap = 16; // 1rem = 16px
-      const totalWidth = (itemWidth + gap) * (items.length / 2); // Divide by 2 since we duplicate
-      track.style.width = totalWidth * 2 + 'px';
-    }
+    const container = track.closest('.carousel-container');
     
     // Auto-scroll variables
-    let autoScrollInterval = null;
-    let isUserScrolling = false;
-    let scrollTimeout = null;
+    let autoScrollAnimationId = null;
+    let isPaused = false;
+    let isUserInteracting = false;
+    let userInteractionTimeout = null;
+    let lastScrollTime = Date.now();
     
-    // Calculate pixels per frame for smooth scrolling
+    // Calculate scroll width (half of total since we duplicate items)
     const scrollWidth = track.scrollWidth / 2;
+    
+    // Calculate scroll speed
     const pixelsPerSecond = scrollWidth / speed;
-    const pixelsPerFrame = pixelsPerSecond / fps;
+    const pixelsPerFrame = pixelsPerSecond / 60; // 60fps
+    
+    // Auto-scroll function
+    function autoScroll() {
+      if (isPaused || isUserInteracting) {
+        autoScrollAnimationId = requestAnimationFrame(autoScroll);
+        return;
+      }
+      
+      const now = Date.now();
+      const deltaTime = (now - lastScrollTime) / 1000; // Convert to seconds
+      lastScrollTime = now;
+      
+      // Smooth scroll increment
+      track.scrollLeft += pixelsPerFrame;
+      
+      // Handle infinite loop - reset to beginning when reaching halfway
+      if (track.scrollLeft >= scrollWidth) {
+        track.scrollLeft = track.scrollLeft - scrollWidth;
+      }
+      
+      autoScrollAnimationId = requestAnimationFrame(autoScroll);
+    }
     
     // Start auto-scroll
     function startAutoScroll() {
-      if (autoScrollInterval) return;
-      
-      autoScrollInterval = setInterval(() => {
-        if (!isUserScrolling) {
-          track.scrollLeft += pixelsPerFrame;
-          
-          // Reset to beginning when reaching halfway point (seamless loop)
-          if (track.scrollLeft >= scrollWidth) {
-            track.scrollLeft = 0;
-          }
-        }
-      }, 1000 / fps);
+      if (autoScrollAnimationId) return;
+      lastScrollTime = Date.now();
+      isPaused = false;
+      autoScrollAnimationId = requestAnimationFrame(autoScroll);
     }
     
     // Stop auto-scroll
     function stopAutoScroll() {
-      if (autoScrollInterval) {
-        clearInterval(autoScrollInterval);
-        autoScrollInterval = null;
+      if (autoScrollAnimationId) {
+        cancelAnimationFrame(autoScrollAnimationId);
+        autoScrollAnimationId = null;
       }
     }
     
-    // Handle user scroll interaction
-    function handleUserScroll() {
-      isUserScrolling = true;
-      stopAutoScroll();
+    // Handle user interaction
+    function handleUserInteraction() {
+      isUserInteracting = true;
       
       // Clear existing timeout
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
+      if (userInteractionTimeout) {
+        clearTimeout(userInteractionTimeout);
       }
       
-      // Resume auto-scroll after user stops scrolling
-      scrollTimeout = setTimeout(() => {
-        isUserScrolling = false;
-        startAutoScroll();
+      // Resume auto-scroll after user stops interacting
+      userInteractionTimeout = setTimeout(() => {
+        isUserInteracting = false;
+        if (!isPaused) {
+          startAutoScroll();
+        }
       }, 1500);
     }
     
-    // Manual scroll support
+    // Pause on hover
+    if (container) {
+      container.addEventListener('mouseenter', () => {
+        isPaused = true;
+        stopAutoScroll();
+      });
+      
+      container.addEventListener('mouseleave', () => {
+        isPaused = false;
+        if (!isUserInteracting) {
+          startAutoScroll();
+        }
+      });
+    }
+    
+    // Manual scroll support - mouse drag
     let isDown = false;
     let startX;
     let scrollLeft;
     
-    // Mouse events
     track.addEventListener('mousedown', (e) => {
       isDown = true;
       track.style.cursor = 'grabbing';
       startX = e.pageX - track.offsetLeft;
       scrollLeft = track.scrollLeft;
-      handleUserScroll();
+      handleUserInteraction();
     });
     
     track.addEventListener('mouseleave', () => {
@@ -99,9 +123,9 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!isDown) return;
       e.preventDefault();
       const x = e.pageX - track.offsetLeft;
-      const walk = (x - startX) * 2; // Scroll speed multiplier
+      const walk = (x - startX) * 2;
       track.scrollLeft = scrollLeft - walk;
-      handleUserScroll();
+      handleUserInteraction();
     });
     
     // Touch events for mobile
@@ -111,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
     track.addEventListener('touchstart', (e) => {
       touchStartX = e.touches[0].pageX - track.offsetLeft;
       touchScrollLeft = track.scrollLeft;
-      handleUserScroll();
+      handleUserInteraction();
     });
     
     track.addEventListener('touchmove', (e) => {
@@ -119,33 +143,31 @@ document.addEventListener('DOMContentLoaded', function() {
       const x = e.touches[0].pageX - track.offsetLeft;
       const walk = (x - touchStartX) * 2;
       track.scrollLeft = touchScrollLeft - walk;
-      handleUserScroll();
+      handleUserInteraction();
     });
     
     track.addEventListener('touchend', () => {
       touchStartX = 0;
     });
     
-    // Enable scroll with mouse wheel
+    // Mouse wheel scroll
     track.addEventListener('wheel', (e) => {
       e.preventDefault();
       track.scrollLeft += e.deltaY;
-      handleUserScroll();
+      handleUserInteraction();
     });
     
-    // Handle scroll event (for touch scrolling on mobile and infinite loop)
+    // Handle scroll event for infinite loop (when user scrolls manually)
     track.addEventListener('scroll', () => {
-      handleUserScroll();
-      
       // Handle infinite scroll loop
       if (track.scrollLeft >= scrollWidth) {
         track.scrollLeft = track.scrollLeft - scrollWidth;
       } else if (track.scrollLeft <= 0) {
-        track.scrollLeft = scrollWidth;
+        track.scrollLeft = scrollWidth + track.scrollLeft;
       }
     });
     
-    // Start auto-scroll
+    // Start auto-scroll initially
     startAutoScroll();
   });
 });
