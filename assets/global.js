@@ -170,5 +170,97 @@ document.addEventListener('DOMContentLoaded', function() {
     // Start auto-scroll initially
     startAutoScroll();
   });
+
+  // Cart Modal Functionality
+  const cartModal = document.getElementById('cart-modal');
+  const cartModalContinue = document.getElementById('cart-modal-continue');
+  
+  if (cartModal && cartModalContinue) {
+    // Close modal when clicking continue shopping
+    cartModalContinue.addEventListener('click', () => {
+      cartModal.style.display = 'none';
+    });
+    
+    // Close modal when clicking overlay
+    const overlay = cartModal.querySelector('.cart-modal-overlay');
+    if (overlay) {
+      overlay.addEventListener('click', () => {
+        cartModal.style.display = 'none';
+      });
+    }
+    
+    // Close modal on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && cartModal.style.display !== 'none') {
+        cartModal.style.display = 'none';
+      }
+    });
+  }
+
+  // AJAX Add to Cart
+  const addToCartForms = document.querySelectorAll('form[action*="cart/add"]');
+  
+  addToCartForms.forEach(form => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const submitButton = form.querySelector('button[type="submit"]');
+      const originalText = submitButton ? submitButton.textContent : 'Add to Cart';
+      
+      // Disable button and show loading state
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = 'Adding...';
+      }
+      
+      try {
+        const formData = new FormData(form);
+        const response = await fetch(window.routes.cart_add_url, {
+          method: 'POST',
+          body: formData
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          
+          // Update cart count if element exists
+          const cartCounts = document.querySelectorAll('.cart-count');
+          if (cartCounts.length > 0) {
+            // Get updated cart count from Shopify
+            const cartResponse = await fetch(window.routes.cart_url + '.js');
+            if (cartResponse.ok) {
+              const cartData = await cartResponse.json();
+              cartCounts.forEach(count => {
+                count.textContent = cartData.item_count || 0;
+              });
+            } else if (data.item_count !== undefined) {
+              cartCounts.forEach(count => {
+                count.textContent = data.item_count;
+              });
+            }
+          }
+          
+          // Show modal
+          if (cartModal) {
+            cartModal.style.display = 'flex';
+          }
+        } else {
+          // Handle error
+          const errorData = await response.json();
+          console.error('Error adding to cart:', errorData);
+          alert('There was an error adding the item to your cart. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error adding to cart:', error);
+        alert('There was an error adding the item to your cart. Please try again.');
+      } finally {
+        // Re-enable button
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = originalText;
+        }
+      }
+    });
+  });
 });
 
