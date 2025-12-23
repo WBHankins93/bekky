@@ -9,7 +9,7 @@
       <h2 class="section-title neon-text-gold text-2xl sm:text-3xl md:text-4xl text-center">{{ section.settings.title | default: "What We're About" }}</h2>
     </div>
 
-    {%- comment -%} Desktop: 3 columns, Mobile: Single combined card {%- endcomment -%}
+    {%- comment -%} Desktop: 3 columns (hidden on mobile, shown on desktop) {%- endcomment -%}
     <div class="hidden md:grid grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
       {%- comment -%} Festival Fits That Slap {%- endcomment -%}
       <div class="neon-card text-center flex flex-col p-6">
@@ -45,8 +45,8 @@
       </div>
     </div>
     
-    {%- comment -%} Mobile: Single combined card {%- endcomment -%}
-    <div class="md:hidden max-w-2xl mx-auto">
+    {%- comment -%} Mobile: Single combined card (only visible on mobile) {%- endcomment -%}
+    <div class="md:hidden max-w-2xl mx-auto mt-6">
       <div class="neon-card p-6 space-y-6">
         <div class="flex items-center gap-4 mb-4">
           <span class="text-4xl">{{ section.settings.point1_icon | default: '💃' }}</span>

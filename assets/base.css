@@ -762,6 +762,7 @@ p {
 
 @media (min-width: 768px) {
   .md\:flex { display: flex; }
+  .md\:grid { display: grid; }
   .md\:hidden { display: none; }
   .md\:h-12 { height: 3rem; }
   .md\:text-2xl { font-size: 1.5rem; }
@@ -994,3 +995,35 @@ p {
 .hover\:shadow-neon-gold-md:hover { box-shadow: 0 0 10px rgba(255, 246, 126, 0.5), 0 0 20px rgba(255, 246, 126, 0.5), 0 0 30px rgba(255, 246, 126, 0.5); }
 .hover\:pl-2:hover { padding-left: 0.5rem; }
 .hover\:-translate-y-0\.5:hover { transform: translateY(-2px); }
+
+/* ============================================
+   Carousel Styles
+   ============================================ */
+.carousel-container {
+  position: relative;
+  width: 100%;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 1rem;
+  animation: scroll linear infinite;
+  will-change: transform;
+}
+
+.carousel-item {
+  flex-shrink: 0;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.carousel-track:hover {
+  animation-play-state: paused;
+}
