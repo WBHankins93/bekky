@@ -18,8 +18,8 @@
     {%- endif -%}
     {%- if collection and collection.products_count > 0 -%}
       {%- comment -%} Carousel Container {%- endcomment -%}
-      <div class="carousel-container overflow-hidden mt-4 sm:mt-6">
-        <div class="carousel-track" data-carousel-speed="{{ section.settings.carousel_speed | default: 30 }}">
+      <div class="carousel-container overflow-hidden mt-4 sm:mt-6 mb-0" style="margin-bottom: 0 !important;">
+        <div class="carousel-track" data-carousel-speed="{{ section.settings.carousel_speed | default: 40 }}">
           {%- comment -%} First set of products {%- endcomment -%}
           {%- for product in collection.products limit: section.settings.products_to_show -%}
             <div class="carousel-item flex-shrink-0">
@@ -82,7 +82,7 @@
       </div>
     {%- endif -%}
     
-    <div class="text-center mt-12 sm:mt-16">
+    <div class="text-center mt-16 sm:mt-20 md:mt-24" style="margin-top: 4rem !important;">
       <a href="{{ section.settings.view_all_link | default: '/pages/shop' }}" class="neon-button neon-button-lg">
         {{ section.settings.view_all_text | default: 'View All Products' }}
       </a>
@@ -127,7 +127,7 @@
       "min": 10,
       "max": 60,
       "step": 5,
-      "default": 30
+      "default": 40
     },
     {
       "type": "text",

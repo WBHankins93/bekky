@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const carouselTracks = document.querySelectorAll('.carousel-track');
   
   carouselTracks.forEach(function(track) {
-    const speed = parseInt(track.getAttribute('data-carousel-speed')) || 30;
+    const speed = parseInt(track.getAttribute('data-carousel-speed')) || 40;
     const duration = speed; // seconds
     
     // Set animation duration dynamically
