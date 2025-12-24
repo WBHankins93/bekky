@@ -261,8 +261,8 @@ p {
 .neon-button::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: -100%;
+  top: 100%;
+  left: 0;
   width: 100%;
   height: 100%;
   background: var(--bekky-purple-neon);
@@ -278,7 +278,7 @@ p {
 }
 
 .neon-button:hover::before {
-  left: 0;
+  top: 0;
   opacity: 1;
 }
 
@@ -312,8 +312,8 @@ p {
 .neon-button-gold::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: -100%;
+  top: 100%;
+  left: 0;
   width: 100%;
   height: 100%;
   background: var(--bekky-gold-neon);
@@ -329,7 +329,7 @@ p {
 }
 
 .neon-button-gold:hover::before {
-  left: 0;
+  top: 0;
   opacity: 1;
 }
 
