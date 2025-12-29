@@ -112,6 +112,9 @@
         unavailable: `{{ 'products.product.unavailable' | t }}`,
         unavailable_with_option: `{{ 'products.product.value_unavailable' | t: option_value: '[value]' }}`,
       }
+
+      // Customer login status
+      window.customerLoggedIn = {% if customer %}true{% else %}false{% endif %};
     </script>
   </body>
 </html>

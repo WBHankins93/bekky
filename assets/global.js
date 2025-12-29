@@ -203,8 +203,64 @@ function initCarousel() {
   });
 }
 
+// Cart State Management
+function manageCartState() {
+  // Only manage cart for guest users
+  if (window.customerLoggedIn) {
+    // Logged-in users: Shopify handles cart persistence automatically
+    return;
+  }
+
+  // Guest users: Reset cart on new sessions
+  const sessionId = sessionStorage.getItem('cart_session_id');
+  
+  if (!sessionId) {
+    // New session - clear cart
+    const newSessionId = Date.now().toString();
+    sessionStorage.setItem('cart_session_id', newSessionId);
+    
+    // Clear cart via API
+    fetch(window.routes.cart_url + '.js')
+      .then(response => response.json())
+      .then(cart => {
+        if (cart.item_count > 0) {
+          // Clear all items from cart
+          const updates = {};
+          cart.items.forEach(item => {
+            updates[item.key] = 0;
+          });
+          
+          fetch(window.routes.cart_update_url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ updates })
+          })
+          .then(() => {
+            // Update cart count display
+            const cartCounts = document.querySelectorAll('.cart-count');
+            cartCounts.forEach(count => {
+              count.textContent = '0';
+            });
+          })
+          .catch(error => {
+            console.log('Could not clear cart:', error);
+          });
+        }
+      })
+      .catch(error => {
+        console.log('Could not check cart:', error);
+      });
+  }
+  // If sessionId exists, keep the cart (same session)
+}
+
 // Initialize on DOM ready
 document.addEventListener('DOMContentLoaded', function() {
+  // Manage cart state first
+  manageCartState();
+  
   initCarousel();
 
   // Cart Modal Functionality
@@ -253,26 +309,47 @@ document.addEventListener('DOMContentLoaded', function() {
         const formData = new FormData(form);
         const response = await fetch(window.routes.cart_add_url, {
           method: 'POST',
-          body: formData
+          body: formData,
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+          }
         });
         
-        if (response.ok) {
-          const data = await response.json();
+        // Check if response is ok or if it's a redirect (Shopify sometimes redirects on success)
+        const contentType = response.headers.get('content-type');
+        const isJson = contentType && contentType.includes('application/json');
+        
+        if (response.ok || response.redirected) {
+          let data = {};
+          
+          // Try to parse JSON if available
+          if (isJson) {
+            try {
+              data = await response.json();
+            } catch (e) {
+              // If JSON parsing fails but response is ok, assume success
+              console.log('Response OK but not JSON, assuming success');
+            }
+          }
           
           // Update cart count if element exists
           const cartCounts = document.querySelectorAll('.cart-count');
           if (cartCounts.length > 0) {
             // Get updated cart count from Shopify
-            const cartResponse = await fetch(window.routes.cart_url + '.js');
-            if (cartResponse.ok) {
-              const cartData = await cartResponse.json();
-              cartCounts.forEach(count => {
-                count.textContent = cartData.item_count || 0;
-              });
-            } else if (data.item_count !== undefined) {
-              cartCounts.forEach(count => {
-                count.textContent = data.item_count;
-              });
+            try {
+              const cartResponse = await fetch(window.routes.cart_url + '.js');
+              if (cartResponse.ok) {
+                const cartData = await cartResponse.json();
+                cartCounts.forEach(count => {
+                  count.textContent = cartData.item_count || 0;
+                });
+              } else if (data.item_count !== undefined) {
+                cartCounts.forEach(count => {
+                  count.textContent = data.item_count;
+                });
+              }
+            } catch (e) {
+              console.log('Could not update cart count, but item was likely added');
             }
           }
           
@@ -281,13 +358,45 @@ document.addEventListener('DOMContentLoaded', function() {
             cartModal.style.display = 'flex';
           }
         } else {
-          // Handle error
-          const errorData = await response.json();
-          console.error('Error adding to cart:', errorData);
-          alert('There was an error adding the item to your cart. Please try again.');
+          // Only show error if response is actually an error (4xx, 5xx)
+          let errorMessage = 'There was an error adding the item to your cart. Please try again.';
+          try {
+            if (isJson) {
+              const errorData = await response.json();
+              if (errorData.description) {
+                errorMessage = errorData.description;
+              }
+            }
+          } catch (e) {
+            // If we can't parse error, use default message
+          }
+          console.error('Error adding to cart:', response.status, errorMessage);
+          alert(errorMessage);
         }
       } catch (error) {
-        console.error('Error adding to cart:', error);
+        // Only show error for network errors or actual failures
+        console.error('Network error adding to cart:', error);
+        // Don't show alert for network errors if cart might have been updated
+        // Check cart to see if item was actually added
+        try {
+          const cartCheck = await fetch(window.routes.cart_url + '.js');
+          if (cartCheck.ok) {
+            const cartData = await cartCheck.json();
+            // If cart has items, assume success despite error
+            if (cartData.item_count > 0) {
+              const cartCounts = document.querySelectorAll('.cart-count');
+              cartCounts.forEach(count => {
+                count.textContent = cartData.item_count || 0;
+              });
+              if (cartModal) {
+                cartModal.style.display = 'flex';
+              }
+              return; // Don't show error if cart was updated
+            }
+          }
+        } catch (e) {
+          // If we can't check cart, show error
+        }
         alert('There was an error adding the item to your cart. Please try again.');
       } finally {
         // Re-enable button
