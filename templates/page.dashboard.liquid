@@ -1,0 +1,130 @@
+{%- comment -%}
+  Custom Member Dashboard Page
+  Works with Customer Account API (Shopify-hosted auth)
+  This page provides a branded entry point to Shopify's account management
+{%- endcomment -%}
+
+<div class="min-h-screen bg-black py-12 sm:py-16 md:py-24">
+  <div class="container">
+    {%- comment -%} Header {%- endcomment -%}
+    <div class="text-center mb-8 sm:mb-12 px-4">
+      <h1 class="display-heading mb-4 sm:mb-6 text-3xl sm:text-4xl md:text-6xl">
+        Member Dashboard
+      </h1>
+      <p class="section-subtitle text-sm sm:text-base md:text-lg">
+        Manage your account, view orders, and track your BekkyBucks
+      </p>
+    </div>
+
+    {%- comment -%} Dashboard Cards {%- endcomment -%}
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-8">
+        {%- comment -%} Account Management Card {%- endcomment -%}
+        <div class="neon-card p-6 sm:p-8 text-center">
+          <div class="mb-6">
+            <span class="text-5xl block mb-4">👤</span>
+            <h2 class="neon-text-purple text-2xl sm:text-3xl font-heading mb-4">
+              Account Management
+            </h2>
+            <p class="text-bekky-gray-light text-sm sm:text-base mb-6">
+              View and update your profile, addresses, and account settings
+            </p>
+            <a href="/account" class="neon-button neon-button-lg inline-block">
+              Manage Account →
+            </a>
+          </div>
+        </div>
+
+        {%- comment -%} Orders & Purchase History Card {%- endcomment -%}
+        <div class="neon-card p-6 sm:p-8 text-center">
+          <div class="mb-6">
+            <span class="text-5xl block mb-4">📦</span>
+            <h2 class="neon-text-purple text-2xl sm:text-3xl font-heading mb-4">
+              Orders & History
+            </h2>
+            <p class="text-bekky-gray-light text-sm sm:text-base mb-6">
+              View your order history, track shipments, and manage returns
+            </p>
+            <a href="/account/orders" class="neon-button neon-button-lg inline-block">
+              View Orders →
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {%- comment -%} BekkyBucks & Joy Widget Card {%- endcomment -%}
+      <div class="neon-card-gold p-6 sm:p-8 mb-8">
+        <div class="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8">
+          {%- comment -%} Member Info (Left) {%- endcomment -%}
+          <div class="flex-1 text-center md:text-left">
+            <h2 class="neon-text-gold text-2xl sm:text-3xl md:text-4xl font-heading mb-4">
+              Your BekkyBucks
+            </h2>
+            <p class="text-bekky-gray-light text-sm sm:text-base mb-4">
+              Track your rewards and see how many BekkyBucks you've earned
+            </p>
+            <p class="text-bekky-gray-light text-xs">
+              Earn 1 BekkyBuck for every $10 spent
+            </p>
+          </div>
+
+          {%- comment -%} Joy Widget (Right/Middle) {%- endcomment -%}
+          <div class="flex-1 text-center">
+            <div id="joy-widget-container" class="min-h-[200px] flex items-center justify-center">
+              {%- comment -%} Placeholder for Joy widget - Replace with actual Joy widget embed code {%- endcomment -%}
+              <div class="neon-card p-6 bg-black/50">
+                <div class="text-5xl sm:text-6xl font-bold neon-text-gold mb-2">
+                  —
+                </div>
+                <p class="text-bekky-gray-light text-sm sm:text-base">
+                  BekkyBucks Balance
+                </p>
+                <p class="text-bekky-gray-light text-xs mt-2">
+                  View in your account to see balance
+                </p>
+              </div>
+            </div>
+            {%- comment -%}
+              TODO: Replace the above placeholder with actual Joy widget code
+              The Joy widget should be configured to work with Shopify Customer Account API
+              Example:
+              <script src="https://your-joy-widget-url.js"></script>
+              <div data-joy-widget="balance" data-shopify-customer="true"></div>
+            {%- endcomment -%}
+          </div>
+        </div>
+      </div>
+
+      {%- comment -%} Quick Links {%- endcomment -%}
+      <div class="neon-card p-6 sm:p-8">
+        <h2 class="neon-text-purple text-2xl sm:text-3xl font-heading mb-6 text-center">
+          Quick Links
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <a href="/account" class="neon-button text-center block">
+            Profile
+          </a>
+          <a href="/account/orders" class="neon-button text-center block">
+            Orders
+          </a>
+          <a href="/account/addresses" class="neon-button text-center block">
+            Addresses
+          </a>
+          <a href="{{ routes.collections_url }}" class="neon-button-gold text-center block">
+            Shop Now
+          </a>
+        </div>
+      </div>
+
+      {%- comment -%} Info Note {%- endcomment -%}
+      <div class="mt-8 text-center">
+        <p class="text-bekky-gray-light text-sm">
+          <span class="neon-text-gold">Note:</span> With Customer Account API, your account is securely managed by Shopify. 
+          All account features including orders, profile, and settings are available in your 
+          <a href="/account" class="neon-text-purple hover:text-bekky-gold-neon transition-colors">Shopify account</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
