@@ -3,7 +3,7 @@
   Converted from components/layout/Header.tsx
 {%- endcomment -%}
 
-<header class="sticky top-0 left-0 w-full h-16 sm:h-20 bg-black/95 border-b-2 border-bekky-purple-neon shadow-neon-purple-sm shadow-lg z-[100] backdrop-blur-md relative">
+<header class="sticky top-0 left-0 w-full h-16 sm:h-20 bg-black/95 z-[100] backdrop-blur-md relative">
   <nav class="container h-full flex justify-between items-center px-4 sm:px-6">
     {%- comment -%} Logo {%- endcomment -%}
     <a href="{{ routes.root_url }}" class="flex items-center group nav-logo-container">
@@ -75,8 +75,8 @@
 
   {%- comment -%} Mobile Navigation - Dropdown Menu (matches desktop nav) {%- endcomment -%}
   <div
-    class="md:hidden fixed top-16 sm:top-20 left-0 w-full flex-col justify-start p-4 gap-4 border-b-2 border-bekky-purple-neon shadow-neon-purple-md transition-all duration-300 ease-in-out overflow-hidden mobile-menu max-h-0"
-    style="background-color: rgba(0, 0, 0, 1) !important; z-index: 9999 !important; position: fixed !important;"
+    class="md:hidden fixed top-16 sm:top-20 left-0 w-full flex-col justify-start p-4 gap-4 transition-all duration-300 ease-in-out overflow-hidden mobile-menu max-h-0"
+    style="background-color: #000000 !important; z-index: 99999 !important; position: fixed !important; display: none !important;"
   >
     {%- comment -%} Regular nav links - matching desktop {%- endcomment -%}
     <a href="{{ routes.root_url }}" class="font-heading text-base font-bold uppercase tracking-wide text-white py-2 relative transition-all group mobile-menu-link" style="color: #ffffff !important;">
@@ -266,16 +266,22 @@
     }
 
     function openMenu() {
-      // First set display to flex
+      // Set all styles directly to ensure visibility
       mobileMenu.style.display = 'flex';
-      // Force reflow to ensure display change is applied
+      mobileMenu.style.backgroundColor = '#000000';
+      mobileMenu.style.zIndex = '99999';
+      mobileMenu.style.position = 'fixed';
+      mobileMenu.style.top = window.innerWidth >= 640 ? '5rem' : '4rem';
+      mobileMenu.style.left = '0';
+      mobileMenu.style.width = '100%';
+      mobileMenu.style.opacity = '1';
+      mobileMenu.style.visibility = 'visible';
+      // Force reflow
       void mobileMenu.offsetHeight;
-      // Small delay to ensure display is set before adding active class
-      setTimeout(() => {
-        menuToggle.classList.add('active');
-        mobileMenu.classList.add('active');
-        menuToggle.setAttribute('aria-expanded', 'true');
-      }, 10);
+      // Add active class
+      menuToggle.classList.add('active');
+      mobileMenu.classList.add('active');
+      menuToggle.setAttribute('aria-expanded', 'true');
     }
 
     if (menuToggle && mobileMenu) {
