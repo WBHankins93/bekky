@@ -80,7 +80,7 @@
     
     {%- comment -%} CTA Button - centered with proper spacing and reasonable width {%- endcomment -%}
     <div class="text-center mt-16 sm:mt-20">
-      <a href="{{ section.settings.cta_link | default: routes.account_register_url }}" class="neon-button-gold neon-button-lg inline-block px-12 sm:px-16">
+      <a href="{{ section.settings.cta_link | default: '/pages/members' }}" class="neon-button-gold neon-button-lg inline-block px-12 sm:px-16">
         {{ section.settings.cta_text | default: 'Join BBA Fam' }}
       </a>
     </div>
