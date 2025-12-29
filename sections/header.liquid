@@ -124,7 +124,7 @@
 <style>
   /* Mobile menu styles - Dropdown */
   .mobile-menu {
-    display: none;
+    display: none !important;
     flex-direction: column;
     max-height: 0;
     opacity: 0;
@@ -137,12 +137,16 @@
     max-height: 100vh !important;
     opacity: 1 !important;
     visibility: visible !important;
-    overflow-y: auto;
+    overflow-y: auto !important;
+    background-color: #000000 !important;
+    z-index: 99999 !important;
+    position: fixed !important;
   }
   
   .mobile-menu.active .mobile-menu-link {
     opacity: 1 !important;
     visibility: visible !important;
+    display: block !important;
   }
 
   .mobile-menu-toggle {
