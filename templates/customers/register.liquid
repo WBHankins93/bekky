@@ -99,6 +99,36 @@
           {%- endif -%}
 
           <div>
+            <label for="signupFirstName" class="form-label block mb-2">
+              First Name
+            </label>
+            <input
+              type="text"
+              id="signupFirstName"
+              name="customer[first_name]"
+              class="form-input"
+              placeholder="First name"
+              required
+              autocomplete="given-name"
+            />
+          </div>
+          
+          <div>
+            <label for="signupLastName" class="form-label block mb-2">
+              Last Name
+            </label>
+            <input
+              type="text"
+              id="signupLastName"
+              name="customer[last_name]"
+              class="form-input"
+              placeholder="Last name"
+              required
+              autocomplete="family-name"
+            />
+          </div>
+          
+          <div>
             <label for="signupEmail" class="form-label block mb-2">
               Email
             </label>
