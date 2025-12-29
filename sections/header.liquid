@@ -3,7 +3,7 @@
   Converted from components/layout/Header.tsx
 {%- endcomment -%}
 
-<header class="sticky top-0 left-0 w-full h-16 sm:h-20 bg-black/95 z-[100] backdrop-blur-md relative">
+<header class="sticky top-0 left-0 w-full h-16 sm:h-20 bg-black/95 z-[10000] backdrop-blur-md relative">
   <nav class="container h-full flex justify-between items-center px-4 sm:px-6">
     {%- comment -%} Logo {%- endcomment -%}
     <a href="{{ routes.root_url }}" class="flex items-center group nav-logo-container">
@@ -124,6 +124,8 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, max-height 0.3s ease, visibility 0.3s ease;
+    z-index: 99999 !important;
+    position: fixed !important;
   }
 
   .mobile-menu.active {
@@ -277,6 +279,8 @@
       mobileMenu.style.visibility = 'visible';
       mobileMenu.style.marginTop = '0';
       mobileMenu.style.paddingTop = '1rem';
+      mobileMenu.style.height = 'auto';
+      mobileMenu.style.maxHeight = 'calc(100vh - ' + headerHeight + 'px)';
       // Force reflow
       void mobileMenu.offsetHeight;
       // Add active class
