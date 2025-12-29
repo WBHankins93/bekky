@@ -12,7 +12,7 @@
         alt="Big Butt Association Logo"
         width="200"
         height="100"
-        class="nav-logo-neon h-8 sm:h-10 md:h-12 w-auto transition-all"
+        class="nav-logo-neon h-10 sm:h-14 md:h-16 w-auto transition-all"
         loading="eager"
       />
     </a>
@@ -58,7 +58,7 @@
     {%- comment -%} Mobile Menu Button {%- endcomment -%}
     <button
       type="button"
-      class="md:hidden flex flex-col gap-1.5 bg-transparent border-none cursor-pointer p-3 min-w-[44px] min-h-[44px] items-center justify-center mobile-menu-toggle"
+      class="md:hidden flex flex-col gap-1.5 bg-transparent border-none cursor-pointer p-3 min-w-[44px] min-h-[44px] items-center justify-center mobile-menu-toggle relative z-[101]"
       aria-label="Toggle mobile menu"
       aria-expanded="false"
     >
@@ -68,9 +68,12 @@
     </button>
   </nav>
 
+  {%- comment -%} Mobile Menu Backdrop {%- endcomment -%}
+  <div class="md:hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-[150] mobile-menu-backdrop hidden transition-opacity duration-300"></div>
+
   {%- comment -%} Mobile Navigation {%- endcomment -%}
   <div
-    class="md:hidden fixed top-16 sm:top-20 left-0 w-full h-[calc(100vh-4rem)] sm:h-[calc(100vh-5rem)] bg-black/98 flex-col justify-start p-6 gap-4 border-r-2 border-bekky-purple-neon shadow-neon-purple-md transition-transform duration-300 ease-in-out z-50 overflow-y-auto -webkit-overflow-scrolling-touch mobile-menu -translate-x-full"
+    class="md:hidden fixed top-0 left-0 w-full h-full bg-black/98 flex-col justify-start p-6 gap-4 border-r-2 border-bekky-purple-neon shadow-neon-purple-md transition-transform duration-300 ease-in-out z-[200] overflow-y-auto -webkit-overflow-scrolling-touch mobile-menu -translate-x-full pt-20 sm:pt-24"
   >
     <a href="{{ routes.root_url }}" class="font-heading text-lg font-bold uppercase tracking-wide text-white w-full py-4 px-4 transition-all hover:text-bekky-purple-neon min-h-[48px] flex items-center mobile-menu-link">Home</a>
       <a href="/pages/shop" class="font-heading text-lg font-bold uppercase tracking-wide text-white w-full py-4 px-4 transition-all hover:text-bekky-purple-neon min-h-[48px] flex items-center mobile-menu-link">Da Goods</a>
@@ -98,6 +101,10 @@
     transform: translateX(0) !important;
   }
 
+  .mobile-menu-backdrop.active {
+    display: block !important;
+  }
+
   .mobile-menu-toggle {
     box-shadow: 0 0 10px rgba(155, 127, 255, 0.5), 0 0 20px rgba(155, 127, 255, 0.3);
     border-radius: 0.5rem;
@@ -106,6 +113,10 @@
 
   .mobile-menu-toggle:hover {
     box-shadow: 0 0 15px rgba(155, 127, 255, 0.7), 0 0 30px rgba(155, 127, 255, 0.5);
+  }
+
+  .mobile-menu-toggle span {
+    filter: drop-shadow(0 0 4px rgba(155, 127, 255, 0.8)) drop-shadow(0 0 8px rgba(155, 127, 255, 0.6));
   }
 
   .mobile-menu-toggle.active .mobile-menu-line-1 {
@@ -130,16 +141,18 @@
   }
 
   .nav-logo-neon {
-    filter: drop-shadow(0 0 8px rgba(255, 246, 126, 0.6)) 
-            drop-shadow(0 0 15px rgba(255, 246, 126, 0.5)) 
-            drop-shadow(0 0 25px rgba(255, 246, 126, 0.4));
+    filter: drop-shadow(0 0 12px rgba(255, 246, 126, 0.9)) 
+            drop-shadow(0 0 20px rgba(255, 246, 126, 0.8)) 
+            drop-shadow(0 0 35px rgba(255, 246, 126, 0.7))
+            drop-shadow(0 0 50px rgba(255, 246, 126, 0.5));
     transition: filter 0.3s ease;
   }
 
   .nav-logo-container:hover .nav-logo-neon {
-    filter: drop-shadow(0 0 12px rgba(255, 246, 126, 0.8)) 
-            drop-shadow(0 0 25px rgba(255, 246, 126, 0.7)) 
-            drop-shadow(0 0 40px rgba(255, 246, 126, 0.6));
+    filter: drop-shadow(0 0 15px rgba(255, 246, 126, 1)) 
+            drop-shadow(0 0 30px rgba(255, 246, 126, 0.9)) 
+            drop-shadow(0 0 50px rgba(255, 246, 126, 0.8))
+            drop-shadow(0 0 70px rgba(255, 246, 126, 0.6));
   }
 </style>
 
@@ -148,22 +161,54 @@
   document.addEventListener('DOMContentLoaded', function() {
     const menuToggle = document.querySelector('.mobile-menu-toggle');
     const mobileMenu = document.querySelector('.mobile-menu');
+    const menuBackdrop = document.querySelector('.mobile-menu-backdrop');
     const menuLinks = document.querySelectorAll('.mobile-menu-link');
 
+    function closeMenu() {
+      menuToggle.classList.remove('active');
+      mobileMenu.classList.remove('active');
+      if (menuBackdrop) menuBackdrop.classList.remove('active');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    function openMenu() {
+      menuToggle.classList.add('active');
+      mobileMenu.classList.add('active');
+      if (menuBackdrop) menuBackdrop.classList.add('active');
+      menuToggle.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+
     if (menuToggle && mobileMenu) {
-      menuToggle.addEventListener('click', function() {
-        const isActive = menuToggle.classList.toggle('active');
-        mobileMenu.classList.toggle('active');
-        menuToggle.setAttribute('aria-expanded', isActive);
+      menuToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (menuToggle.classList.contains('active')) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
       });
+
+      // Close menu when clicking backdrop
+      if (menuBackdrop) {
+        menuBackdrop.addEventListener('click', function() {
+          closeMenu();
+        });
+      }
 
       // Close menu when clicking a link
       menuLinks.forEach(link => {
         link.addEventListener('click', function() {
-          menuToggle.classList.remove('active');
-          mobileMenu.classList.remove('active');
-          menuToggle.setAttribute('aria-expanded', 'false');
+          closeMenu();
         });
+      });
+
+      // Close menu on escape key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && menuToggle.classList.contains('active')) {
+          closeMenu();
+        }
       });
     }
   });
