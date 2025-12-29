@@ -75,35 +75,21 @@
           <li class="text-bekky-gray-light">✅ Birthday rewards & surprises</li>
         </ul>
         
-        {%- form 'create_customer', class: 'space-y-6' -%}
+        {%- form 'create_customer', class: 'space-y-6', id: 'signup-form' -%}
           <div>
-            <label for="signupFirstName" class="form-label block mb-2">
-              First Name
+            <label for="signupName" class="form-label block mb-2">
+              Name
             </label>
             <input
               type="text"
-              id="signupFirstName"
-              name="customer[first_name]"
+              id="signupName"
               class="form-input"
-              placeholder="First name"
+              placeholder="Your name"
               required
-              autocomplete="given-name"
+              autocomplete="name"
             />
-          </div>
-          
-          <div>
-            <label for="signupLastName" class="form-label block mb-2">
-              Last Name
-            </label>
-            <input
-              type="text"
-              id="signupLastName"
-              name="customer[last_name]"
-              class="form-input"
-              placeholder="Last name"
-              required
-              autocomplete="family-name"
-            />
+            <input type="hidden" name="customer[first_name]" id="hiddenFirstName">
+            <input type="hidden" name="customer[last_name]" id="hiddenLastName">
           </div>
           
           <div>
@@ -165,4 +151,24 @@
     </div>
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const signupForm = document.getElementById('signup-form');
+    const nameInput = document.getElementById('signupName');
+    const firstNameInput = document.getElementById('hiddenFirstName');
+    const lastNameInput = document.getElementById('hiddenLastName');
+    
+    if (signupForm && nameInput && firstNameInput && lastNameInput) {
+      signupForm.addEventListener('submit', function(e) {
+        const fullName = nameInput.value.trim();
+        if (fullName) {
+          const nameParts = fullName.split(/\s+/);
+          firstNameInput.value = nameParts[0] || '';
+          lastNameInput.value = nameParts.slice(1).join(' ') || '';
+        }
+      });
+    }
+  });
+</script>
 

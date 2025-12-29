@@ -91,7 +91,7 @@
           </div>
         {%- endif -%}
 
-        {%- form 'create_customer', class: 'space-y-6' -%}
+        {%- form 'create_customer', class: 'space-y-6', id: 'register-form' -%}
           {%- if form.errors -%}
             <div class="bg-red-500/10 border-2 border-red-500 rounded-lg p-4 mb-6">
               <p class="text-red-400 text-sm">{{ form.errors | default_errors }}</p>
@@ -99,33 +99,19 @@
           {%- endif -%}
 
           <div>
-            <label for="signupFirstName" class="form-label block mb-2">
-              First Name
+            <label for="registerName" class="form-label block mb-2">
+              Name
             </label>
             <input
               type="text"
-              id="signupFirstName"
-              name="customer[first_name]"
+              id="registerName"
               class="form-input"
-              placeholder="First name"
+              placeholder="Your name"
               required
-              autocomplete="given-name"
+              autocomplete="name"
             />
-          </div>
-          
-          <div>
-            <label for="signupLastName" class="form-label block mb-2">
-              Last Name
-            </label>
-            <input
-              type="text"
-              id="signupLastName"
-              name="customer[last_name]"
-              class="form-input"
-              placeholder="Last name"
-              required
-              autocomplete="family-name"
-            />
+            <input type="hidden" name="customer[first_name]" id="registerHiddenFirstName">
+            <input type="hidden" name="customer[last_name]" id="registerHiddenLastName">
           </div>
           
           <div>
@@ -185,4 +171,24 @@
     </div>
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const registerForm = document.getElementById('register-form');
+    const nameInput = document.getElementById('registerName');
+    const firstNameInput = document.getElementById('registerHiddenFirstName');
+    const lastNameInput = document.getElementById('registerHiddenLastName');
+    
+    if (registerForm && nameInput && firstNameInput && lastNameInput) {
+      registerForm.addEventListener('submit', function(e) {
+        const fullName = nameInput.value.trim();
+        if (fullName) {
+          const nameParts = fullName.split(/\s+/);
+          firstNameInput.value = nameParts[0] || '';
+          lastNameInput.value = nameParts.slice(1).join(' ') || '';
+        }
+      });
+    }
+  });
+</script>
 
