@@ -72,8 +72,8 @@
 
   {%- comment -%} Mobile Navigation - Dropdown Menu (matches desktop nav) {%- endcomment -%}
   <div
-    class="md:hidden fixed left-0 w-full flex-col justify-start p-4 gap-4 transition-all duration-300 ease-in-out overflow-hidden mobile-menu max-h-0"
-    style="background-color: #000000 !important; z-index: 99999 !important; position: fixed !important; display: none !important; top: 4rem !important;"
+    class="md:hidden fixed left-0 w-full flex-col justify-start p-4 gap-4 transition-all duration-300 ease-in-out overflow-hidden mobile-menu"
+    style="background-color: #000000; z-index: 99999; position: fixed; display: none;"
   >
     {%- comment -%} Regular nav links - matching desktop {%- endcomment -%}
     <a href="{{ routes.root_url }}" class="font-heading text-base font-bold uppercase tracking-wide text-white py-2 relative transition-all group mobile-menu-link" style="color: #ffffff !important;">
@@ -118,31 +118,31 @@
 <style>
   /* Mobile menu styles - Dropdown */
   .mobile-menu {
-    display: none !important;
+    display: none;
     flex-direction: column;
     max-height: 0;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, max-height 0.3s ease, visibility 0.3s ease;
-    z-index: 99999 !important;
-    position: fixed !important;
+    z-index: 99999;
+    position: fixed;
+    background-color: #000000;
+    left: 0;
+    width: 100%;
   }
 
   .mobile-menu.active {
-    display: flex !important;
-    max-height: 100vh !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    overflow-y: auto !important;
-    background-color: #000000 !important;
-    z-index: 99999 !important;
-    position: fixed !important;
+    display: flex;
+    max-height: 100vh;
+    opacity: 1;
+    visibility: visible;
+    overflow-y: auto;
   }
   
   .mobile-menu.active .mobile-menu-link {
-    opacity: 1 !important;
-    visibility: visible !important;
-    display: block !important;
+    opacity: 1;
+    visibility: visible;
+    display: block;
   }
 
   .mobile-menu-toggle {
@@ -266,8 +266,11 @@
     }
 
     function openMenu() {
-      // Set all styles directly to ensure visibility - seamless with header
-      const headerHeight = window.innerWidth >= 640 ? 80 : 64; // 5rem (80px) or 4rem (64px)
+      // Calculate header height dynamically
+      const header = document.querySelector('header');
+      const headerHeight = header ? header.offsetHeight : (window.innerWidth >= 640 ? 80 : 64);
+      
+      // Set all styles directly to ensure visibility
       mobileMenu.style.display = 'flex';
       mobileMenu.style.backgroundColor = '#000000';
       mobileMenu.style.zIndex = '99999';
@@ -277,16 +280,19 @@
       mobileMenu.style.width = '100%';
       mobileMenu.style.opacity = '1';
       mobileMenu.style.visibility = 'visible';
-      mobileMenu.style.marginTop = '0';
-      mobileMenu.style.paddingTop = '1rem';
-      mobileMenu.style.height = 'auto';
       mobileMenu.style.maxHeight = 'calc(100vh - ' + headerHeight + 'px)';
-      // Force reflow
+      mobileMenu.style.paddingTop = '1rem';
+      mobileMenu.style.paddingBottom = '1rem';
+      
+      // Force reflow to ensure styles are applied
       void mobileMenu.offsetHeight;
-      // Add active class
-      menuToggle.classList.add('active');
-      mobileMenu.classList.add('active');
-      menuToggle.setAttribute('aria-expanded', 'true');
+      
+      // Add active class after a tiny delay to ensure display is set
+      setTimeout(() => {
+        menuToggle.classList.add('active');
+        mobileMenu.classList.add('active');
+        menuToggle.setAttribute('aria-expanded', 'true');
+      }, 10);
     }
 
     if (menuToggle && mobileMenu) {
