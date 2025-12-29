@@ -75,8 +75,8 @@
 
   {%- comment -%} Mobile Navigation - Dropdown Menu (matches desktop nav) {%- endcomment -%}
   <div
-    class="md:hidden absolute top-full left-0 w-full flex-col justify-start p-4 gap-4 border-b-2 border-bekky-purple-neon shadow-neon-purple-md transition-all duration-300 ease-in-out z-[200] overflow-hidden mobile-menu max-h-0"
-    style="background-color: rgba(0, 0, 0, 1) !important; backdrop-filter: blur(10px);"
+    class="md:hidden fixed top-16 sm:top-20 left-0 w-full flex-col justify-start p-4 gap-4 border-b-2 border-bekky-purple-neon shadow-neon-purple-md transition-all duration-300 ease-in-out overflow-hidden mobile-menu max-h-0"
+    style="background-color: rgba(0, 0, 0, 1) !important; z-index: 9999 !important; position: fixed !important;"
   >
     {%- comment -%} Regular nav links - matching desktop {%- endcomment -%}
     <a href="{{ routes.root_url }}" class="font-heading text-base font-bold uppercase tracking-wide text-white py-2 relative transition-all group mobile-menu-link" style="color: #ffffff !important;">
@@ -257,7 +257,6 @@
       menuToggle.classList.remove('active');
       mobileMenu.classList.remove('active');
       menuToggle.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
       // Hide menu after transition completes
       setTimeout(() => {
         if (!mobileMenu.classList.contains('active')) {
@@ -276,7 +275,6 @@
         menuToggle.classList.add('active');
         mobileMenu.classList.add('active');
         menuToggle.setAttribute('aria-expanded', 'true');
-        document.body.style.overflow = 'hidden';
       }, 10);
     }
 
