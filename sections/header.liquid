@@ -54,9 +54,6 @@
       {%- comment -%} Cart Icon {%- endcomment -%}
       <a href="{{ routes.cart_url }}" class="flex items-center gap-2 text-2xl text-white transition-all hover:text-bekky-gold" aria-label="Shopping cart">
         🛒
-        <span class="bg-bekky-gold text-black text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center cart-count leading-none">
-          {{ cart.item_count }}
-        </span>
       </a>
     </div>
 
@@ -67,16 +64,16 @@
       aria-label="Toggle mobile menu"
       aria-expanded="false"
     >
-      <span class="block w-6 h-0.5 transition-all mobile-menu-line-1" style="background-color: #9B7FFF; box-shadow: 0 0 4px rgba(155, 127, 255, 0.8), 0 0 8px rgba(155, 127, 255, 0.6);"></span>
-      <span class="block w-6 h-0.5 transition-all mobile-menu-line-2" style="background-color: #9B7FFF; box-shadow: 0 0 4px rgba(155, 127, 255, 0.8), 0 0 8px rgba(155, 127, 255, 0.6);"></span>
-      <span class="block w-6 h-0.5 transition-all mobile-menu-line-3" style="background-color: #9B7FFF; box-shadow: 0 0 4px rgba(155, 127, 255, 0.8), 0 0 8px rgba(155, 127, 255, 0.6);"></span>
+      <span class="block w-6 h-0.5 transition-all mobile-menu-line-1" style="background-color: #ffffff !important;"></span>
+      <span class="block w-6 h-0.5 transition-all mobile-menu-line-2" style="background-color: #ffffff !important;"></span>
+      <span class="block w-6 h-0.5 transition-all mobile-menu-line-3" style="background-color: #ffffff !important;"></span>
     </button>
   </nav>
 
   {%- comment -%} Mobile Navigation - Dropdown Menu (matches desktop nav) {%- endcomment -%}
   <div
-    class="md:hidden fixed top-16 sm:top-20 left-0 w-full flex-col justify-start p-4 gap-4 transition-all duration-300 ease-in-out overflow-hidden mobile-menu max-h-0"
-    style="background-color: #000000 !important; z-index: 99999 !important; position: fixed !important; display: none !important;"
+    class="md:hidden fixed left-0 w-full flex-col justify-start p-4 gap-4 transition-all duration-300 ease-in-out overflow-hidden mobile-menu max-h-0"
+    style="background-color: #000000 !important; z-index: 99999 !important; position: fixed !important; display: none !important; top: 4rem !important;"
   >
     {%- comment -%} Regular nav links - matching desktop {%- endcomment -%}
     <a href="{{ routes.root_url }}" class="font-heading text-base font-bold uppercase tracking-wide text-white py-2 relative transition-all group mobile-menu-link" style="color: #ffffff !important;">
@@ -270,16 +267,19 @@
     }
 
     function openMenu() {
-      // Set all styles directly to ensure visibility
+      // Set all styles directly to ensure visibility - seamless with header
+      const headerHeight = window.innerWidth >= 640 ? 80 : 64; // 5rem (80px) or 4rem (64px)
       mobileMenu.style.display = 'flex';
       mobileMenu.style.backgroundColor = '#000000';
       mobileMenu.style.zIndex = '99999';
       mobileMenu.style.position = 'fixed';
-      mobileMenu.style.top = window.innerWidth >= 640 ? '5rem' : '4rem';
+      mobileMenu.style.top = headerHeight + 'px';
       mobileMenu.style.left = '0';
       mobileMenu.style.width = '100%';
       mobileMenu.style.opacity = '1';
       mobileMenu.style.visibility = 'visible';
+      mobileMenu.style.marginTop = '0';
+      mobileMenu.style.paddingTop = '1rem';
       // Force reflow
       void mobileMenu.offsetHeight;
       // Add active class
