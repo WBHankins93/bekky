@@ -633,13 +633,62 @@ p {
   animation: float 6s ease-in-out infinite;
 }
 
+/* Hero Logo Neon Effects */
+.hero-logo-container {
+  position: relative;
+  display: inline-block;
+}
+
+.hero-logo-neon {
+  filter: drop-shadow(0 0 10px rgba(0, 255, 65, 0.6)) 
+          drop-shadow(0 0 20px rgba(0, 255, 65, 0.5)) 
+          drop-shadow(0 0 30px rgba(0, 255, 65, 0.4))
+          drop-shadow(0 0 40px rgba(0, 255, 65, 0.3));
+  animation: neon-glow-pulse 3s ease-in-out infinite, fade-in-up 1s ease-out;
+  transition: filter 0.3s ease;
+}
+
+.hero-logo-neon:hover {
+  filter: drop-shadow(0 0 15px rgba(0, 255, 65, 0.8)) 
+          drop-shadow(0 0 30px rgba(0, 255, 65, 0.6)) 
+          drop-shadow(0 0 45px rgba(0, 255, 65, 0.5))
+          drop-shadow(0 0 60px rgba(0, 255, 65, 0.4));
+}
+
+@keyframes neon-glow-pulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 10px rgba(0, 255, 65, 0.6)) 
+            drop-shadow(0 0 20px rgba(0, 255, 65, 0.5)) 
+            drop-shadow(0 0 30px rgba(0, 255, 65, 0.4))
+            drop-shadow(0 0 40px rgba(0, 255, 65, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 15px rgba(0, 255, 65, 0.8)) 
+            drop-shadow(0 0 30px rgba(0, 255, 65, 0.7)) 
+            drop-shadow(0 0 45px rgba(0, 255, 65, 0.6))
+            drop-shadow(0 0 60px rgba(0, 255, 65, 0.5));
+  }
+}
+
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Reduce motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
   .neon-text-purple,
   .neon-text-gold,
   .neon-text-green,
   .scan-line::before,
-  .animate-float {
+  .animate-float,
+  .hero-logo-neon {
     animation: none !important;
   }
 }
