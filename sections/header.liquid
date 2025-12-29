@@ -98,14 +98,16 @@
 <style>
   /* Mobile menu styles - Dropdown */
   .mobile-menu {
-    display: flex;
+    display: none;
+    flex-direction: column;
     max-height: 0;
     opacity: 0;
     visibility: hidden;
-    overflow: hidden;
+    transition: opacity 0.3s ease, max-height 0.3s ease, visibility 0.3s ease;
   }
 
   .mobile-menu.active {
+    display: flex !important;
     max-height: 100vh;
     opacity: 1;
     visibility: visible;
@@ -175,13 +177,26 @@
       mobileMenu.classList.remove('active');
       menuToggle.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
+      // Hide menu after transition completes
+      setTimeout(() => {
+        if (!mobileMenu.classList.contains('active')) {
+          mobileMenu.style.display = 'none';
+        }
+      }, 300);
     }
 
     function openMenu() {
-      menuToggle.classList.add('active');
-      mobileMenu.classList.add('active');
-      menuToggle.setAttribute('aria-expanded', 'true');
-      document.body.style.overflow = 'hidden';
+      // First set display to flex
+      mobileMenu.style.display = 'flex';
+      // Force reflow to ensure display change is applied
+      void mobileMenu.offsetHeight;
+      // Small delay to ensure display is set before adding active class
+      setTimeout(() => {
+        menuToggle.classList.add('active');
+        mobileMenu.classList.add('active');
+        menuToggle.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+      }, 10);
     }
 
     if (menuToggle && mobileMenu) {
