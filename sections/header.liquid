@@ -6,7 +6,7 @@
 <header class="sticky top-0 left-0 w-full h-16 sm:h-20 bg-black/95 border-b-2 border-bekky-purple-neon shadow-neon-purple-sm shadow-lg z-[100] backdrop-blur-md">
   <nav class="container h-full flex justify-between items-center px-4 sm:px-6">
     {%- comment -%} Logo {%- endcomment -%}
-    <a href="{{ routes.root_url }}" class="flex items-center gap-3 group nav-logo-container">
+    <a href="{{ routes.root_url }}" class="flex items-center group nav-logo-container">
       <img
         src="{{ 'big-butt-logo-words.png' | asset_url }}"
         alt="Big Butt Association Logo"
@@ -15,9 +15,6 @@
         class="nav-logo-neon h-8 sm:h-10 md:h-12 w-auto transition-all"
         loading="eager"
       />
-      <span class="font-metal text-lg sm:text-xl md:text-2xl lg:text-3xl text-bekky-purple-neon tracking-wider neon-text-purple hidden sm:block">
-        Big Butt Association
-      </span>
     </a>
 
     {%- comment -%} Desktop Navigation {%- endcomment -%}
