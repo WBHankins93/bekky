@@ -1,6 +1,6 @@
 {%- comment -%}
   Customer Account Dashboard Template
-  Converted from app/members/dashboard/page.tsx
+  Customized with member name, Joy widget, and purchase history
 {%- endcomment -%}
 
 <div class="min-h-screen bg-black py-12 sm:py-16 md:py-24">
@@ -11,100 +11,163 @@
         Member Dashboard
       </h1>
       <p class="section-subtitle text-sm sm:text-base md:text-lg">
-        Track your BekkyBucks and purchase history
+        Welcome back, {{ customer.first_name | default: customer.email }}!
       </p>
     </div>
 
-    {%- comment -%} 2 Column Layout: BekkyBucks (Left) and Purchase History (Right) {%- endcomment -%}
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 px-4 max-w-7xl mx-auto">
-      {%- comment -%} Left Column: BekkyBucks Balance Card {%- endcomment -%}
-      <div>
-        <div class="neon-card-gold scan-line text-center">
-          <div class="mb-6">
-            <span class="text-6xl animate-float leading-none block mb-4">💰</span>
-            <h2 class="text-2xl sm:text-3xl md:text-4xl font-heading text-bekky-gold-neon mb-2">
-              Your BekkyBucks
+    {%- comment -%} Member Info Section with Joy Widget {%- endcomment -%}
+    <div class="max-w-4xl mx-auto px-4 mb-8 sm:mb-12">
+      <div class="neon-card p-6 sm:p-8">
+        <div class="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8">
+          {%- comment -%} Member Name and Info (Left) {%- endcomment -%}
+          <div class="flex-1 text-center md:text-left">
+            <h2 class="neon-text-purple text-2xl sm:text-3xl md:text-4xl font-heading mb-4">
+              {{ customer.first_name | default: 'Member' }} {{ customer.last_name }}
             </h2>
-            {%- assign bekkybucks = customer.metafields.custom.bekkybucks_balance | default: 0 -%}
-            <div class="text-5xl sm:text-6xl md:text-7xl font-bold neon-text-gold mb-4">
-              {{ bekkybucks }}
+            <div class="space-y-2 text-bekky-gray-light">
+              <p class="text-sm sm:text-base">
+                <span class="neon-text-gold">Email:</span> {{ customer.email }}
+              </p>
+              {%- if customer.phone -%}
+                <p class="text-sm sm:text-base">
+                  <span class="neon-text-gold">Phone:</span> {{ customer.phone }}
+                </p>
+              {%- endif -%}
+              {%- if customer.default_address -%}
+                <p class="text-sm sm:text-base">
+                  <span class="neon-text-gold">Location:</span> 
+                  {{ customer.default_address.city }}{% if customer.default_address.province %}, {{ customer.default_address.province }}{% endif %}
+                </p>
+              {%- endif -%}
             </div>
-            <p class="text-bekky-gray-light text-sm sm:text-base">
-              Earn 1 BekkyBuck for every $10 spent
-            </p>
           </div>
-          <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="{{ routes.collections_url }}"
-              class="neon-button-gold neon-button-lg px-6 py-3 text-sm sm:text-base"
-            >
-              Shop Now →
-            </a>
-            <a
-              href="{{ routes.account_url }}"
-              class="neon-button neon-button-lg px-6 py-3 text-sm sm:text-base"
-            >
-              Learn More
-            </a>
+
+          {%- comment -%} Joy Widget for BekkyBucks (Right/Middle) {%- endcomment -%}
+          <div class="flex-1 text-center">
+            <h3 class="neon-text-gold text-xl sm:text-2xl font-heading mb-4">
+              BekkyBucks Balance
+            </h3>
+            {%- comment -%} Joy Widget Integration - Replace with your actual Joy widget code {%- endcomment -%}
+            <div id="joy-widget-container" class="min-h-[200px] flex items-center justify-center">
+              {%- comment -%} Placeholder for Joy widget - Replace with actual Joy widget embed code {%- endcomment -%}
+              {%- assign bekkybucks = customer.metafields.custom.bekkybucks_balance | default: 0 -%}
+              <div class="neon-card-gold p-6">
+                <div class="text-5xl sm:text-6xl font-bold neon-text-gold mb-2">
+                  {{ bekkybucks }}
+                </div>
+                <p class="text-bekky-gray-light text-sm sm:text-base">
+                  BekkyBucks
+                </p>
+                <p class="text-bekky-gray-light text-xs mt-2">
+                  Earn 1 BekkyBuck for every $10 spent
+                </p>
+              </div>
+            </div>
+            {%- comment -%}
+              TODO: Replace the above placeholder with actual Joy widget code
+              Example Joy widget embed:
+              <script src="https://your-joy-widget-url.js"></script>
+              <div data-joy-widget="balance" data-customer-id="{{ customer.id }}"></div>
+            {%- endcomment -%}
           </div>
         </div>
       </div>
+    </div>
 
-      {%- comment -%} Right Column: Purchase History (Scrolling) {%- endcomment -%}
-      <div>
-        <div class="neon-card flex flex-col h-[600px]">
-          <h2 class="text-2xl sm:text-3xl font-heading text-bekky-purple-neon mb-6 sm:mb-8 text-center flex-shrink-0">
-            Purchase History
-          </h2>
+    {%- comment -%} Purchase History Section {%- endcomment -%}
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="neon-card flex flex-col min-h-[500px]">
+        <h2 class="text-2xl sm:text-3xl font-heading text-bekky-purple-neon mb-6 sm:mb-8 text-center flex-shrink-0">
+          Purchase History
+        </h2>
 
-          {%- if customer.orders.size == 0 -%}
-            <div class="text-center py-12 flex-grow flex flex-col items-center justify-center">
-              <p class="text-bekky-gray-light text-lg mb-4">No purchases yet</p>
-              <a href="{{ routes.collections_url }}" class="neon-button-gold neon-button-lg inline-block">
-                Start Shopping →
-              </a>
-            </div>
-          {%- else -%}
-            <div class="flex-grow overflow-y-auto pr-2 space-y-4 sm:space-y-6 scrollbar-purple">
-              {%- for order in customer.orders -%}
-                <div class="border border-bekky-purple-neon/20 rounded-lg p-4 sm:p-6 hover:border-bekky-purple-neon/40 transition-all bg-black/50">
-                  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
-                    <div>
-                      <h3 class="text-lg sm:text-xl font-heading text-bekky-purple-neon mb-2">
-                        Order #{{ order.order_number }}
-                      </h3>
+        {%- if customer.orders.size == 0 -%}
+          <div class="text-center py-12 flex-grow flex flex-col items-center justify-center">
+            <p class="text-bekky-gray-light text-lg mb-4">No purchases yet</p>
+            <a href="{{ routes.collections_url }}" class="neon-button-gold neon-button-lg inline-block">
+              Start Shopping →
+            </a>
+          </div>
+        {%- else -%}
+          <div class="flex-grow overflow-y-auto pr-2 space-y-4 sm:space-y-6 scrollbar-purple">
+            {%- for order in customer.orders -%}
+              <div class="border border-bekky-purple-neon/20 rounded-lg p-4 sm:p-6 hover:border-bekky-purple-neon/40 transition-all bg-black/50">
+                {%- comment -%} Order Header {%- endcomment -%}
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+                  <div>
+                    <h3 class="text-lg sm:text-xl font-heading text-bekky-purple-neon mb-2">
+                      Order #{{ order.order_number }}
+                    </h3>
+                    <div class="space-y-1">
                       <p class="text-bekky-gray-light text-sm sm:text-base">
-                        {{ order.created_at | date: "%B %d, %Y" }}
+                        <span class="neon-text-gold">Date:</span> {{ order.created_at | date: "%B %d, %Y at %I:%M %p" }}
                       </p>
-                    </div>
-                    <div class="text-right">
-                      <p class="text-xl sm:text-2xl font-bold text-bekky-gold-neon mb-1">
-                        {{ order.total_price | money }}
+                      <p class="text-bekky-gray-light text-sm sm:text-base">
+                        <span class="neon-text-gold">Status:</span> 
+                        <span class="{% if order.financial_status == 'paid' %}text-bekky-green{% else %}text-bekky-gold-neon{% endif %}">
+                          {{ order.financial_status_label }}
+                        </span>
                       </p>
-                      {%- assign order_bekkybucks = order.total_price | divided_by: 1000 | floor -%}
-                      <p class="text-sm text-bekky-green">
-                        +{{ order_bekkybucks }} BekkyBucks earned
+                      <p class="text-bekky-gray-light text-sm sm:text-base">
+                        <span class="neon-text-gold">Fulfillment:</span> 
+                        <span class="{% if order.fulfillment_status == 'fulfilled' %}text-bekky-green{% elsif order.fulfillment_status == 'unfulfilled' %}text-bekky-gold-neon{% else %}text-bekky-gray-light{% endif %}">
+                          {{ order.fulfillment_status_label | default: 'Processing' }}
+                        </span>
                       </p>
                     </div>
                   </div>
-                  <div class="border-t border-bekky-purple-neon/20 pt-4">
-                    <p class="text-bekky-gray-light text-sm sm:text-base mb-2">
-                      Items:
+                  <div class="text-left sm:text-right">
+                    <p class="text-xl sm:text-2xl font-bold text-bekky-gold-neon mb-1">
+                      {{ order.total_price | money }}
                     </p>
-                    <ul class="space-y-1">
-                      {%- for line_item in order.line_items -%}
-                        <li class="text-white text-sm sm:text-base flex items-center gap-2">
-                          <span class="text-bekky-green">✓</span>
-                          {{ line_item.title }} ({{ line_item.quantity }})
-                        </li>
-                      {%- endfor -%}
-                    </ul>
+                    <p class="text-sm text-bekky-gray-light mb-1">
+                      Subtotal: {{ order.subtotal_price | money }}
+                    </p>
+                    {%- if order.total_tax > 0 -%}
+                      <p class="text-sm text-bekky-gray-light mb-1">
+                        Tax: {{ order.total_tax | money }}
+                      </p>
+                    {%- endif -%}
+                    {%- if order.total_shipping_price > 0 -%}
+                      <p class="text-sm text-bekky-gray-light mb-1">
+                        Shipping: {{ order.total_shipping_price | money }}
+                      </p>
+                    {%- endif -%}
+                    {%- assign order_bekkybucks = order.total_price | divided_by: 1000 | floor -%}
+                    <p class="text-sm text-bekky-green mt-2">
+                      +{{ order_bekkybucks }} BekkyBucks earned
+                    </p>
                   </div>
                 </div>
-              {%- endfor -%}
-            </div>
-          {%- endif -%}
-        </div>
+                
+                {%- comment -%} Order Items {%- endcomment -%}
+                <div class="border-t border-bekky-purple-neon/20 pt-4">
+                  <p class="text-bekky-gray-light text-sm sm:text-base mb-3 font-heading">
+                    <span class="neon-text-purple">Items ({{ order.line_items.size }}):</span>
+                  </p>
+                  <ul class="space-y-2">
+                    {%- for line_item in order.line_items -%}
+                      <li class="text-white text-sm sm:text-base flex items-start gap-2 bg-bekky-gray-dark/30 p-2 rounded">
+                        <span class="text-bekky-green mt-1">✓</span>
+                        <div class="flex-1">
+                          <span class="font-medium">{{ line_item.title }}</span>
+                          {%- if line_item.variant_title != 'Default Title' -%}
+                            <span class="text-bekky-gray-light"> - {{ line_item.variant_title }}</span>
+                          {%- endif -%}
+                          <div class="flex items-center gap-2 mt-1">
+                            <span class="text-bekky-gray-light text-xs">Qty: {{ line_item.quantity }}</span>
+                            <span class="text-bekky-gold-neon text-xs">× {{ line_item.price | money }}</span>
+                            <span class="text-bekky-purple-neon text-xs ml-auto">= {{ line_item.line_price | money }}</span>
+                          </div>
+                        </div>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
       </div>
     </div>
   </div>
