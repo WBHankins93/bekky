@@ -501,7 +501,7 @@ p {
   overflow: hidden;
   transition: all 0.3s ease;
   height: 100%;
-  min-height: 500px; /* Ensures consistent minimum height */
+  min-height: 420px; /* Reduced from 500px for less space */
 }
 
 /* Ensure buttons in product cards don't get cut off */
@@ -511,21 +511,21 @@ p {
   flex-direction: column !important;
   flex-grow: 1 !important;
   justify-content: space-between !important;
-  padding: 1rem !important;
+  padding: 0.75rem !important;
 }
 
 @media (min-width: 768px) {
   .product-card > div:last-child,
   .product-card .p-4 {
-    padding: 1rem !important;
+    padding: 0.875rem !important;
   }
 }
 
 .product-card h3 {
-  min-height: 3.5rem; /* Accommodates 2-line titles */
+  min-height: 2.75rem; /* Reduced from 3.5rem - still accommodates 2-line titles */
   display: flex;
   align-items: flex-start;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.375rem;
 }
 
 .product-card form {
@@ -534,7 +534,7 @@ p {
 
 .product-card button.neon-button {
   width: 100%;
-  margin-top: 0.75rem;
+  margin-top: 0.5rem;
   position: relative;
   z-index: 1;
 }
@@ -556,8 +556,8 @@ p {
 .product-card-img {
   width: 100%;
   aspect-ratio: 1 / 1;
-  min-height: 280px;
-  max-height: 280px;
+  min-height: 260px;
+  max-height: 260px;
   overflow: hidden;
   flex-shrink: 0; /* Prevents image from shrinking */
   transition: transform 0.5s ease;
@@ -575,30 +575,41 @@ p {
 /* Mobile optimizations for product cards */
 @media (max-width: 640px) {
   .product-card {
-    min-height: 450px !important;
+    min-height: 380px !important;
   }
   
   .product-card-img {
-    min-height: 240px;
-    max-height: 240px;
+    min-height: 220px;
+    max-height: 220px;
   }
   
   .product-card h3 {
     font-size: 0.875rem; /* text-sm on mobile */
     line-height: 1.25rem;
-    min-height: 3rem; /* Slightly smaller on mobile */
+    min-height: 2.5rem; /* Reduced from 3rem */
+    margin-bottom: 0.25rem;
   }
   
   .product-card .text-xl {
     font-size: 1rem; /* text-base on mobile */
   }
   
+    .product-card .flex.items-center.justify-between.gap-2.mb-2,
   .product-card .mb-2 {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.375rem;
   }
   
   .product-card .mt-2 {
-    margin-top: 0.5rem;
+    margin-top: 0.375rem;
+  }
+  
+  .product-card > div:last-child,
+  .product-card .p-4 {
+    padding: 0.625rem !important;
+  }
+  
+  .product-card button.neon-button {
+    margin-top: 0.375rem;
   }
 }
 
