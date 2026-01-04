@@ -501,34 +501,42 @@ p {
   overflow: hidden;
   transition: all 0.3s ease;
   height: 100%;
+  min-height: 500px; /* Ensures consistent minimum height */
 }
 
 /* Ensure buttons in product cards don't get cut off */
+.product-card > div:last-child,
 .product-card .p-4 {
+  display: flex !important;
+  flex-direction: column !important;
+  flex-grow: 1 !important;
+  justify-content: space-between !important;
   padding: 1rem !important;
-  padding-bottom: 1rem !important;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
 }
 
 @media (min-width: 768px) {
+  .product-card > div:last-child,
   .product-card .p-4 {
     padding: 1rem !important;
-    padding-bottom: 1.5rem !important;
   }
+}
+
+.product-card h3 {
+  min-height: 3.5rem; /* Accommodates 2-line titles */
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.product-card form {
+  margin-top: auto !important; /* Pushes form to bottom */
 }
 
 .product-card button.neon-button {
-  margin-top: 0.5rem;
+  width: 100%;
+  margin-top: 0.75rem;
   position: relative;
   z-index: 1;
-}
-
-@media (min-width: 768px) {
-  .product-card button.neon-button {
-    margin-top: 0.25rem;
-  }
 }
 
 .product-card:hover {
@@ -548,25 +556,37 @@ p {
 .product-card-img {
   width: 100%;
   aspect-ratio: 1 / 1;
-  object-fit: cover;
-  transition: transform 0.5s ease;
+  min-height: 280px;
+  max-height: 280px;
   overflow: hidden;
+  flex-shrink: 0; /* Prevents image from shrinking */
+  transition: transform 0.5s ease;
+  position: relative;
+}
+
+.product-card > a {
+  flex-shrink: 0; /* Image link doesn't shrink */
 }
 
 .product-card:hover .product-card-img img {
   transform: scale(1.1);
 }
 
-.product-card .product-card-img {
-  position: relative;
-  overflow: hidden;
-}
-
 /* Mobile optimizations for product cards */
-@media (max-width: 767px) {
+@media (max-width: 640px) {
+  .product-card {
+    min-height: 450px !important;
+  }
+  
+  .product-card-img {
+    min-height: 240px;
+    max-height: 240px;
+  }
+  
   .product-card h3 {
     font-size: 0.875rem; /* text-sm on mobile */
     line-height: 1.25rem;
+    min-height: 3rem; /* Slightly smaller on mobile */
   }
   
   .product-card .text-xl {
@@ -579,6 +599,13 @@ p {
   
   .product-card .mt-2 {
     margin-top: 0.5rem;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 767px) {
+  .product-card h3 {
+    font-size: 1rem;
+    line-height: 1.5rem;
   }
 }
 
