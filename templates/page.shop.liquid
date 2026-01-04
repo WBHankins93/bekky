@@ -60,7 +60,7 @@
       </div>
     {%- elsif all_collection and all_collection.products_count > 0 -%}
       {%- comment -%} Show all products {%- endcomment -%}
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 mb-8 sm:mb-12">
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 mb-8 sm:mb-12 items-stretch">
         {%- for product in all_collection.products limit: 48 -%}
           <div class="product-card">
             {%- if product.tags contains 'new' or product.tags contains 'sale' -%}
@@ -103,7 +103,7 @@
       {%- for collection_item in collections -%}
         {%- if collection_item.products_count > 0 -%}
           {%- assign has_products = true -%}
-          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 mb-8 sm:mb-12">
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 mb-8 sm:mb-12 items-stretch">
             {%- for product in collection_item.products limit: 48 -%}
               <div class="product-card">
                 {%- if product.tags contains 'new' or product.tags contains 'sale' -%}
