@@ -3,7 +3,7 @@
   Converted from components/layout/Header.tsx
 {%- endcomment -%}
 
-<header class="sticky top-0 left-0 w-full h-16 sm:h-20 bg-black/95 z-[10000] backdrop-blur-md relative">
+<header class="sticky top-0 left-0 w-full h-16 sm:h-20 bg-black/95 z-[1000000] backdrop-blur-md relative">
   <nav class="container h-full flex justify-between items-center px-4 sm:px-6">
     {%- comment -%} Logo {%- endcomment -%}
     <a href="{{ routes.root_url }}" class="flex items-center group nav-logo-container">
@@ -73,7 +73,7 @@
   {%- comment -%} Mobile Navigation - Dropdown Menu (matches desktop nav) {%- endcomment -%}
   <div
     class="md:hidden fixed left-0 w-full flex-col justify-start p-4 gap-4 transition-all duration-300 ease-in-out overflow-hidden mobile-menu"
-    style="background-color: #000000; z-index: 99999; position: fixed; display: none;"
+    style="background-color: #000000; z-index: 999999; position: fixed; display: none; top: 64px;"
   >
     {%- comment -%} Regular nav links - matching desktop {%- endcomment -%}
     <a href="{{ routes.root_url }}" class="font-heading text-base font-bold uppercase tracking-wide text-white py-2 relative transition-all group mobile-menu-link" style="color: #ffffff !important;">
@@ -124,19 +124,21 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, max-height 0.3s ease, visibility 0.3s ease;
-    z-index: 99999;
+    z-index: 999999 !important;
     position: fixed;
     background-color: #000000;
     left: 0;
     width: 100%;
+    top: 64px;
   }
 
   .mobile-menu.active {
     display: flex;
-    max-height: 100vh;
+    max-height: calc(100vh - 64px);
     opacity: 1;
     visibility: visible;
     overflow-y: auto;
+    z-index: 999999 !important;
   }
   
   .mobile-menu.active .mobile-menu-link {
@@ -273,7 +275,7 @@
       // Set all styles directly to ensure visibility
       mobileMenu.style.display = 'flex';
       mobileMenu.style.backgroundColor = '#000000';
-      mobileMenu.style.zIndex = '99999';
+      mobileMenu.style.zIndex = '999999';
       mobileMenu.style.position = 'fixed';
       mobileMenu.style.top = headerHeight + 'px';
       mobileMenu.style.left = '0';
