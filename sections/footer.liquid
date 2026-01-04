@@ -93,7 +93,7 @@
             All Products
           </a>
           {%- for collection in collections -%}
-            {%- if collection.handle != 'all' -%}
+            {%- if collection.handle != 'all' and collection.title != 'Home page' -%}
               <a href="{{ collection.url }}" class="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
                 {{ collection.title }}
               </a>
