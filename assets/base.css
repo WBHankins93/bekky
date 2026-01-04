@@ -505,16 +505,30 @@ p {
 
 /* Ensure buttons in product cards don't get cut off */
 .product-card .p-4 {
-  padding-bottom: 1.5rem !important;
+  padding: 1rem !important;
+  padding-bottom: 1rem !important;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
 }
 
+@media (min-width: 768px) {
+  .product-card .p-4 {
+    padding: 1rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+}
+
 .product-card button.neon-button {
-  margin-top: 0.25rem;
+  margin-top: 0.5rem;
   position: relative;
   z-index: 1;
+}
+
+@media (min-width: 768px) {
+  .product-card button.neon-button {
+    margin-top: 0.25rem;
+  }
 }
 
 .product-card:hover {
@@ -546,6 +560,26 @@ p {
 .product-card .product-card-img {
   position: relative;
   overflow: hidden;
+}
+
+/* Mobile optimizations for product cards */
+@media (max-width: 767px) {
+  .product-card h3 {
+    font-size: 0.875rem; /* text-sm on mobile */
+    line-height: 1.25rem;
+  }
+  
+  .product-card .text-xl {
+    font-size: 1rem; /* text-base on mobile */
+  }
+  
+  .product-card .mb-2 {
+    margin-bottom: 0.5rem;
+  }
+  
+  .product-card .mt-2 {
+    margin-top: 0.5rem;
+  }
 }
 
 /* ============================================
