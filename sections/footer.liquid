@@ -85,51 +85,6 @@
         </div>
       </div>
 
-      {%- comment -%} Shop {%- endcomment -%}
-      <div>
-        <h3 class="text-bekky-gold text-xl mb-6 font-heading">Shop</h3>
-        <div class="flex flex-col gap-2">
-          <a href="/pages/shop" class="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
-            All Products
-          </a>
-          {%- for collection in collections -%}
-            {%- if collection.handle != 'all' and collection.title != 'Home page' -%}
-              <a href="{{ collection.url }}" class="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
-                {{ collection.title }}
-              </a>
-            {%- endif -%}
-          {%- endfor -%}
-        </div>
-      </div>
-
-      {%- comment -%} About BBA {%- endcomment -%}
-      <div>
-        <h3 class="text-bekky-gold text-xl mb-6 font-heading">About BBA</h3>
-        <div class="flex flex-col gap-2">
-          {%- assign about_page = pages['about'] -%}
-          {%- if about_page -%}
-            <a href="{{ about_page.url }}" class="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
-              Our Story
-            </a>
-          {%- endif -%}
-          <a href="{{ routes.account_url }}" class="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
-            BBA Fam & BekkyBucks
-          </a>
-          {%- assign blog = blogs['festival-blog'] -%}
-          {%- if blog -%}
-            <a href="{{ blog.url }}" class="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
-              Festival Blog
-            </a>
-          {%- endif -%}
-          {%- assign contact_page = pages['contact'] -%}
-          {%- if contact_page -%}
-            <a href="{{ contact_page.url }}" class="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
-              Contact Us
-            </a>
-          {%- endif -%}
-        </div>
-      </div>
-
       {%- comment -%} Support {%- endcomment -%}
       <div>
         <h3 class="text-bekky-gold text-xl mb-6 font-heading">Support</h3>
@@ -164,6 +119,51 @@
               Terms of Service
             </a>
           {%- endif -%}
+        </div>
+      </div>
+
+      {%- comment -%} About BBA {%- endcomment -%}
+      <div>
+        <h3 class="text-bekky-gold text-xl mb-6 font-heading">About BBA</h3>
+        <div class="flex flex-col gap-2">
+          {%- assign about_page = pages['about'] -%}
+          {%- if about_page -%}
+            <a href="{{ about_page.url }}" class="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
+              Our Story
+            </a>
+          {%- endif -%}
+          <a href="{{ routes.account_url }}" class="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
+            BBA Fam & BekkyBucks
+          </a>
+          {%- assign blog = blogs['festival-blog'] -%}
+          {%- if blog -%}
+            <a href="{{ blog.url }}" class="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
+              Festival Blog
+            </a>
+          {%- endif -%}
+          {%- assign contact_page = pages['contact'] -%}
+          {%- if contact_page -%}
+            <a href="{{ contact_page.url }}" class="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
+              Contact Us
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+
+      {%- comment -%} Shop {%- endcomment -%}
+      <div>
+        <h3 class="text-bekky-gold text-xl mb-6 font-heading">Shop</h3>
+        <div class="flex flex-col gap-2">
+          <a href="/pages/shop" class="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
+            All Products
+          </a>
+          {%- for collection in collections -%}
+            {%- if collection.handle != 'all' and collection.title != 'Home page' -%}
+              <a href="{{ collection.url }}" class="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
+                {{ collection.title }}
+              </a>
+            {%- endif -%}
+          {%- endfor -%}
         </div>
       </div>
     </div>
