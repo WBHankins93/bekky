@@ -60,13 +60,15 @@
     {%- comment -%} Mobile Menu Button - Fixed with inline styles for visibility {%- endcomment -%}
     <button
       type="button"
-      class="md:hidden flex flex-col gap-1.5 bg-transparent border-none cursor-pointer p-3 min-w-[44px] min-h-[44px] items-center justify-center mobile-menu-toggle relative z-[101]"
+      class="md:hidden flex items-center justify-center bg-transparent border-none cursor-pointer p-3 min-w-[44px] min-h-[44px] mobile-menu-toggle relative z-[101]"
       aria-label="Toggle mobile menu"
       aria-expanded="false"
     >
-      <span class="block w-6 h-0.5 transition-all mobile-menu-line-1" style="background-color: #ffffff !important;"></span>
-      <span class="block w-6 h-0.5 transition-all mobile-menu-line-2" style="background-color: #ffffff !important;"></span>
-      <span class="block w-6 h-0.5 transition-all mobile-menu-line-3" style="background-color: #ffffff !important;"></span>
+      <svg class="mobile-menu-icon w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 12H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M3 6H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
     </button>
   </nav>
 </header>
@@ -147,6 +149,12 @@
     display: block;
   }
 
+  .mobile-menu-icon {
+    color: #ffffff;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.5));
+  }
+
   .mobile-menu-toggle {
     box-shadow: 0 0 10px rgba(155, 127, 255, 0.5), 0 0 20px rgba(155, 127, 255, 0.3);
     border-radius: 0.5rem;
@@ -157,19 +165,21 @@
     box-shadow: 0 0 15px rgba(155, 127, 255, 0.7), 0 0 30px rgba(155, 127, 255, 0.5);
   }
 
-  /* Hamburger line animations */
-  .mobile-menu-toggle.active .mobile-menu-line-1 {
-    transform: rotate(45deg) translateY(8px);
-    box-shadow: 0 0 8px rgba(155, 127, 255, 0.8) !important;
+  .mobile-menu-toggle:hover .mobile-menu-icon {
+    filter: drop-shadow(0 0 8px rgba(155, 127, 255, 0.8));
   }
 
-  .mobile-menu-toggle.active .mobile-menu-line-2 {
+  /* Hamburger icon - active state with glow */
+  .mobile-menu-toggle.active .mobile-menu-icon {
+    filter: drop-shadow(0 0 8px rgba(155, 127, 255, 0.8));
+  }
+
+  .mobile-menu-toggle.active .mobile-menu-icon path {
+    transition: opacity 0.3s ease;
+  }
+
+  .mobile-menu-toggle.active .mobile-menu-icon path:nth-child(2) {
     opacity: 0;
-  }
-
-  .mobile-menu-toggle.active .mobile-menu-line-3 {
-    transform: rotate(-45deg) translateY(-8px);
-    box-shadow: 0 0 8px rgba(155, 127, 255, 0.8) !important;
   }
 
   /* Nav logo neon effects */
