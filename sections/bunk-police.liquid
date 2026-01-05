@@ -26,8 +26,8 @@
         </h2>
 
         {%- comment -%} Description {%- endcomment -%}
-        <div class="max-w-2xl mx-auto mb-6 sm:mb-8 bunk-police-description">
-          <p class="text-bekky-gray-light text-base sm:text-lg leading-relaxed">
+        <div class="mb-6 sm:mb-8 bunk-police-description" style="max-width: 42rem; margin-left: auto; margin-right: auto;">
+          <p class="text-bekky-gray-light text-base sm:text-lg leading-relaxed" style="text-align: center !important; display: block !important; width: 100% !important;">
             We've partnered with Bunk Police to bring you reliable testing kits for festival safety. Stay safe, test your stuff, and rave responsibly.
           </p>
         </div>
@@ -53,7 +53,7 @@
     background: linear-gradient(to bottom right, var(--bekky-purple), var(--bekky-purple-dark));
   }
   
-  /* Bunk Police section specific styles */
+  /* Bunk Police section specific styles - FORCE CENTER */
   .neon-card-green {
     text-align: center !important;
   }
@@ -62,8 +62,23 @@
     text-align: center !important;
   }
   
+  .bunk-police-description {
+    text-align: center !important;
+  }
+  
   .bunk-police-description p {
     text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: block !important;
+    width: 100% !important;
+  }
+  
+  /* Nuclear option - target by section */
+  section .neon-card-green p {
+    text-align: center !important;
+    display: block !important;
+    width: 100% !important;
     margin-left: auto !important;
     margin-right: auto !important;
   }
