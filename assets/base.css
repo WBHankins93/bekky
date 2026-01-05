@@ -18,8 +18,8 @@
   --bekky-gold-dark: #B8960C;
   --bekky-gold-neon: #FFF67E;
   --bekky-gold-glow: rgba(255, 246, 126, 0.5);
-  --bekky-green: #00FF41;
-  --bekky-green-glow: rgba(0, 255, 65, 0.5);
+  --bekky-green: #39ff14;
+  --bekky-green-glow: rgba(57, 255, 20, 0.5);
   --bekky-white: #FFFFFF;
   --bekky-black: #000000;
   --bekky-gray-dark: #1A1A1A;
@@ -206,7 +206,7 @@ p {
 
 .neon-text-green {
   color: var(--bekky-green);
-  text-shadow: 0 0 10px rgba(0, 255, 65, 0.5), 0 0 20px rgba(0, 255, 65, 0.5), 0 0 30px rgba(0, 255, 65, 0.5);
+  text-shadow: 0 0 10px rgba(57, 255, 20, 0.8), 0 0 20px rgba(57, 255, 20, 0.6), 0 0 30px rgba(57, 255, 20, 0.4);
   animation: flicker-green 3s infinite alternate;
 }
 
@@ -337,6 +337,57 @@ p {
   transform: translateY(0);
 }
 
+.neon-button-green {
+  border-color: #39ff14;
+  color: #39ff14;
+  box-shadow: 0 0 10px rgba(57, 255, 20, 0.5), 0 0 20px rgba(57, 255, 20, 0.5), 0 0 30px rgba(57, 255, 20, 0.5);
+  position: relative;
+  padding: 1rem 1.5rem;
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: transparent;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  cursor: pointer;
+  min-height: 44px;
+  min-width: 44px;
+  touch-action: manipulation;
+  display: inline-block;
+  text-align: center;
+}
+
+.neon-button-green::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #39ff14;
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: -1;
+}
+
+.neon-button-green:hover {
+  color: var(--bekky-black);
+  box-shadow: 0 0 20px rgba(57, 255, 20, 0.8), 0 0 40px rgba(57, 255, 20, 0.6), 0 0 60px rgba(57, 255, 20, 0.4);
+  transform: translateY(-2px);
+}
+
+.neon-button-green:hover::before {
+  top: 0;
+  opacity: 1;
+}
+
+.neon-button-green:active {
+  transform: translateY(0);
+}
+
 .neon-button-sm {
   padding: 0.5rem 1rem;
   font-size: 1rem;
@@ -389,6 +440,22 @@ p {
 
 .neon-card-gold:hover {
   box-shadow: 0 0 10px #FFF67E, 0 0 20px #FFF67E, 0 0 40px #FFF67E, 0 0 80px #FFF67E;
+  transform: translateY(-4px);
+}
+
+.neon-card-green {
+  position: relative;
+  border: 2px solid #39ff14;
+  border-radius: 1rem;
+  box-shadow: 0 0 10px rgba(57, 255, 20, 0.3), 0 0 20px rgba(57, 255, 20, 0.2), 0 0 30px rgba(57, 255, 20, 0.1);
+  padding: 2rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.neon-card-green:hover {
+  box-shadow: 0 0 10px rgba(57, 255, 20, 0.6), 0 0 20px rgba(57, 255, 20, 0.4), 0 0 40px rgba(57, 255, 20, 0.3);
   transform: translateY(-4px);
 }
 
