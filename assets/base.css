@@ -722,7 +722,6 @@ p {
           drop-shadow(0 0 20px rgba(255, 246, 126, 0.5)) 
           drop-shadow(0 0 30px rgba(255, 246, 126, 0.4))
           drop-shadow(0 0 40px rgba(255, 246, 126, 0.3));
-  animation: neon-glow-pulse 3s ease-in-out infinite, fade-in-up 1s ease-out;
   transition: filter 0.3s ease;
 }
 
