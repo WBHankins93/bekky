@@ -1,0 +1,65 @@
+{%- comment -%}
+  Bunk Police Safety Partner Section
+  Standalone section for homepage placement
+{%- endcomment -%}
+
+<section class="py-16 sm:py-20 md:py-24 bg-gradient-to-br from-bekky-purple to-bekky-purple-dark">
+  <div class="container px-4">
+    <div class="max-w-4xl mx-auto text-center">
+      <div class="neon-card-green p-6 sm:p-8 md:p-10">
+        {%- comment -%} Logo {%- endcomment -%}
+        <div class="mb-6 flex justify-center">
+          {%- assign bunk_logo = '@bunk-logo.png' -%}
+          <img
+            src="{{ bunk_logo | asset_url }}"
+            alt="Bunk Police Logo"
+            width="300"
+            height="150"
+            class="max-w-[200px] sm:max-w-[250px] md:max-w-[300px] h-auto"
+            loading="lazy"
+            onerror="this.onerror=null; this.src='{{ 'bunk-logo.png' | asset_url }}';"
+          />
+        </div>
+
+        {%- comment -%} Heading {%- endcomment -%}
+        <h2 class="neon-text-green text-2xl sm:text-3xl md:text-4xl mb-4 font-heading">
+          Festival Safety Partner
+        </h2>
+
+        {%- comment -%} Description {%- endcomment -%}
+        <p class="text-bekky-gray-light text-base sm:text-lg leading-relaxed max-w-2xl mx-auto mb-6 sm:mb-8">
+          We've partnered with Bunk Police to bring you reliable testing kits for festival safety. Stay safe, test your stuff, and rave responsibly.
+        </p>
+
+        {%- comment -%} CTA Button {%- endcomment -%}
+        <a 
+          href="https://www.bunkpolice.com/?ref=mjgxodq" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="neon-button-green neon-button-lg w-full sm:w-auto inline-block"
+        >
+          Shop Testing Kits →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .bg-gradient-to-br {
+    background: linear-gradient(to bottom right, var(--bekky-purple), var(--bekky-purple-dark));
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Bunk Police",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Bunk Police"
+    }
+  ]
+}
+{% endschema %}
+
