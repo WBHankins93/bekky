@@ -8,18 +8,15 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-6 sm:mb-8">
       {%- comment -%} Brand {%- endcomment -%}
       <div class="space-y-4">
-        <div class="flex items-center gap-3 mb-4">
+        <div class="flex justify-start mb-4">
           <img
-            src="{{ 'bekky-no-background.png' | asset_url }}"
-            alt="Big Butt Association Logo - Bekky the Purple Alpaca"
-            width="40"
-            height="40"
-            class="h-10 w-auto"
+            src="{{ 'big-butt-logo-words.png' | asset_url }}"
+            alt="Big Butt Association Logo"
+            width="200"
+            height="100"
+            class="h-12 sm:h-16 w-auto"
             loading="lazy"
           />
-          <span class="font-metal text-lg sm:text-xl text-bekky-purple-neon tracking-wider neon-text-purple">
-            Big Butt Association
-          </span>
         </div>
         <div class="mt-4 space-y-3">
           <p class="text-bekky-gray-light text-sm">
@@ -85,6 +82,34 @@
         </div>
       </div>
 
+      {%- comment -%} About BBA {%- endcomment -%}
+      <div>
+        <h3 class="text-bekky-gold text-xl mb-6 font-heading">About BBA</h3>
+        <div class="flex flex-col gap-2">
+          {%- assign about_page = pages['about'] -%}
+          {%- if about_page -%}
+            <a href="{{ about_page.url }}" class="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
+              Our Story
+            </a>
+          {%- endif -%}
+          <a href="{{ routes.account_url }}" class="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
+            BBA Fam & BekkyBucks
+          </a>
+          {%- assign blog = blogs['festival-blog'] -%}
+          {%- if blog -%}
+            <a href="{{ blog.url }}" class="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
+              Festival Blog
+            </a>
+          {%- endif -%}
+          {%- assign contact_page = pages['contact'] -%}
+          {%- if contact_page -%}
+            <a href="{{ contact_page.url }}" class="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
+              Contact Us
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+
       {%- comment -%} Support {%- endcomment -%}
       <div>
         <h3 class="text-bekky-gold text-xl mb-6 font-heading">Support</h3>
@@ -117,34 +142,6 @@
           {%- if terms_page -%}
             <a href="{{ terms_page.url }}" class="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
               Terms of Service
-            </a>
-          {%- endif -%}
-        </div>
-      </div>
-
-      {%- comment -%} About BBA {%- endcomment -%}
-      <div>
-        <h3 class="text-bekky-gold text-xl mb-6 font-heading">About BBA</h3>
-        <div class="flex flex-col gap-2">
-          {%- assign about_page = pages['about'] -%}
-          {%- if about_page -%}
-            <a href="{{ about_page.url }}" class="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
-              Our Story
-            </a>
-          {%- endif -%}
-          <a href="{{ routes.account_url }}" class="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
-            BBA Fam & BekkyBucks
-          </a>
-          {%- assign blog = blogs['festival-blog'] -%}
-          {%- if blog -%}
-            <a href="{{ blog.url }}" class="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
-              Festival Blog
-            </a>
-          {%- endif -%}
-          {%- assign contact_page = pages['contact'] -%}
-          {%- if contact_page -%}
-            <a href="{{ contact_page.url }}" class="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
-              Contact Us
             </a>
           {%- endif -%}
         </div>
