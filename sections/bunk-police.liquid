@@ -64,6 +64,9 @@
   
   .bunk-police-description {
     text-align: center !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
   }
   
   .bunk-police-description p {
@@ -72,6 +75,8 @@
     margin-right: auto !important;
     display: block !important;
     width: 100% !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
   }
   
   /* Nuclear option - target by section */
@@ -81,6 +86,16 @@
     width: 100% !important;
     margin-left: auto !important;
     margin-right: auto !important;
+  }
+  
+  /* Target the specific paragraph in Bunk Police section */
+  section.bg-gradient-to-br .neon-card-green .bunk-police-description p,
+  .bunk-police-description > p {
+    text-align: center !important;
+    text-align-last: center !important;
+    display: block !important;
+    width: 100% !important;
+    margin: 0 auto !important;
   }
 </style>
 
