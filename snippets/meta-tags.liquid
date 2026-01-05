@@ -1,37 +1,119 @@
 {%- comment -%}
-  Meta tags snippet for SEO
+  Comprehensive Meta Tags Snippet for SEO
+  Includes Open Graph, Twitter Cards, and enhanced descriptions
 {%- endcomment -%}
 
+{%- comment -%} Default meta description {%- endcomment -%}
+{%- liquid
+  assign meta_description = page_description | default: shop.description | default: 'Big Butt Association - EDM Festival Clothing & Apparel. Bold, bootylicious designs for festival-goers. Earn BekkyBucks, join the inner circle, and stay trippy!'
+  assign meta_title = page_title | default: shop.name
+  assign meta_url = canonical_url | default: shop.url
+-%}
+
+{%- comment -%} Template-specific Open Graph tags {%- endcomment -%}
 {%- if template.name == 'index' -%}
+  {%- comment -%} Homepage {%- endcomment -%}
   <meta property="og:type" content="website">
-  <meta property="og:title" content="{{ shop.name }}">
-  <meta property="og:description" content="{{ shop.description | default: shop.name }}">
+  <meta property="og:title" content="{{ shop.name | escape }}">
+  <meta property="og:description" content="{{ meta_description | escape | truncate: 160 }}">
   <meta property="og:url" content="{{ shop.url }}">
-  <meta property="og:site_name" content="{{ shop.name }}">
+  <meta property="og:site_name" content="{{ shop.name | escape }}">
+  {%- if shop.metafields.shopify_social.image -%}
+    <meta property="og:image" content="{{ shop.metafields.shopify_social.image | image_url: width: 1200 }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+  {%- else -%}
+    <meta property="og:image" content="{{ 'big-butt-logo-words.png' | asset_url }}">
+  {%- endif -%}
+  <meta property="og:image:alt" content="{{ shop.name | escape }} - EDM Festival Clothing">
+  
 {%- elsif template.name == 'product' -%}
+  {%- comment -%} Product pages {%- endcomment -%}
   <meta property="og:type" content="product">
   <meta property="og:title" content="{{ product.title | escape }}">
-  <meta property="og:description" content="{{ product.description | strip_html | escape }}">
+  <meta property="og:description" content="{{ product.description | strip_html | escape | truncate: 160 | default: meta_description | escape }}">
   <meta property="og:url" content="{{ shop.url }}{{ product.url }}">
-  <meta property="og:image" content="{{ product.featured_image | image_url: width: 1200 }}">
+  <meta property="og:site_name" content="{{ shop.name | escape }}">
+  {%- if product.featured_image -%}
+    <meta property="og:image" content="{{ product.featured_image | image_url: width: 1200 }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="1200">
+    <meta property="og:image:alt" content="{{ product.featured_image.alt | escape | default: product.title | escape }}">
+  {%- endif -%}
   <meta property="product:price:amount" content="{{ product.price | money_without_currency }}">
   <meta property="product:price:currency" content="{{ cart.currency.iso_code }}">
+  {%- if product.available -%}
+    <meta property="product:availability" content="in stock">
+  {%- else -%}
+    <meta property="product:availability" content="out of stock">
+  {%- endif -%}
+  <meta property="product:condition" content="new">
+  {%- if product.vendor -%}
+    <meta property="product:brand" content="{{ product.vendor | escape }}">
+  {%- endif -%}
+  
 {%- elsif template.name == 'article' -%}
+  {%- comment -%} Blog articles {%- endcomment -%}
   <meta property="og:type" content="article">
   <meta property="og:title" content="{{ article.title | escape }}">
-  <meta property="og:description" content="{{ article.excerpt | default: article.summary | strip_html | escape }}">
+  <meta property="og:description" content="{{ article.excerpt | default: article.summary | strip_html | escape | truncate: 160 }}">
   <meta property="og:url" content="{{ shop.url }}{{ article.url }}">
+  <meta property="og:site_name" content="{{ shop.name | escape }}">
   {%- if article.image -%}
     <meta property="og:image" content="{{ article.image | image_url: width: 1200 }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="{{ article.image.alt | escape | default: article.title | escape }}">
   {%- endif -%}
-{%- else -%}
+  <meta property="article:published_time" content="{{ article.published_at | date: '%Y-%m-%dT%H:%M:%S%z' }}">
+  <meta property="article:modified_time" content="{{ article.updated_at | date: '%Y-%m-%dT%H:%M:%S%z' }}">
+  {%- if article.author -%}
+    <meta property="article:author" content="{{ article.author | escape }}">
+  {%- endif -%}
+  {%- for tag in article.tags -%}
+    <meta property="article:tag" content="{{ tag | escape }}">
+  {%- endfor -%}
+  
+{%- elsif template.name == 'collection' -%}
+  {%- comment -%} Collection pages {%- endcomment -%}
   <meta property="og:type" content="website">
-  <meta property="og:title" content="{{ page_title | escape }}">
-  <meta property="og:description" content="{{ page_description | default: shop.description | escape }}">
-  <meta property="og:url" content="{{ canonical_url }}">
+  <meta property="og:title" content="{{ collection.title | escape }} - {{ shop.name | escape }}">
+  <meta property="og:description" content="{{ collection.description | strip_html | escape | truncate: 160 | default: 'Shop ' | append: collection.title | append: ' at ' | append: shop.name }}">
+  <meta property="og:url" content="{{ shop.url }}{{ collection.url }}">
+  <meta property="og:site_name" content="{{ shop.name | escape }}">
+  {%- if collection.featured_image -%}
+    <meta property="og:image" content="{{ collection.featured_image | image_url: width: 1200 }}">
+    <meta property="og:image:alt" content="{{ collection.featured_image.alt | escape | default: collection.title | escape }}">
+  {%- endif -%}
+  
+{%- else -%}
+  {%- comment -%} Default for all other pages {%- endcomment -%}
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ meta_title | escape }}">
+  <meta property="og:description" content="{{ meta_description | escape | truncate: 160 }}">
+  <meta property="og:url" content="{{ meta_url }}">
+  <meta property="og:site_name" content="{{ shop.name | escape }}">
+  <meta property="og:image" content="{{ 'big-butt-logo-words.png' | asset_url }}">
+  <meta property="og:image:alt" content="{{ shop.name | escape }}">
 {%- endif -%}
 
+{%- comment -%} Twitter Card tags {%- endcomment -%}
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{{ page_title | escape }}">
-<meta name="twitter:description" content="{{ page_description | default: shop.description | escape }}">
+<meta name="twitter:title" content="{{ meta_title | escape }}">
+<meta name="twitter:description" content="{{ meta_description | escape | truncate: 200 }}">
+{%- if template.name == 'product' and product.featured_image -%}
+  <meta name="twitter:image" content="{{ product.featured_image | image_url: width: 1200 }}">
+  <meta name="twitter:image:alt" content="{{ product.featured_image.alt | escape | default: product.title | escape }}">
+{%- elsif template.name == 'article' and article.image -%}
+  <meta name="twitter:image" content="{{ article.image | image_url: width: 1200 }}">
+  <meta name="twitter:image:alt" content="{{ article.image.alt | escape | default: article.title | escape }}">
+{%- else -%}
+  <meta name="twitter:image" content="{{ 'big-butt-logo-words.png' | asset_url }}">
+  <meta name="twitter:image:alt" content="{{ shop.name | escape }}">
+{%- endif -%}
 
+{%- comment -%} Additional SEO meta tags {%- endcomment -%}
+<meta name="robots" content="{% if template.name == 'cart' or template.name == 'customers' %}noindex, nofollow{% else %}index, follow{% endif %}">
+<meta name="author" content="{{ shop.name | escape }}">
+<meta name="geo.region" content="US">
+<meta name="language" content="{{ request.locale.iso_code }}">

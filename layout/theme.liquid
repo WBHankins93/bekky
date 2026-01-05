@@ -4,11 +4,16 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="theme-color" content="">
+    <meta name="theme-color" content="#000000">
+    <meta name="format-detection" content="telephone=no">
     <link rel="canonical" href="{{ canonical_url }}">
 
+    {%- comment -%} Favicon and Icons {%- endcomment -%}
     {%- if settings.favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+      <link rel="apple-touch-icon" href="{{ settings.favicon | image_url: width: 180, height: 180 }}">
+    {%- else -%}
+      <link rel="icon" type="image/png" href="{{ 'big-butt-logo-words.png' | asset_url }}">
     {%- endif -%}
 
     {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
@@ -22,11 +27,23 @@
       {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
     </title>
 
+    {%- comment -%} Meta Description {%- endcomment -%}
     {% if page_description %}
-      <meta name="description" content="{{ page_description | escape }}">
+      <meta name="description" content="{{ page_description | escape | truncate: 160 }}">
+    {%- elsif shop.description -%}
+      <meta name="description" content="{{ shop.description | escape | truncate: 160 }}">
+    {%- else -%}
+      <meta name="description" content="Big Butt Association - EDM Festival Clothing & Apparel. Bold, bootylicious designs for festival-goers. Earn BekkyBucks, join the inner circle, and stay trippy!">
     {% endif %}
 
+    {%- comment -%} Keywords meta tag (for legacy support, though less important now) {%- endcomment -%}
+    <meta name="keywords" content="EDM clothing, festival apparel, Big Butt Association, BekkyBucks, festival fashion, rave wear, EDM fashion, festival gear, electronic dance music clothing">
+
+    {%- comment -%} Render comprehensive meta tags {%- endcomment -%}
     {% render 'meta-tags' %}
+    
+    {%- comment -%} Structured Data (JSON-LD) {%- endcomment -%}
+    {% render 'structured-data' %}
 
     <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
     {{ content_for_header }}
