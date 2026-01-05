@@ -115,19 +115,16 @@
                 Our Story
               </a>
             {%- endif -%}
-            <a href="{{ routes.account_url }}" class="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
-              BBA Fam & BekkyBucks
-            </a>
+            {%- assign members_page = pages['members'] -%}
+            {%- if members_page -%}
+              <a href="{{ members_page.url }}" class="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
+                BBA Fam
+              </a>
+            {%- endif -%}
             {%- assign blog = blogs['festival-blog'] -%}
             {%- if blog -%}
               <a href="{{ blog.url }}" class="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
-                Festival Blog
-              </a>
-            {%- endif -%}
-            {%- assign contact_page = pages['contact'] -%}
-            {%- if contact_page -%}
-              <a href="{{ contact_page.url }}" class="text-bekky-gray-light transition-all hover:text-bekky-purple-neon hover:shadow-neon-purple-sm hover:pl-2">
-                Contact Us
+                Blog
               </a>
             {%- endif -%}
           </div>
