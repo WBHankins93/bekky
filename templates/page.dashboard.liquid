@@ -80,9 +80,9 @@
 
           {%- comment -%} Joy Widget (Right/Middle) {%- endcomment -%}
           <div class="flex-1 text-center">
-            <div id="joy-widget-container" class="min-h-[200px] flex items-center justify-center">
+            <div id="joy-widget-container" class="min-h-[200px] flex items-center justify-center" style="position: relative; z-index: 10; overflow: visible;">
               {%- comment -%} Placeholder for Joy widget - Replace with actual Joy widget embed code {%- endcomment -%}
-              <div class="neon-card p-6 bg-black/50">
+              <div class="neon-card p-6 bg-black/50" id="joy-widget-placeholder">
                 <div class="text-5xl sm:text-6xl font-bold neon-text-gold mb-2">
                   —
                 </div>
@@ -93,6 +93,10 @@
                   View in your account to see balance
                 </p>
               </div>
+              {%- comment -%}
+                Joy Widget will be inserted here by the widget script
+                The placeholder will be hidden when the widget loads
+              {%- endcomment -%}
             </div>
             {%- comment -%}
               TODO: Replace the above placeholder with actual Joy widget code
@@ -137,4 +141,41 @@
     </div>
   </div>
 </div>
+
+{%- comment -%} Joy Widget Integration Script {%- endcomment -%}
+<script>
+  // Ensure Joy widget container is ready and visible
+  document.addEventListener('DOMContentLoaded', function() {
+    const widgetContainer = document.getElementById('joy-widget-container');
+    const placeholder = document.getElementById('joy-widget-placeholder');
+    
+    if (widgetContainer) {
+      // Ensure container is visible
+      widgetContainer.style.display = 'flex';
+      widgetContainer.style.visibility = 'visible';
+      widgetContainer.style.opacity = '1';
+      widgetContainer.style.position = 'relative';
+      widgetContainer.style.zIndex = '10';
+      widgetContainer.style.overflow = 'visible';
+      
+      // Hide placeholder when Joy widget loads (if widget script provides a callback)
+      // This will be triggered by the Joy widget's onLoad callback
+      window.hideJoyPlaceholder = function() {
+        if (placeholder) {
+          placeholder.style.display = 'none';
+        }
+      };
+      
+      // Check if Joy widget has loaded after a delay
+      setTimeout(function() {
+        const joyWidget = widgetContainer.querySelector('[data-joy-widget], iframe, .joy-widget');
+        if (joyWidget && joyWidget.offsetHeight > 0) {
+          if (placeholder) {
+            placeholder.style.display = 'none';
+          }
+        }
+      }, 2000);
+    }
+  });
+</script>
 

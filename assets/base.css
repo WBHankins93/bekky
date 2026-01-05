@@ -392,6 +392,31 @@ p {
   transform: translateY(-4px);
 }
 
+/* Joy Widget Container - Ensure visibility and proper rendering */
+#joy-widget-container {
+  position: relative;
+  z-index: 10;
+  min-height: 200px;
+  width: 100%;
+  overflow: visible !important;
+}
+
+/* Ensure Joy widget iframes and scripts are not blocked */
+#joy-widget-container iframe,
+#joy-widget-container [data-joy-widget],
+#joy-widget-container script {
+  position: relative;
+  z-index: 10;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Remove backdrop-filter interference for widget container */
+#joy-widget-container * {
+  backdrop-filter: none !important;
+}
+
 /* Scan Line Effect */
 .scan-line {
   position: relative;
