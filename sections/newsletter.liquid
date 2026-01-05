@@ -83,6 +83,8 @@
             <img
               src="{{ 'bunk-logo.png' | asset_url }}"
               alt="Bunk Police Logo"
+              width="300"
+              height="150"
               class="max-w-[200px] sm:max-w-[250px] md:max-w-[300px] h-auto"
               loading="lazy"
             />
@@ -130,6 +132,15 @@
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
+  }
+  
+  /* Ensure Bunk Police logo is visible */
+  .neon-card-green img {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    max-width: 100% !important;
+    height: auto !important;
   }
 </style>
 
