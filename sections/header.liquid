@@ -31,10 +31,12 @@
         <span class="group-hover:text-bekky-purple-neon transition-colors">About</span>
         <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-bekky-purple-neon shadow-neon-purple-sm transition-all group-hover:w-full origin-right"></span>
       </a>
+      {%- comment -%}
       <a href="/pages/blog" class="font-heading text-base font-bold uppercase tracking-wide text-white py-2 relative transition-all group">
         <span class="group-hover:text-bekky-purple-neon transition-colors">Blog</span>
         <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-bekky-purple-neon shadow-neon-purple-sm transition-all group-hover:w-full origin-right"></span>
       </a>
+      {%- endcomment -%}
       {%- assign gallery_page = pages['gallery'] | default: pages['gallery-1'] -%}
       <a href="{{ gallery_page.url | default: '/pages/gallery' }}" class="font-heading text-base font-bold uppercase tracking-wide text-white py-2 relative transition-all group">
         <span class="group-hover:text-bekky-purple-neon transition-colors">Gallery</span>
@@ -91,10 +93,12 @@
     <span class="group-hover:text-bekky-purple-neon transition-colors">About</span>
     <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-bekky-purple-neon shadow-neon-purple-sm transition-all group-hover:w-full origin-right"></span>
   </a>
+  {%- comment -%}
   <a href="/pages/blog" class="font-heading text-base font-bold uppercase tracking-wide text-white py-2 relative transition-all group mobile-menu-link" style="color: #ffffff !important;">
     <span class="group-hover:text-bekky-purple-neon transition-colors">Blog</span>
     <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-bekky-purple-neon shadow-neon-purple-sm transition-all group-hover:w-full origin-right"></span>
   </a>
+  {%- endcomment -%}
   {%- assign gallery_page = pages['gallery'] | default: pages['gallery-1'] -%}
   <a href="{{ gallery_page.url | default: '/pages/gallery' }}" class="font-heading text-base font-bold uppercase tracking-wide text-white py-2 relative transition-all group mobile-menu-link" style="color: #ffffff !important;">
     <span class="group-hover:text-bekky-purple-neon transition-colors">Gallery</span>
