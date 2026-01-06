@@ -1,0 +1,118 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "current": {
+    "sections": {
+      "header": {
+        "type": "header",
+        "settings": {
+          "menu": "main-menu"
+        }
+      },
+      "hero": {
+        "type": "hero",
+        "settings": {
+          "hero_title_line1": "EDM Festival Clothing",
+          "hero_title_line2": "For the Bold & Bootylicious",
+          "hero_description": "Hey, festival fam! We're Big Butt Association (BBA)—where bass meets booty and style meets statement. We're not just a brand; we're a movement, a vibe, and a celebration of every body that knows how to move to the music. Whether you're headbanging at the rail, shuffling under neon lights, or sauced on a side quest, BBA is here to make sure you look as bold as you feel.",
+          "shop_button_text": "Shop Now",
+          "shop_button_link": "",
+          "members_button_text": "Join BBA Fam",
+          "members_button_link": ""
+        }
+      },
+      "what-we-are-about": {
+        "type": "what-we-are-about",
+        "settings": {
+          "title": "What We're About",
+          "point1_icon": "💃",
+          "point1_title": "Festival Fits That Slap",
+          "point1_description": "Designed for comfort, movement, and straight-up slayage.",
+          "point2_icon": "🔊",
+          "point2_title": "Bass-Boosted Drip",
+          "point2_description": "Inspired by the all-wise BekkyWithABigButt, who has traveled into multiple dimensions to acquire the ultimate taste in festival wear.",
+          "point3_icon": "💜",
+          "point3_title": "Big Booty Energy",
+          "point3_description": "Because confidence looks good on everyone, no matter the shape or size."
+        }
+      },
+      "about-bekky": {
+        "type": "about-bekky",
+        "settings": {
+          "title": "Meet BekkyWithABigButt",
+          "subtitle": "Our Fearless Leader",
+          "description": "<p>None other than BekkyWithABigButt, a multidimensional purple alpaca with curves for days and an attitude to match. She's our spirit animal—wild, free, and unapologetically herself.</p><p>If it's Bekky Approved, you know it's fire.</p>",
+          "bekky_image_alt": "Bekky the Purple Alpaca with a Big Butt - Big Butt Association Mascot"
+        }
+      },
+      "featured-collection": {
+        "type": "featured-collection",
+        "settings": {
+          "title": "Shop The Collection",
+          "subtitle": "Bold, bootylicious, and festival-ready. Gear up for the next rave!",
+          "collection": "",
+          "products_to_show": 8,
+          "carousel_speed": 30,
+          "view_all_text": "View All Products",
+          "view_all_link": "",
+          "empty_message": "Products coming soon..."
+        }
+      },
+      "bunk-police": {
+        "type": "bunk-police",
+        "settings": {}
+      },
+      "member-benefits": {
+        "type": "member-benefits",
+        "settings": {
+          "title": "Join BBA Fam",
+          "subtitle": "Earn BekkyBucks on every purchase and unlock exclusive rewards, discounts, and festival vibes!",
+          "benefit1_icon": "💵",
+          "benefit1_title": "Earn BekkyBucks",
+          "benefit1_description": "Get 1 BekkyBuck for every $10 spent. Stack 'em up, cash 'em in!",
+          "benefit2_icon": "🎁",
+          "benefit2_title": "Exclusive Discounts",
+          "benefit2_description": "Member-only sales, early access to drops, and special promo codes.",
+          "benefit3_icon": "🦙",
+          "benefit3_title": "BekkyWithABigButt's Inner Circle",
+          "benefit3_description": "Join the alpaca queen's exclusive crew. Festival fam perks and more!",
+          "cta_text": "Join BBA Fam",
+          "cta_link": ""
+        }
+      },
+      "newsletter": {
+        "type": "newsletter",
+        "settings": {
+          "title": "Stay In The Loop",
+          "subtitle": "Get exclusive drops, festival tips, and BekkyBucks bonus offers straight to your inbox!",
+          "placeholder": "Enter your email",
+          "button_text": "Subscribe"
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "settings": {
+          "social_instagram_link": "",
+          "social_tiktok_link": "",
+          "social_twitter_link": "",
+          "social_facebook_link": ""
+        }
+      }
+    },
+    "content_for_index": [],
+    "blocks": {
+      "7584948915495707528": {
+        "type": "shopify://apps/joy-loyalty-program/blocks/app-embed/555c55c9-9a3d-4fe0-a7a8-2c256984a371",
+        "disabled": false,
+        "settings": {}
+      }
+    }
+  }
+}
