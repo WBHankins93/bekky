@@ -1,6 +1,7 @@
 {%- comment -%}
   Model Application Page
   Uses Shopify's native form handling
+  Accordion format - one section open at a time
 {%- endcomment -%}
 
 <div class="min-h-screen bg-black py-12 sm:py-16 md:py-24">
@@ -35,687 +36,725 @@
         {%- comment -%} Hidden field to identify this as model application {%- endcomment -%}
         <input type="hidden" name="contact[form_type]" value="model_application">
 
-        {%- comment -%} Section 1: Basic Information {%- endcomment -%}
-        <div class="neon-card mb-8">
-          <h2 class="neon-text-gold text-2xl sm:text-3xl mb-6 font-heading">Section 1: Basic Information</h2>
+        {%- comment -%} Accordion Container {%- endcomment -%}
+        <div class="accordion-container space-y-4">
           
-          <div class="space-y-6">
-            <div>
-              <label for="legal_name" class="form-label block mb-2">Legal Name *</label>
-              <input 
-                type="text" 
-                id="legal_name" 
-                name="contact[legal_name]" 
-                class="form-input" 
-                required
-                value="{{ form.legal_name }}"
-              >
-            </div>
+          {%- comment -%} Section 1: Basic Information {%- endcomment -%}
+          <div class="accordion-item">
+            <button type="button" class="accordion-header" aria-expanded="false" data-accordion-target="section-1">
+              <span class="neon-text-gold text-xl sm:text-2xl font-heading">Section 1: Basic Information</span>
+              <svg class="accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="accordion-content" id="section-1" style="display: none;">
+              <div class="neon-card">
+                <div class="space-y-6">
+                  <div>
+                    <label for="legal_name" class="form-label block mb-2">Legal Name *</label>
+                    <input 
+                      type="text" 
+                      id="legal_name" 
+                      name="contact[legal_name]" 
+                      class="form-input" 
+                      required
+                      value="{{ form.legal_name }}"
+                    >
+                  </div>
 
-            <div>
-              <label for="preferred_name" class="form-label block mb-2">Preferred Name / Alias</label>
-              <input 
-                type="text" 
-                id="preferred_name" 
-                name="contact[preferred_name]" 
-                class="form-input"
-                value="{{ form.preferred_name }}"
-              >
-            </div>
+                  <div>
+                    <label for="preferred_name" class="form-label block mb-2">Preferred Name / Alias</label>
+                    <input 
+                      type="text" 
+                      id="preferred_name" 
+                      name="contact[preferred_name]" 
+                      class="form-input"
+                      value="{{ form.preferred_name }}"
+                    >
+                  </div>
 
-            <div>
-              <label for="pronouns" class="form-label block mb-2">Pronouns</label>
-              <input 
-                type="text" 
-                id="pronouns" 
-                name="contact[pronouns]" 
-                class="form-input"
-                value="{{ form.pronouns }}"
-              >
-            </div>
+                  <div>
+                    <label for="pronouns" class="form-label block mb-2">Pronouns</label>
+                    <input 
+                      type="text" 
+                      id="pronouns" 
+                      name="contact[pronouns]" 
+                      class="form-input"
+                      value="{{ form.pronouns }}"
+                    >
+                  </div>
 
-            <div>
-              <label for="date_of_birth" class="form-label block mb-2">Date of Birth (18+) *</label>
-              <input 
-                type="date" 
-                id="date_of_birth" 
-                name="contact[date_of_birth]" 
-                class="form-input" 
-                required
-                value="{{ form.date_of_birth }}"
-              >
-            </div>
+                  <div>
+                    <label for="date_of_birth" class="form-label block mb-2">Date of Birth (18+) *</label>
+                    <input 
+                      type="date" 
+                      id="date_of_birth" 
+                      name="contact[date_of_birth]" 
+                      class="form-input" 
+                      required
+                      value="{{ form.date_of_birth }}"
+                    >
+                  </div>
 
-            <div>
-              <label for="location" class="form-label block mb-2">City / State / Country *</label>
-              <input 
-                type="text" 
-                id="location" 
-                name="contact[location]" 
-                class="form-input" 
-                required
-                value="{{ form.location }}"
-              >
-            </div>
+                  <div>
+                    <label for="location" class="form-label block mb-2">City / State / Country *</label>
+                    <input 
+                      type="text" 
+                      id="location" 
+                      name="contact[location]" 
+                      class="form-input" 
+                      required
+                      value="{{ form.location }}"
+                    >
+                  </div>
 
-            <div>
-              <label for="phone" class="form-label block mb-2">Phone Number *</label>
-              <input 
-                type="tel" 
-                id="phone" 
-                name="contact[phone]" 
-                class="form-input" 
-                required
-                value="{{ form.phone }}"
-              >
-            </div>
+                  <div>
+                    <label for="phone" class="form-label block mb-2">Phone Number *</label>
+                    <input 
+                      type="tel" 
+                      id="phone" 
+                      name="contact[phone]" 
+                      class="form-input" 
+                      required
+                      value="{{ form.phone }}"
+                    >
+                  </div>
 
-            <div>
-              <label for="email" class="form-label block mb-2">Email Address *</label>
-              <input 
-                type="email" 
-                id="email" 
-                name="contact[email]" 
-                class="form-input" 
-                required
-                value="{{ form.email }}"
-              >
-            </div>
+                  <div>
+                    <label for="email" class="form-label block mb-2">Email Address *</label>
+                    <input 
+                      type="email" 
+                      id="email" 
+                      name="contact[email]" 
+                      class="form-input" 
+                      required
+                      value="{{ form.email }}"
+                    >
+                  </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label for="instagram" class="form-label block mb-2">Instagram</label>
-                <input 
-                  type="text" 
-                  id="instagram" 
-                  name="contact[instagram]" 
-                  class="form-input" 
-                  placeholder="@username"
-                  value="{{ form.instagram }}"
-                >
-              </div>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label for="instagram" class="form-label block mb-2">Instagram</label>
+                      <input 
+                        type="text" 
+                        id="instagram" 
+                        name="contact[instagram]" 
+                        class="form-input" 
+                        placeholder="@username"
+                        value="{{ form.instagram }}"
+                      >
+                    </div>
 
-              <div>
-                <label for="tiktok" class="form-label block mb-2">TikTok</label>
-                <input 
-                  type="text" 
-                  id="tiktok" 
-                  name="contact[tiktok]" 
-                  class="form-input" 
-                  placeholder="@username"
-                  value="{{ form.tiktok }}"
-                >
-              </div>
+                    <div>
+                      <label for="tiktok" class="form-label block mb-2">TikTok</label>
+                      <input 
+                        type="text" 
+                        id="tiktok" 
+                        name="contact[tiktok]" 
+                        class="form-input" 
+                        placeholder="@username"
+                        value="{{ form.tiktok }}"
+                      >
+                    </div>
 
-              <div>
-                <label for="twitter" class="form-label block mb-2">Twitter/X</label>
-                <input 
-                  type="text" 
-                  id="twitter" 
-                  name="contact[twitter]" 
-                  class="form-input" 
-                  placeholder="@username"
-                  value="{{ form.twitter }}"
-                >
-              </div>
+                    <div>
+                      <label for="twitter" class="form-label block mb-2">Twitter/X</label>
+                      <input 
+                        type="text" 
+                        id="twitter" 
+                        name="contact[twitter]" 
+                        class="form-input" 
+                        placeholder="@username"
+                        value="{{ form.twitter }}"
+                      >
+                    </div>
 
-              <div>
-                <label for="other_platforms" class="form-label block mb-2">Other Platforms</label>
-                <input 
-                  type="text" 
-                  id="other_platforms" 
-                  name="contact[other_platforms]" 
-                  class="form-input"
-                  value="{{ form.other_platforms }}"
-                >
-              </div>
-            </div>
+                    <div>
+                      <label for="other_platforms" class="form-label block mb-2">Other Platforms</label>
+                      <input 
+                        type="text" 
+                        id="other_platforms" 
+                        name="contact[other_platforms]" 
+                        class="form-input"
+                        value="{{ form.other_platforms }}"
+                      >
+                    </div>
+                  </div>
 
-            <div>
-              <label class="form-label block mb-2">Total Followers (combined)</label>
-              <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="radio" name="contact[follower_count]" value="Under 1K" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light text-sm">Under 1K</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="radio" name="contact[follower_count]" value="1K-10K" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light text-sm">1K-10K</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="radio" name="contact[follower_count]" value="10K-50K" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light text-sm">10K-50K</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="radio" name="contact[follower_count]" value="50K-100K" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light text-sm">50K-100K</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="radio" name="contact[follower_count]" value="100K+" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light text-sm">100K+</span>
-                </label>
-              </div>
-            </div>
+                  <div>
+                    <label class="form-label block mb-2">Total Followers (combined)</label>
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="contact[follower_count]" value="Under 1K" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light text-sm">Under 1K</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="contact[follower_count]" value="1K-10K" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light text-sm">1K-10K</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="contact[follower_count]" value="10K-50K" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light text-sm">10K-50K</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="contact[follower_count]" value="50K-100K" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light text-sm">50K-100K</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="contact[follower_count]" value="100K+" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light text-sm">100K+</span>
+                      </label>
+                    </div>
+                  </div>
 
-            <div class="bg-bekky-purple-neon/10 border-l-4 border-bekky-gold-neon p-4 rounded-lg">
-              <p class="text-bekky-gray-light text-sm">
-                📸 Photo submission: Email any photos to <a href="mailto:BigButtAssociation@gmail.com" class="neon-text-purple hover:text-bekky-gold-neon transition-colors">BigButtAssociation@gmail.com</a> (pro photos not required)
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {%- comment -%} Section 3: Intent, Energy & Alignment {%- endcomment -%}
-        <div class="neon-card mb-8">
-          <h2 class="neon-text-gold text-2xl sm:text-3xl mb-6 font-heading">Section 3: Intent, Energy & Alignment</h2>
-          <p class="text-bekky-gray-light mb-6">This section matters. Take your time.</p>
-          
-          <div class="space-y-6">
-            <div>
-              <label for="why_represent_bekky" class="form-label block mb-2">
-                Why do you want to represent Bekky specifically — not just BBA as a brand? *
-              </label>
-              <textarea 
-                id="why_represent_bekky" 
-                name="contact[why_represent_bekky]" 
-                class="form-input" 
-                rows="4" 
-                required
-              >{{ form.why_represent_bekky }}</textarea>
-            </div>
-
-            <div>
-              <label for="what_bba_represents" class="form-label block mb-2">
-                What does Big Butt Association represent to you beyond modeling? *
-              </label>
-              <textarea 
-                id="what_bba_represents" 
-                name="contact[what_bba_represents]" 
-                class="form-input" 
-                rows="4" 
-                required
-              >{{ form.what_bba_represents }}</textarea>
-            </div>
-
-            <div>
-              <label for="self_expression" class="form-label block mb-2">
-                What part of yourself does BBA give you permission to fully express? *
-              </label>
-              <textarea 
-                id="self_expression" 
-                name="contact[self_expression]" 
-                class="form-input" 
-                rows="4" 
-                required
-              >{{ form.self_expression }}</textarea>
-            </div>
-
-            <div>
-              <label for="bba_definition" class="form-label block mb-2">
-                If someone asked "What is BBA?" — one sentence. *
-              </label>
-              <input 
-                type="text" 
-                id="bba_definition" 
-                name="contact[bba_definition]" 
-                class="form-input" 
-                required
-                value="{{ form.bba_definition }}"
-              >
-            </div>
-
-            <div>
-              <label for="contribution" class="form-label block mb-2">
-                What are you willing to contribute to BBA? How do you see yourself growing with the brand? *
-              </label>
-              <textarea 
-                id="contribution" 
-                name="contact[contribution]" 
-                class="form-input" 
-                rows="4" 
-                required
-              >{{ form.contribution }}</textarea>
-            </div>
-
-            <div>
-              <label class="form-label block mb-3">What kind of energy do you bring? (check all that apply)</label>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[energy_types][]" value="Soft & magnetic" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Soft & magnetic</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[energy_types][]" value="Loud & dominant" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Loud & dominant</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[energy_types][]" value="Playful & flirty" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Playful & flirty</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[energy_types][]" value="Dark & edgy" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Dark & edgy</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[energy_types][]" value="Boss energy" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Boss energy</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[energy_types][]" value="Chaos goblin (respectfully)" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Chaos goblin (respectfully)</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[energy_types][]" value="Other" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Other</span>
-                </label>
-              </div>
-            </div>
-
-            <div>
-              <label for="scenario_response" class="form-label block mb-2">
-                Scenario: You're wearing BBA merch at a festival and someone disrespects the brand or Bekky. How do you handle it? *
-              </label>
-              <textarea 
-                id="scenario_response" 
-                name="contact[scenario_response]" 
-                class="form-input" 
-                rows="4" 
-                required
-              >{{ form.scenario_response }}</textarea>
-            </div>
-          </div>
-        </div>
-
-        {%- comment -%} Section 4-6: Culture, Style & Lifestyle {%- endcomment -%}
-        <div class="neon-card mb-8">
-          <h2 class="neon-text-gold text-2xl sm:text-3xl mb-6 font-heading">Sections 4-6: Culture, Style & Lifestyle</h2>
-          
-          <div class="space-y-8">
-            {%- comment -%} EDM Genres {%- endcomment -%}
-            <div>
-              <label class="form-label block mb-3">EDM Genres (check all that apply)</label>
-              <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[edm_genres][]" value="House" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">House</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[edm_genres][]" value="Tech House" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Tech House</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[edm_genres][]" value="Bass House" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Bass House</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[edm_genres][]" value="Dubstep" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Dubstep</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[edm_genres][]" value="Riddim" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Riddim</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[edm_genres][]" value="Drum & Bass" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Drum & Bass</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[edm_genres][]" value="Hardstyle" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Hardstyle</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[edm_genres][]" value="Trance" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Trance</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[edm_genres][]" value="Techno" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Techno</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[edm_genres][]" value="Experimental Bass" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Experimental Bass</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[edm_genres][]" value="Other" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Other</span>
-                </label>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label for="favorite_genre" class="form-label block mb-2">Your FAVORITE EDM genre</label>
-                <input 
-                  type="text" 
-                  id="favorite_genre" 
-                  name="contact[favorite_genre]" 
-                  class="form-input"
-                  value="{{ form.favorite_genre }}"
-                >
-              </div>
-
-              <div>
-                <label for="favorite_djs" class="form-label block mb-2">Favorite DJs / Producers</label>
-                <input 
-                  type="text" 
-                  id="favorite_djs" 
-                  name="contact[favorite_djs]" 
-                  class="form-input"
-                  value="{{ form.favorite_djs }}"
-                >
-              </div>
-            </div>
-
-            {%- comment -%} Clothing Preferences {%- endcomment -%}
-            <div>
-              <label class="form-label block mb-3">Favorite women's clothing (check all that apply)</label>
-              <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[clothing_prefs][]" value="Bikinis" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Bikinis</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[clothing_prefs][]" value="Lingerie" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Lingerie</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[clothing_prefs][]" value="Streetwear" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Streetwear</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[clothing_prefs][]" value="Festival Wear" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Festival Wear</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[clothing_prefs][]" value="Activewear" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Activewear</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[clothing_prefs][]" value="Casual" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Casual</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[clothing_prefs][]" value="Couture" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Couture</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[clothing_prefs][]" value="Other" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Other</span>
-                </label>
-              </div>
-            </div>
-
-            {%- comment -%} Fabric Preferences {%- endcomment -%}
-            <div>
-              <label class="form-label block mb-3">Favorite fabrics (check all that apply)</label>
-              <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[fabric_prefs][]" value="Cotton" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Cotton</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[fabric_prefs][]" value="Mesh" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Mesh</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[fabric_prefs][]" value="Spandex" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Spandex</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[fabric_prefs][]" value="Latex" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Latex</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[fabric_prefs][]" value="Denim" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Denim</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[fabric_prefs][]" value="Leather" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Leather</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[fabric_prefs][]" value="Silk" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Silk</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[fabric_prefs][]" value="Other" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Other</span>
-                </label>
-              </div>
-            </div>
-
-            <div>
-              <label for="clothing_requests" class="form-label block mb-2">What clothing do you want to see BBA make?</label>
-              <textarea 
-                id="clothing_requests" 
-                name="contact[clothing_requests]" 
-                class="form-input" 
-                rows="3"
-              >{{ form.clothing_requests }}</textarea>
-            </div>
-
-            {%- comment -%} Lifestyle {%- endcomment -%}
-            <div>
-              <label class="form-label block mb-3">Relationship Status</label>
-              <div class="flex flex-wrap gap-4">
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="radio" name="contact[relationship_status]" value="Single" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Single</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="radio" name="contact[relationship_status]" value="Taken" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Taken</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="radio" name="contact[relationship_status]" value="It's Complicated" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">It's Complicated</span>
-                </label>
-              </div>
-            </div>
-
-            <div>
-              <label class="form-label block mb-3">Comfortable traveling for events?</label>
-              <div class="flex flex-wrap gap-4">
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="radio" name="contact[travel_comfortable]" value="Yes" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Yes</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="radio" name="contact[travel_comfortable]" value="No" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">No</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="radio" name="contact[travel_comfortable]" value="Sometimes" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Sometimes</span>
-                </label>
-              </div>
-            </div>
-
-            <div>
-              <label class="form-label block mb-3">Comfortable with festival / nightlife environments?</label>
-              <div class="flex flex-wrap gap-4">
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="radio" name="contact[festival_comfortable]" value="Yes" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Yes</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="radio" name="contact[festival_comfortable]" value="No" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">No</span>
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {%- comment -%} Sections 7-12: Confidential + Agreements {%- endcomment -%}
-        <div class="neon-card mb-8">
-          <h2 class="neon-text-gold text-2xl sm:text-3xl mb-6 font-heading">Sections 7-12: Confidential + Agreements</h2>
-          
-          <div class="space-y-8">
-            {%- comment -%} Substance Disclosure {%- endcomment -%}
-            <div>
-              <h3 class="text-bekky-purple-neon text-xl mb-3 font-heading">Substance Disclosure (Confidential)</h3>
-              <p class="text-bekky-gray-light text-sm mb-4">
-                Honesty is required. This is confidential and for safety & brand alignment only. (Check all that apply)
-              </p>
-              <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[substances][]" value="Alcohol" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Alcohol</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[substances][]" value="Marijuana" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Marijuana</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[substances][]" value="Cocaine" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Cocaine</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[substances][]" value="MDMA" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">MDMA</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[substances][]" value="Ketamine" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Ketamine</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[substances][]" value="LSD / Acid" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">LSD / Acid</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[substances][]" value="Prescription (non-prescribed use)" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Prescription (non-prescribed use)</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[substances][]" value="Other" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">Other</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="contact[substances][]" value="None" class="w-5 h-5 accent-bekky-purple">
-                  <span class="text-bekky-gray-light">None</span>
-                </label>
-              </div>
-              
-              <div class="mt-4">
-                <label for="substances_other" class="form-label block mb-2">If 'Other', specify:</label>
-                <input 
-                  type="text" 
-                  id="substances_other" 
-                  name="contact[substances_other]" 
-                  class="form-input"
-                  value="{{ form.substances_other }}"
-                >
-              </div>
-            </div>
-
-            {%- comment -%} Agreements {%- endcomment -%}
-            <div class="space-y-6">
-              <div class="bg-bekky-purple-neon/10 border-2 border-bekky-purple-neon rounded-lg p-6">
-                <h3 class="text-bekky-gold-neon text-lg mb-3 font-heading">Merch & Contract Agreement</h3>
-                <ul class="text-bekky-gray-light text-sm space-y-2 mb-4">
-                  <li>• All merch provided remains BBA property unless earned or gifted.</li>
-                  <li>• If contractual standards are not upheld, merch must be returned or purchased.</li>
-                  <li>• No resale of BBA merch without written permission.</li>
-                </ul>
-                <label class="flex items-center gap-3 cursor-pointer">
-                  <input 
-                    type="checkbox" 
-                    name="contact[merch_agreement]" 
-                    value="agreed" 
-                    class="w-5 h-5 accent-bekky-gold" 
-                    required
-                  >
-                  <span class="text-white font-bold">I understand and agree. *</span>
-                </label>
-              </div>
-
-              <div class="bg-bekky-purple-neon/10 border-2 border-bekky-purple-neon rounded-lg p-6">
-                <h3 class="text-bekky-gold-neon text-lg mb-3 font-heading">Code of Conduct</h3>
-                <ul class="text-bekky-gray-light text-sm space-y-2 mb-4">
-                  <li>• Represent the brand with confidence & respect.</li>
-                  <li>• Maintain professionalism online & in person.</li>
-                  <li>• Avoid actions that harm the BBA image.</li>
-                  <li>• Respect fellow models, staff & community members.</li>
-                </ul>
-                <label class="flex items-center gap-3 cursor-pointer">
-                  <input 
-                    type="checkbox" 
-                    name="contact[code_conduct]" 
-                    value="agreed" 
-                    class="w-5 h-5 accent-bekky-gold" 
-                    required
-                  >
-                  <span class="text-white font-bold">I agree to follow the BBA Code of Conduct. *</span>
-                </label>
-              </div>
-
-              <div class="bg-bekky-gold-neon/10 border-2 border-bekky-gold-neon rounded-lg p-6">
-                <h3 class="text-bekky-gold-neon text-lg mb-3 font-heading">BBA Model Statement</h3>
-                <p class="text-bekky-gray-light text-sm mb-4">
-                  I understand that representing BBA means more than posting photos.<br>
-                  I represent confidence, respect, and the culture we are building together.<br>
-                  I choose to show up with integrity, energy, and intention.
-                </p>
-                <label class="flex items-center gap-3 cursor-pointer">
-                  <input 
-                    type="checkbox" 
-                    name="contact[model_statement]" 
-                    value="agreed" 
-                    class="w-5 h-5 accent-bekky-gold" 
-                    required
-                  >
-                  <span class="text-white font-bold">I agree. *</span>
-                </label>
-              </div>
-            </div>
-
-            {%- comment -%} Signature {%- endcomment -%}
-            <div>
-              <h3 class="text-bekky-purple-neon text-xl mb-4 font-heading">Signature</h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label for="signature_name" class="form-label block mb-2">Printed Name *</label>
-                  <input 
-                    type="text" 
-                    id="signature_name" 
-                    name="contact[signature_name]" 
-                    class="form-input" 
-                    required
-                    value="{{ form.signature_name }}"
-                  >
-                </div>
-                <div>
-                  <label for="signature_date" class="form-label block mb-2">Date *</label>
-                  <input 
-                    type="date" 
-                    id="signature_date" 
-                    name="contact[signature_date]" 
-                    class="form-input" 
-                    required
-                    value="{{ form.signature_date }}"
-                  >
+                  <div class="bg-bekky-purple-neon/10 border-l-4 border-bekky-gold-neon p-4 rounded-lg">
+                    <p class="text-bekky-gray-light text-sm">
+                      📸 Photo submission: Email any photos to <a href="mailto:BigButtAssociation@gmail.com" class="neon-text-purple hover:text-bekky-gold-neon transition-colors">BigButtAssociation@gmail.com</a> (pro photos not required)
+                    </p>
+                  </div>
                 </div>
               </div>
-              <div class="mt-4">
-                <label for="signature" class="form-label block mb-2">Signature (type your full name) *</label>
-                <input 
-                  type="text" 
-                  id="signature" 
-                  name="contact[signature]" 
-                  class="form-input font-signature text-2xl" 
-                  placeholder="Type your full name"
-                  required
-                  value="{{ form.signature }}"
-                >
-                <p class="text-bekky-gray-light text-xs mt-2">By typing your name, you are providing a legal signature.</p>
+            </div>
+          </div>
+
+          {%- comment -%} Section 3: Intent, Energy & Alignment {%- endcomment -%}
+          <div class="accordion-item">
+            <button type="button" class="accordion-header" aria-expanded="false" data-accordion-target="section-3">
+              <span class="neon-text-gold text-xl sm:text-2xl font-heading">Section 3: Intent, Energy & Alignment</span>
+              <svg class="accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="accordion-content" id="section-3" style="display: none;">
+              <div class="neon-card">
+                <p class="text-bekky-gray-light mb-6">This section matters. Take your time.</p>
+                
+                <div class="space-y-6">
+                  <div>
+                    <label for="why_represent_bekky" class="form-label block mb-2">
+                      Why do you want to represent Bekky specifically — not just BBA as a brand? *
+                    </label>
+                    <textarea 
+                      id="why_represent_bekky" 
+                      name="contact[why_represent_bekky]" 
+                      class="form-input" 
+                      rows="4" 
+                      required
+                    >{{ form.why_represent_bekky }}</textarea>
+                  </div>
+
+                  <div>
+                    <label for="what_bba_represents" class="form-label block mb-2">
+                      What does Big Butt Association represent to you beyond modeling? *
+                    </label>
+                    <textarea 
+                      id="what_bba_represents" 
+                      name="contact[what_bba_represents]" 
+                      class="form-input" 
+                      rows="4" 
+                      required
+                    >{{ form.what_bba_represents }}</textarea>
+                  </div>
+
+                  <div>
+                    <label for="self_expression" class="form-label block mb-2">
+                      What part of yourself does BBA give you permission to fully express? *
+                    </label>
+                    <textarea 
+                      id="self_expression" 
+                      name="contact[self_expression]" 
+                      class="form-input" 
+                      rows="4" 
+                      required
+                    >{{ form.self_expression }}</textarea>
+                  </div>
+
+                  <div>
+                    <label for="bba_definition" class="form-label block mb-2">
+                      If someone asked "What is BBA?" — one sentence. *
+                    </label>
+                    <input 
+                      type="text" 
+                      id="bba_definition" 
+                      name="contact[bba_definition]" 
+                      class="form-input" 
+                      required
+                      value="{{ form.bba_definition }}"
+                    >
+                  </div>
+
+                  <div>
+                    <label for="contribution" class="form-label block mb-2">
+                      What are you willing to contribute to BBA? How do you see yourself growing with the brand? *
+                    </label>
+                    <textarea 
+                      id="contribution" 
+                      name="contact[contribution]" 
+                      class="form-input" 
+                      rows="4" 
+                      required
+                    >{{ form.contribution }}</textarea>
+                  </div>
+
+                  <div>
+                    <label class="form-label block mb-3">What kind of energy do you bring? (check all that apply)</label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[energy_types][]" value="Soft & magnetic" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Soft & magnetic</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[energy_types][]" value="Loud & dominant" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Loud & dominant</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[energy_types][]" value="Playful & flirty" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Playful & flirty</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[energy_types][]" value="Dark & edgy" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Dark & edgy</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[energy_types][]" value="Boss energy" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Boss energy</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[energy_types][]" value="Chaos goblin (respectfully)" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Chaos goblin (respectfully)</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[energy_types][]" value="Other" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Other</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label for="scenario_response" class="form-label block mb-2">
+                      Scenario: You're wearing BBA merch at a festival and someone disrespects the brand or Bekky. How do you handle it? *
+                    </label>
+                    <textarea 
+                      id="scenario_response" 
+                      name="contact[scenario_response]" 
+                      class="form-input" 
+                      rows="4" 
+                      required
+                    >{{ form.scenario_response }}</textarea>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+
+          {%- comment -%} Section 4-6: Culture, Style & Lifestyle {%- endcomment -%}
+          <div class="accordion-item">
+            <button type="button" class="accordion-header" aria-expanded="false" data-accordion-target="section-4-6">
+              <span class="neon-text-gold text-xl sm:text-2xl font-heading">Sections 4-6: Culture, Style & Lifestyle</span>
+              <svg class="accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="accordion-content" id="section-4-6" style="display: none;">
+              <div class="neon-card">
+                <div class="space-y-8">
+                  {%- comment -%} EDM Genres {%- endcomment -%}
+                  <div>
+                    <label class="form-label block mb-3">EDM Genres (check all that apply)</label>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[edm_genres][]" value="House" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">House</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[edm_genres][]" value="Tech House" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Tech House</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[edm_genres][]" value="Bass House" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Bass House</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[edm_genres][]" value="Dubstep" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Dubstep</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[edm_genres][]" value="Riddim" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Riddim</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[edm_genres][]" value="Drum & Bass" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Drum & Bass</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[edm_genres][]" value="Hardstyle" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Hardstyle</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[edm_genres][]" value="Trance" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Trance</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[edm_genres][]" value="Techno" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Techno</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[edm_genres][]" value="Experimental Bass" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Experimental Bass</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[edm_genres][]" value="Other" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Other</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label for="favorite_genre" class="form-label block mb-2">Your FAVORITE EDM genre</label>
+                      <input 
+                        type="text" 
+                        id="favorite_genre" 
+                        name="contact[favorite_genre]" 
+                        class="form-input"
+                        value="{{ form.favorite_genre }}"
+                      >
+                    </div>
+
+                    <div>
+                      <label for="favorite_djs" class="form-label block mb-2">Favorite DJs / Producers</label>
+                      <input 
+                        type="text" 
+                        id="favorite_djs" 
+                        name="contact[favorite_djs]" 
+                        class="form-input"
+                        value="{{ form.favorite_djs }}"
+                      >
+                    </div>
+                  </div>
+
+                  {%- comment -%} Clothing Preferences {%- endcomment -%}
+                  <div>
+                    <label class="form-label block mb-3">Favorite women's clothing (check all that apply)</label>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[clothing_prefs][]" value="Bikinis" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Bikinis</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[clothing_prefs][]" value="Lingerie" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Lingerie</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[clothing_prefs][]" value="Streetwear" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Streetwear</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[clothing_prefs][]" value="Festival Wear" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Festival Wear</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[clothing_prefs][]" value="Activewear" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Activewear</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[clothing_prefs][]" value="Casual" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Casual</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[clothing_prefs][]" value="Couture" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Couture</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[clothing_prefs][]" value="Other" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Other</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  {%- comment -%} Fabric Preferences {%- endcomment -%}
+                  <div>
+                    <label class="form-label block mb-3">Favorite fabrics (check all that apply)</label>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[fabric_prefs][]" value="Cotton" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Cotton</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[fabric_prefs][]" value="Mesh" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Mesh</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[fabric_prefs][]" value="Spandex" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Spandex</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[fabric_prefs][]" value="Latex" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Latex</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[fabric_prefs][]" value="Denim" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Denim</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[fabric_prefs][]" value="Leather" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Leather</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[fabric_prefs][]" value="Silk" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Silk</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[fabric_prefs][]" value="Other" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Other</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label for="clothing_requests" class="form-label block mb-2">What clothing do you want to see BBA make?</label>
+                    <textarea 
+                      id="clothing_requests" 
+                      name="contact[clothing_requests]" 
+                      class="form-input" 
+                      rows="3"
+                    >{{ form.clothing_requests }}</textarea>
+                  </div>
+
+                  {%- comment -%} Lifestyle {%- endcomment -%}
+                  <div>
+                    <label class="form-label block mb-3">Relationship Status</label>
+                    <div class="flex flex-wrap gap-4">
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="contact[relationship_status]" value="Single" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Single</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="contact[relationship_status]" value="Taken" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Taken</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="contact[relationship_status]" value="It's Complicated" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">It's Complicated</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label class="form-label block mb-3">Comfortable traveling for events?</label>
+                    <div class="flex flex-wrap gap-4">
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="contact[travel_comfortable]" value="Yes" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Yes</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="contact[travel_comfortable]" value="No" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">No</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="contact[travel_comfortable]" value="Sometimes" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Sometimes</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label class="form-label block mb-3">Comfortable with festival / nightlife environments?</label>
+                    <div class="flex flex-wrap gap-4">
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="contact[festival_comfortable]" value="Yes" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Yes</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="contact[festival_comfortable]" value="No" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">No</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {%- comment -%} Sections 7-12: Confidential + Agreements {%- endcomment -%}
+          <div class="accordion-item">
+            <button type="button" class="accordion-header" aria-expanded="false" data-accordion-target="section-7-12">
+              <span class="neon-text-gold text-xl sm:text-2xl font-heading">Sections 7-12: Confidential + Agreements</span>
+              <svg class="accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="accordion-content" id="section-7-12" style="display: none;">
+              <div class="neon-card">
+                <div class="space-y-8">
+                  {%- comment -%} Substance Disclosure {%- endcomment -%}
+                  <div>
+                    <h3 class="text-bekky-purple-neon text-xl mb-3 font-heading">Substance Disclosure (Confidential)</h3>
+                    <p class="text-bekky-gray-light text-sm mb-4">
+                      Honesty is required. This is confidential and for safety & brand alignment only. (Check all that apply)
+                    </p>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[substances][]" value="Alcohol" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Alcohol</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[substances][]" value="Marijuana" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Marijuana</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[substances][]" value="Cocaine" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Cocaine</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[substances][]" value="MDMA" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">MDMA</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[substances][]" value="Ketamine" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Ketamine</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[substances][]" value="LSD / Acid" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">LSD / Acid</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[substances][]" value="Prescription (non-prescribed use)" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Prescription (non-prescribed use)</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[substances][]" value="Other" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">Other</span>
+                      </label>
+                      <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="contact[substances][]" value="None" class="w-5 h-5 accent-bekky-purple">
+                        <span class="text-bekky-gray-light">None</span>
+                      </label>
+                    </div>
+                    
+                    <div class="mt-4">
+                      <label for="substances_other" class="form-label block mb-2">If 'Other', specify:</label>
+                      <input 
+                        type="text" 
+                        id="substances_other" 
+                        name="contact[substances_other]" 
+                        class="form-input"
+                        value="{{ form.substances_other }}"
+                      >
+                    </div>
+                  </div>
+
+                  {%- comment -%} Agreements {%- endcomment -%}
+                  <div class="space-y-6">
+                    <div class="bg-bekky-purple-neon/10 border-2 border-bekky-purple-neon rounded-lg p-6">
+                      <h3 class="text-bekky-gold-neon text-lg mb-3 font-heading">Merch & Contract Agreement</h3>
+                      <ul class="text-bekky-gray-light text-sm space-y-2 mb-4">
+                        <li>• All merch provided remains BBA property unless earned or gifted.</li>
+                        <li>• If contractual standards are not upheld, merch must be returned or purchased.</li>
+                        <li>• No resale of BBA merch without written permission.</li>
+                      </ul>
+                      <label class="flex items-center gap-3 cursor-pointer">
+                        <input 
+                          type="checkbox" 
+                          name="contact[merch_agreement]" 
+                          value="agreed" 
+                          class="w-5 h-5 accent-bekky-gold" 
+                          required
+                        >
+                        <span class="text-white font-bold">I understand and agree. *</span>
+                      </label>
+                    </div>
+
+                    <div class="bg-bekky-purple-neon/10 border-2 border-bekky-purple-neon rounded-lg p-6">
+                      <h3 class="text-bekky-gold-neon text-lg mb-3 font-heading">Code of Conduct</h3>
+                      <ul class="text-bekky-gray-light text-sm space-y-2 mb-4">
+                        <li>• Represent the brand with confidence & respect.</li>
+                        <li>• Maintain professionalism online & in person.</li>
+                        <li>• Avoid actions that harm the BBA image.</li>
+                        <li>• Respect fellow models, staff & community members.</li>
+                      </ul>
+                      <label class="flex items-center gap-3 cursor-pointer">
+                        <input 
+                          type="checkbox" 
+                          name="contact[code_conduct]" 
+                          value="agreed" 
+                          class="w-5 h-5 accent-bekky-gold" 
+                          required
+                        >
+                        <span class="text-white font-bold">I agree to follow the BBA Code of Conduct. *</span>
+                      </label>
+                    </div>
+
+                    <div class="bg-bekky-gold-neon/10 border-2 border-bekky-gold-neon rounded-lg p-6">
+                      <h3 class="text-bekky-gold-neon text-lg mb-3 font-heading">BBA Model Statement</h3>
+                      <p class="text-bekky-gray-light text-sm mb-4">
+                        I understand that representing BBA means more than posting photos.<br>
+                        I represent confidence, respect, and the culture we are building together.<br>
+                        I choose to show up with integrity, energy, and intention.
+                      </p>
+                      <label class="flex items-center gap-3 cursor-pointer">
+                        <input 
+                          type="checkbox" 
+                          name="contact[model_statement]" 
+                          value="agreed" 
+                          class="w-5 h-5 accent-bekky-gold" 
+                          required
+                        >
+                        <span class="text-white font-bold">I agree. *</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  {%- comment -%} Signature {%- endcomment -%}
+                  <div>
+                    <h3 class="text-bekky-purple-neon text-xl mb-4 font-heading">Signature</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label for="signature_name" class="form-label block mb-2">Printed Name *</label>
+                        <input 
+                          type="text" 
+                          id="signature_name" 
+                          name="contact[signature_name]" 
+                          class="form-input" 
+                          required
+                          value="{{ form.signature_name }}"
+                        >
+                      </div>
+                      <div>
+                        <label for="signature_date" class="form-label block mb-2">Date *</label>
+                        <input 
+                          type="date" 
+                          id="signature_date" 
+                          name="contact[signature_date]" 
+                          class="form-input" 
+                          required
+                          value="{{ form.signature_date }}"
+                        >
+                      </div>
+                    </div>
+                    <div class="mt-4">
+                      <label for="signature" class="form-label block mb-2">Signature (type your full name) *</label>
+                      <input 
+                        type="text" 
+                        id="signature" 
+                        name="contact[signature]" 
+                        class="form-input font-signature text-2xl" 
+                        placeholder="Type your full name"
+                        required
+                        value="{{ form.signature }}"
+                      >
+                      <p class="text-bekky-gray-light text-xs mt-2">By typing your name, you are providing a legal signature.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
 
         {%- comment -%} Submit Button {%- endcomment -%}
-        <div class="text-center">
+        <div class="text-center mt-8">
           <button type="submit" class="neon-button-gold neon-button-lg px-12">
             Submit Application
           </button>
@@ -731,4 +770,100 @@
   .font-signature {
     font-family: 'Brush Script MT', cursive;
   }
+
+  /* Accordion Styles */
+  .accordion-container {
+    max-width: 100%;
+  }
+
+  .accordion-item {
+    margin-bottom: 1rem;
+  }
+
+  .accordion-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid var(--bekky-purple-neon);
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+  }
+
+  .accordion-header:hover {
+    background: rgba(155, 127, 255, 0.1);
+    border-color: var(--bekky-gold-neon);
+    box-shadow: 0 0 15px rgba(155, 127, 255, 0.3);
+  }
+
+  .accordion-header[aria-expanded="true"] {
+    border-color: var(--bekky-gold-neon);
+    box-shadow: 0 0 20px rgba(255, 246, 126, 0.4);
+  }
+
+  .accordion-icon {
+    color: var(--bekky-purple-neon);
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .accordion-header[aria-expanded="true"] .accordion-icon {
+    transform: rotate(180deg);
+    color: var(--bekky-gold-neon);
+  }
+
+  .accordion-content {
+    margin-top: 0.5rem;
+    animation: slideDown 0.3s ease-out;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const accordionHeaders = document.querySelectorAll('.accordion-header');
+    
+    accordionHeaders.forEach(header => {
+      header.addEventListener('click', function() {
+        const targetId = this.getAttribute('data-accordion-target');
+        const targetContent = document.getElementById(targetId);
+        const isExpanded = this.getAttribute('aria-expanded') === 'true';
+        
+        // Close all other accordions
+        accordionHeaders.forEach(otherHeader => {
+          if (otherHeader !== this) {
+            const otherTargetId = otherHeader.getAttribute('data-accordion-target');
+            const otherTargetContent = document.getElementById(otherTargetId);
+            otherHeader.setAttribute('aria-expanded', 'false');
+            if (otherTargetContent) {
+              otherTargetContent.style.display = 'none';
+            }
+          }
+        });
+        
+        // Toggle current accordion
+        if (isExpanded) {
+          this.setAttribute('aria-expanded', 'false');
+          targetContent.style.display = 'none';
+        } else {
+          this.setAttribute('aria-expanded', 'true');
+          targetContent.style.display = 'block';
+        }
+      });
+    });
+  });
+</script>
