@@ -42,7 +42,13 @@
           {%- comment -%} Section 1: Basic Information {%- endcomment -%}
           <div class="accordion-item">
             <button type="button" class="accordion-header" aria-expanded="false" data-accordion-target="section-1">
-              <span class="neon-text-gold text-xl sm:text-2xl font-heading">Section 1: Basic Information</span>
+              <span class="neon-text-gold text-xl sm:text-2xl font-heading flex items-center gap-3">
+                Section 1: Basic Information
+                <svg class="section-complete-icon hidden" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="10" fill="#39ff14" stroke="#39ff14" stroke-width="2"/>
+                  <path d="M8 12L11 15L16 9" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
               <svg class="accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
@@ -220,7 +226,13 @@
           {%- comment -%} Section 2: Intent, Energy & Alignment {%- endcomment -%}
           <div class="accordion-item">
             <button type="button" class="accordion-header" aria-expanded="false" data-accordion-target="section-2">
-              <span class="neon-text-gold text-xl sm:text-2xl font-heading">Section 2: Intent, Energy & Alignment</span>
+              <span class="neon-text-gold text-xl sm:text-2xl font-heading flex items-center gap-3">
+                Section 2: Intent, Energy & Alignment
+                <svg class="section-complete-icon hidden" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="10" fill="#39ff14" stroke="#39ff14" stroke-width="2"/>
+                  <path d="M8 12L11 15L16 9" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
               <svg class="accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
@@ -350,7 +362,13 @@
           {%- comment -%} Section 3: Culture, Style & Lifestyle {%- endcomment -%}
           <div class="accordion-item">
             <button type="button" class="accordion-header" aria-expanded="false" data-accordion-target="section-3">
-              <span class="neon-text-gold text-xl sm:text-2xl font-heading">Section 3: Culture, Style & Lifestyle</span>
+              <span class="neon-text-gold text-xl sm:text-2xl font-heading flex items-center gap-3">
+                Section 3: Culture, Style & Lifestyle
+                <svg class="section-complete-icon hidden" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="10" fill="#39ff14" stroke="#39ff14" stroke-width="2"/>
+                  <path d="M8 12L11 15L16 9" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
               <svg class="accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
@@ -579,7 +597,13 @@
           {%- comment -%} Section 4: Confidential + Agreements {%- endcomment -%}
           <div class="accordion-item">
             <button type="button" class="accordion-header" aria-expanded="false" data-accordion-target="section-4">
-              <span class="neon-text-gold text-xl sm:text-2xl font-heading">Section 4: Confidential + Agreements</span>
+              <span class="neon-text-gold text-xl sm:text-2xl font-heading flex items-center gap-3">
+                Section 4: Confidential + Agreements
+                <svg class="section-complete-icon hidden" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="10" fill="#39ff14" stroke="#39ff14" stroke-width="2"/>
+                  <path d="M8 12L11 15L16 9" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
               <svg class="accordion-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
@@ -831,12 +855,176 @@
       transform: translateY(0);
     }
   }
+
+  .section-complete-icon {
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 8px rgba(57, 255, 20, 0.8));
+  }
+
+  .section-complete-icon.hidden {
+    display: none;
+  }
 </style>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const accordionHeaders = document.querySelectorAll('.accordion-header');
     
+    // Section field mappings - required fields for each section
+    const sectionFields = {
+      'section-1': [
+        '#legal_name',
+        '#date_of_birth',
+        '#location',
+        '#phone',
+        '#email'
+      ],
+      'section-2': [
+        '#why_represent_bekky',
+        '#what_bba_represents',
+        '#self_expression',
+        '#bba_definition',
+        '#contribution',
+        '#scenario_response'
+      ],
+      'section-3': [
+        // Section 3 has no required fields, so we'll check if at least some fields are filled
+        '#favorite_genre',
+        '#favorite_djs',
+        '#clothing_requests'
+      ],
+      'section-4': [
+        'input[name="contact[merch_agreement]"]',
+        'input[name="contact[code_conduct]"]',
+        'input[name="contact[model_statement]"]',
+        '#signature_name',
+        '#signature_date',
+        '#signature'
+      ]
+    };
+
+    // Function to check if a section is complete
+    function checkSectionComplete(sectionId) {
+      const fields = sectionFields[sectionId];
+      if (!fields) return false;
+
+      // For section 3, we'll consider it complete if at least one field has content
+      if (sectionId === 'section-3') {
+        return fields.some(selector => {
+          const field = document.querySelector(selector);
+          if (!field) return false;
+          if (field.type === 'checkbox' || field.type === 'radio') {
+            return field.checked;
+          }
+          return field.value && field.value.trim() !== '';
+        });
+      }
+
+      // For other sections, check all required fields
+      return fields.every(selector => {
+        const field = document.querySelector(selector);
+        if (!field) return false;
+        
+        if (field.type === 'checkbox' || field.type === 'radio') {
+          return field.checked;
+        }
+        
+        if (field.type === 'textarea') {
+          return field.value && field.value.trim() !== '';
+        }
+        
+        return field.value && field.value.trim() !== '';
+      });
+    }
+
+    // Function to update section completion icon
+    function updateSectionIcon(sectionId) {
+      const header = document.querySelector(`[data-accordion-target="${sectionId}"]`);
+      if (!header) return;
+      
+      const icon = header.querySelector('.section-complete-icon');
+      if (!icon) return;
+      
+      const isComplete = checkSectionComplete(sectionId);
+      
+      if (isComplete) {
+        icon.classList.remove('hidden');
+      } else {
+        icon.classList.add('hidden');
+      }
+    }
+
+    // Function to check all sections
+    function checkAllSections() {
+      Object.keys(sectionFields).forEach(sectionId => {
+        updateSectionIcon(sectionId);
+      });
+    }
+
+    // Add event listeners to all form fields
+    function setupFieldListeners() {
+      const form = document.getElementById('model-application-form');
+      if (!form) return;
+
+      // Listen for input, change, and blur events on all form fields
+      form.addEventListener('input', function(e) {
+        // Find which section this field belongs to
+        const field = e.target;
+        const fieldId = field.id;
+        const fieldName = field.name;
+        
+        // Determine section based on field
+        let sectionId = null;
+        if (fieldId && fieldId.includes('legal_name') || fieldId.includes('date_of_birth') || 
+            fieldId.includes('location') || fieldId.includes('phone') || fieldId.includes('email')) {
+          sectionId = 'section-1';
+        } else if (fieldId && (fieldId.includes('why_represent') || fieldId.includes('what_bba') || 
+                   fieldId.includes('self_expression') || fieldId.includes('bba_definition') || 
+                   fieldId.includes('contribution') || fieldId.includes('scenario'))) {
+          sectionId = 'section-2';
+        } else if (fieldId && (fieldId.includes('favorite_genre') || fieldId.includes('favorite_djs') || 
+                   fieldId.includes('clothing_requests'))) {
+          sectionId = 'section-3';
+        } else if (fieldName && (fieldName.includes('merch_agreement') || fieldName.includes('code_conduct') || 
+                   fieldName.includes('model_statement') || fieldId.includes('signature'))) {
+          sectionId = 'section-4';
+        } else if (field.closest('#section-1')) {
+          sectionId = 'section-1';
+        } else if (field.closest('#section-2')) {
+          sectionId = 'section-2';
+        } else if (field.closest('#section-3')) {
+          sectionId = 'section-3';
+        } else if (field.closest('#section-4')) {
+          sectionId = 'section-4';
+        }
+
+        if (sectionId) {
+          // Use setTimeout to ensure the value is updated
+          setTimeout(() => updateSectionIcon(sectionId), 10);
+        }
+      });
+
+      form.addEventListener('change', function(e) {
+        const field = e.target;
+        let sectionId = null;
+        
+        if (field.closest('#section-1')) {
+          sectionId = 'section-1';
+        } else if (field.closest('#section-2')) {
+          sectionId = 'section-2';
+        } else if (field.closest('#section-3')) {
+          sectionId = 'section-3';
+        } else if (field.closest('#section-4')) {
+          sectionId = 'section-4';
+        }
+
+        if (sectionId) {
+          setTimeout(() => updateSectionIcon(sectionId), 10);
+        }
+      });
+    }
+
+    // Accordion functionality
     accordionHeaders.forEach(header => {
       header.addEventListener('click', function() {
         const targetId = this.getAttribute('data-accordion-target');
@@ -865,5 +1053,9 @@
         }
       });
     });
+
+    // Initialize
+    setupFieldListeners();
+    checkAllSections();
   });
 </script>
