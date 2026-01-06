@@ -48,10 +48,16 @@
         BBA Fam
       </a>
 
-      {%- comment -%} Login Button {%- endcomment -%}
-      <a href="{{ routes.account_login_url }}" class="px-3 py-2 text-sm font-heading font-bold uppercase tracking-wide text-bekky-purple-neon hover:text-bekky-gold-neon transition-colors">
-        Login
-      </a>
+      {%- comment -%} Login/Logout Button {%- endcomment -%}
+      {% if customer %}
+        <a href="{{ routes.account_logout_url }}" class="px-3 py-2 text-sm font-heading font-bold uppercase tracking-wide text-bekky-purple-neon hover:text-bekky-gold-neon transition-colors">
+          Logout
+        </a>
+      {% else %}
+        <a href="{{ routes.account_login_url }}" class="px-3 py-2 text-sm font-heading font-bold uppercase tracking-wide text-bekky-purple-neon hover:text-bekky-gold-neon transition-colors">
+          Login
+        </a>
+      {% endif %}
 
       {%- comment -%} Cart Icon {%- endcomment -%}
       <a href="{{ routes.cart_url }}" class="flex items-center gap-2 text-2xl text-white transition-all hover:text-bekky-gold" aria-label="Shopping cart">
@@ -110,10 +116,16 @@
     BBA Fam
   </a>
 
-  {%- comment -%} Login Button - matching desktop {%- endcomment -%}
-  <a href="{{ routes.account_login_url }}" class="px-3 py-2 text-sm font-heading font-bold uppercase tracking-wide text-bekky-purple-neon hover:text-bekky-gold-neon transition-colors mobile-menu-link" style="color: #9B7FFF !important;">
-    Login
-  </a>
+  {%- comment -%} Login/Logout Button - matching desktop {%- endcomment -%}
+  {% if customer %}
+    <a href="{{ routes.account_logout_url }}" class="px-3 py-2 text-sm font-heading font-bold uppercase tracking-wide text-bekky-purple-neon hover:text-bekky-gold-neon transition-colors mobile-menu-link" style="color: #9B7FFF !important;">
+      Logout
+    </a>
+  {% else %}
+    <a href="{{ routes.account_login_url }}" class="px-3 py-2 text-sm font-heading font-bold uppercase tracking-wide text-bekky-purple-neon hover:text-bekky-gold-neon transition-colors mobile-menu-link" style="color: #9B7FFF !important;">
+      Login
+    </a>
+  {% endif %}
 
   {%- comment -%} Cart Icon - matching desktop {%- endcomment -%}
   <a href="{{ routes.cart_url }}" class="flex items-center gap-2 text-2xl text-white transition-all hover:text-bekky-gold mobile-menu-link" aria-label="Shopping cart" style="color: #ffffff !important;">
