@@ -154,6 +154,74 @@
         }
       });
     </script>
+
+    {%- comment -%} Prevent Joy Widget Auto-Open on Mobile {%- endcomment -%}
+    {% if customer %}
+    <script>
+      (function() {
+        const isMobile = window.innerWidth < 768;
+        
+        if (!isMobile) return; // Only apply on mobile
+        
+        // Prevent Joy widget from auto-opening on mobile
+        function preventJoyAutoOpen() {
+          // Wait for Joy widget to load
+          const checkInterval = setInterval(function() {
+            // Find Joy widget elements
+            const joyWidgets = document.querySelectorAll('[data-joy-widget], .joy-widget, .joy-widget-button, .joy-floating-button');
+            
+            if (joyWidgets.length > 0) {
+              clearInterval(checkInterval);
+              
+              joyWidgets.forEach(function(widget) {
+                // Hide widget initially
+                widget.style.display = 'none';
+                widget.style.visibility = 'hidden';
+                widget.style.opacity = '0';
+                widget.style.pointerEvents = 'none';
+                
+                // Add click handler to show widget when clicked
+                widget.addEventListener('click', function(e) {
+                  e.stopPropagation();
+                  widget.style.display = '';
+                  widget.style.visibility = 'visible';
+                  widget.style.opacity = '1';
+                  widget.style.pointerEvents = 'auto';
+                  widget.classList.add('joy-widget-open');
+                });
+              });
+              
+              // Prevent auto-open by intercepting Joy's initialization
+              if (window.Joy) {
+                const originalOpen = window.Joy.open;
+                if (originalOpen) {
+                  window.Joy.open = function() {
+                    // Only allow manual opens on mobile
+                    return false;
+                  };
+                }
+              }
+            }
+          }, 100);
+          
+          // Stop checking after 5 seconds
+          setTimeout(function() {
+            clearInterval(checkInterval);
+          }, 5000);
+        }
+        
+        // Run when DOM is ready
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', preventJoyAutoOpen);
+        } else {
+          preventJoyAutoOpen();
+        }
+        
+        // Also run after a delay to catch late-loading widgets
+        setTimeout(preventJoyAutoOpen, 1000);
+      })();
+    </script>
+    {% endif %}
   </body>
 </html>
 

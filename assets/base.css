@@ -484,6 +484,38 @@ p {
   backdrop-filter: none !important;
 }
 
+/* Prevent Joy widget from auto-opening on mobile - only open on click */
+@media (max-width: 768px) {
+  /* Hide Joy widget floating button/trigger on mobile initially */
+  [data-joy-widget],
+  [data-joy-widget] iframe,
+  .joy-widget,
+  .joy-widget-button,
+  .joy-floating-button {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+  
+  /* Show Joy widget only when explicitly opened (manual click) */
+  [data-joy-widget].joy-widget-open,
+  [data-joy-widget].joy-widget-open iframe,
+  .joy-widget.joy-widget-open {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+  
+  /* Prevent auto-open animations/transitions on mobile */
+  [data-joy-widget],
+  .joy-widget {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
 /* Scan Line Effect */
 .scan-line {
   position: relative;

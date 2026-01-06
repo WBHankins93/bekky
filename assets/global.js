@@ -13,6 +13,10 @@ function initCarousel() {
     const speed = parseInt(track.getAttribute('data-carousel-speed')) || 30;
     const container = track.closest('.carousel-container');
     
+    // Detect mobile - slower speed on mobile
+    const isMobile = window.innerWidth < 768;
+    const adjustedSpeed = isMobile ? speed * 1.5 : speed; // 50% slower on mobile
+    
     // Wait for images to load before calculating scroll width
     const images = track.querySelectorAll('img');
     let imagesLoaded = 0;
@@ -55,8 +59,8 @@ function initCarousel() {
         return;
       }
       
-      // Calculate scroll speed (pixels per frame at 60fps)
-      const pixelsPerSecond = scrollWidth / speed;
+      // Calculate scroll speed (pixels per frame at 60fps) - slower on mobile
+      const pixelsPerSecond = scrollWidth / adjustedSpeed;
       const pixelsPerFrame = pixelsPerSecond / 60;
       
       // Auto-scroll function
@@ -178,6 +182,12 @@ function initCarousel() {
       
       track.addEventListener('touchend', () => {
         touchStartX = 0;
+        // Resume auto-scroll after touch ends on mobile
+        setTimeout(() => {
+          if (!isPaused && !isUserInteracting) {
+            startAutoScroll();
+          }
+        }, 2000); // Wait 2 seconds after touch ends before resuming
       });
       
       // Mouse wheel scroll
