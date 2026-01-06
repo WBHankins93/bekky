@@ -133,6 +133,21 @@
       // Customer login status
       window.customerLoggedIn = {% if customer %}true{% else %}false{% endif %};
     </script>
+
+    {%- comment -%} Joy Widget "Shop now" Button Redirect {%- endcomment -%}
+    <script>
+      document.addEventListener("click", function (e) {
+        const button = e.target.closest("button");
+
+        if (!button) return;
+
+        // Match Joy's "Shop now" button
+        if (button.textContent.trim().toLowerCase() === "shop now") {
+          e.preventDefault();
+          window.location.href = "/pages/shop";
+        }
+      });
+    </script>
   </body>
 </html>
 
