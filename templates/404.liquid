@@ -4,8 +4,8 @@
 {%- endcomment -%}
 
 <div class="min-h-screen bg-black py-12 sm:py-16 md:py-24 flex items-center justify-center">
-  <div class="container text-center px-4 mx-auto">
-    <div class="neon-card max-w-2xl mx-auto">
+  <div class="container text-center px-4 mx-auto" style="margin-left: auto !important; margin-right: auto !important; width: 100%; max-width: 1200px;">
+    <div class="neon-card max-w-2xl mx-auto" style="margin-left: auto !important; margin-right: auto !important;">
       <div class="mb-8">
         <span class="text-8xl block mb-6 animate-float">🦙</span>
         <h1 class="display-heading mb-4 text-3xl sm:text-4xl md:text-6xl">404</h1>
@@ -59,4 +59,24 @@
     </div>
   </div>
 </div>
+
+<style>
+  /* Force center 404 page card - override any conflicting styles */
+  .min-h-screen.flex.items-center.justify-center > .container {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 100% !important;
+    max-width: 1200px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  
+  .min-h-screen.flex.items-center.justify-center .neon-card {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 100% !important;
+    max-width: 42rem !important;
+  }
+</style>
 
