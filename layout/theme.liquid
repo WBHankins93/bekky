@@ -46,6 +46,12 @@
     {% render 'structured-data' %}
 
     <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
+    
+    {%- comment -%} Joy Loyalty Widget - Only load for logged-in customers {%- endcomment -%}
+    {% if customer %}
+      <script src="https://cdn.joy.so/widget.js" defer></script>
+    {% endif %}
+    
     {{ content_for_header }}
 
     {%- liquid
