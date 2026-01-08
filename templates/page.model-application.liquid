@@ -1164,9 +1164,15 @@
           }
           
           // Debug: Log what we're sending
+          console.log('=== GOOGLE FORMS SUBMISSION DEBUG ===');
           console.log('Total fields to submit:', googleFormData.toString().split('&').length);
           console.log('Submitting to Google Forms:', googleFormUrl);
-          console.log('Form data:', googleFormData.toString());
+          console.log('Form data (full):', googleFormData.toString());
+          console.log('Form data (parsed):');
+          googleFormData.forEach(function(value, key) {
+            console.log('  ' + key + ' = ' + value);
+          });
+          console.log('=====================================');
           
           // Show success message immediately (optimistic UI)
           window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1197,6 +1203,12 @@
           iframe.style.width = '0';
           iframe.style.height = '0';
           iframe.style.border = 'none';
+          
+          // Add load event listener to iframe to verify submission
+          iframe.onload = function() {
+            console.log('Google Forms iframe loaded - submission completed');
+          };
+          
           document.body.appendChild(iframe);
           
           // Create a temporary form to submit via iframe
@@ -1206,36 +1218,55 @@
           tempForm.target = iframeId;
           tempForm.style.display = 'none';
           tempForm.acceptCharset = 'UTF-8';
+          tempForm.enctype = 'application/x-www-form-urlencoded';
           
-          // Add all form data as hidden inputs
-          // URLSearchParams creates "entry.123=value&entry.456=value2" format
-          var formDataString = googleFormData.toString();
-          var pairs = formDataString.split('&');
+          // Add all form data as hidden inputs directly from URLSearchParams
+          // This preserves encoding and handles multiple values correctly
+          console.log('Creating form with', googleFormData.toString().split('&').length, 'fields...');
           
-          console.log('Creating form with', pairs.length, 'fields...');
-          
-          pairs.forEach(function(pair) {
-            var parts = pair.split('=');
-            if (parts.length === 2) {
-              var input = document.createElement('input');
-              input.type = 'hidden';
-              input.name = decodeURIComponent(parts[0]);
-              input.value = decodeURIComponent(parts[1].replace(/\+/g, ' '));
-              tempForm.appendChild(input);
-              console.log('Added field:', input.name, '=', input.value);
-            }
+          // Build form directly from URLSearchParams (preserves encoding)
+          googleFormData.forEach(function(value, key) {
+            var input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key; // key is already in format "entry.123456789"
+            input.value = value;
+            tempForm.appendChild(input);
+            console.log('Added field:', input.name, '=', input.value.substring(0, 50) + (input.value.length > 50 ? '...' : ''));
           });
           
           document.body.appendChild(tempForm);
           
-          // Submit the form to Google Forms
+          // Wait a tiny bit for iframe to be ready, then submit
           console.log('Submitting form to Google Forms...');
-          try {
-            tempForm.submit();
-            console.log('Form submitted successfully');
-          } catch(e) {
-            console.error('Error submitting form:', e);
-          }
+          console.log('Form action:', tempForm.action);
+          console.log('Total inputs:', tempForm.querySelectorAll('input').length);
+          
+          setTimeout(function() {
+            try {
+              tempForm.submit();
+              console.log('Form submit() called successfully');
+              
+              // Log a test URL to verify in Network tab
+              console.log('Check Network tab for POST request to:', googleFormUrl);
+            } catch(e) {
+              console.error('Error submitting form:', e);
+              
+              // Fallback: try fetch
+              console.log('Trying fetch fallback...');
+              fetch(googleFormUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: googleFormData.toString()
+              }).then(function() {
+                console.log('Fallback fetch submission sent');
+              }).catch(function(e) {
+                console.error('Fallback fetch error:', e);
+              });
+            }
+          }, 100);
           
           // Clean up and show success after a short delay
           setTimeout(function() {
