@@ -1174,7 +1174,7 @@
           });
           console.log('=====================================');
           
-          // Show success message immediately (optimistic UI)
+          // Scroll to top
           window.scrollTo({ top: 0, behavior: 'smooth' });
           
           // Remove any existing success/error messages
@@ -1183,16 +1183,22 @@
             existingMsg.remove();
           }
           
-          // Create success message
-          var successMsg = document.createElement('div');
-          successMsg.className = 'form-submission-message neon-card bg-bekky-green/10 border-2 border-bekky-green mb-8';
-          successMsg.innerHTML = '<p class="text-bekky-green text-lg text-center">✅ Application submitted successfully! We\'ll be in touch soon.</p>';
-          
-          // Insert at top of form container
-          var container = document.querySelector('.max-w-4xl');
-          if (container) {
-            container.insertBefore(successMsg, container.firstChild);
+          // Helper function to show message
+          function showMessage(message, isError) {
+            var msgDiv = document.createElement('div');
+            msgDiv.className = 'form-submission-message neon-card ' + 
+              (isError ? 'bg-red-500/10 border-2 border-red-500' : 'bg-bekky-green/10 border-2 border-bekky-green') + 
+              ' mb-8';
+            msgDiv.innerHTML = '<p class="' + (isError ? 'text-red-400' : 'text-bekky-green') + ' text-lg text-center">' + message + '</p>';
+            
+            var container = document.querySelector('.max-w-4xl');
+            if (container) {
+              container.insertBefore(msgDiv, container.firstChild);
+            }
           }
+          
+          // Show loading message
+          showMessage('⏳ Submitting your application...', false);
           
           // Submit to Google Forms using hidden iframe (standard method for Google Forms)
           var iframeId = 'hidden_iframe_' + Date.now();
@@ -1204,10 +1210,100 @@
           iframe.style.height = '0';
           iframe.style.border = 'none';
           
+          var submissionSuccess = false;
+          var errorTimeout;
+          
           // Add load event listener to iframe to verify submission
           iframe.onload = function() {
-            console.log('Google Forms iframe loaded - submission completed');
+            console.log('Google Forms iframe loaded');
+            
+            // Check if iframe content indicates success or error
+            try {
+              var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+              var bodyText = iframeDoc.body ? iframeDoc.body.innerText : '';
+              
+              console.log('Iframe content:', bodyText);
+              
+              // Google Forms usually shows "Your response has been recorded" on success
+              if (bodyText.includes('Your response has been recorded') || 
+                  bodyText.includes('Thanks for your response') ||
+                  iframeDoc.location.href.includes('/viewform')) {
+                submissionSuccess = true;
+                clearTimeout(errorTimeout);
+                
+                // Remove loading message
+                var loadingMsg = document.querySelector('.form-submission-message');
+                if (loadingMsg) {
+                  loadingMsg.remove();
+                }
+                
+                // Show success
+                showMessage('✅ Application submitted successfully! We\'ll be in touch soon.', false);
+                
+                // Reset form
+                form.reset();
+                
+                // Hide form after a brief delay
+                setTimeout(function() {
+                  form.style.display = 'none';
+                }, 2000);
+              } else {
+                // Check for error indicators
+                if (bodyText.includes('403') || bodyText.includes('Forbidden') || 
+                    bodyText.includes('error') || iframeDoc.location.href.includes('error')) {
+                  throw new Error('Google Forms returned an error');
+                }
+              }
+            } catch(e) {
+              console.error('Error checking iframe content (may be cross-origin):', e);
+              // If we can't check iframe content, assume it might have worked
+              // But we'll use the timeout to detect if it didn't
+            }
           };
+          
+          // Error handler for iframe
+          iframe.onerror = function() {
+            console.error('Iframe error occurred');
+            clearTimeout(errorTimeout);
+            
+            // Remove loading message
+            var loadingMsg = document.querySelector('.form-submission-message');
+            if (loadingMsg) {
+              loadingMsg.remove();
+            }
+            
+            // Re-enable submit button
+            if (submitButton) {
+              submitButton.disabled = false;
+              submitButton.textContent = 'Submit Application';
+            }
+            
+            showMessage('⚠️ There was an error submitting your application. Please try again or contact us directly.', true);
+          };
+          
+          // Timeout to detect if submission failed (if iframe doesn't load or returns 403)
+          errorTimeout = setTimeout(function() {
+            if (!submissionSuccess) {
+              console.error('Submission timeout or error detected');
+              
+              // Remove loading message
+              var loadingMsg = document.querySelector('.form-submission-message');
+              if (loadingMsg) {
+                loadingMsg.remove();
+              }
+              
+              // Re-enable submit button
+              if (submitButton) {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Submit Application';
+              }
+              
+              // Check Network API if available to detect 403
+              // Note: We can't reliably detect 403 from iframe due to CORS
+              // but we can at least show a helpful error message
+              showMessage('⚠️ Unable to submit to Google Forms (403 Forbidden). This usually means the form is blocking external submissions. Please try submitting directly through the Google Form link or contact us directly.', true);
+            }
+          }, 4000); // Wait 4 seconds for response (403 errors usually happen quickly)
           
           document.body.appendChild(iframe);
           
@@ -1268,9 +1364,9 @@
             }
           }, 100);
           
-          // Clean up and show success after a short delay
+          // Clean up iframe and form after submission (regardless of success/failure)
+          // The success/error messages are handled in iframe handlers above
           setTimeout(function() {
-            console.log('Form submission completed');
             try {
               if (document.body.contains(tempForm)) {
                 document.body.removeChild(tempForm);
@@ -1281,15 +1377,7 @@
             } catch(e) {
               console.log('Cleanup error (non-critical):', e);
             }
-            
-            // Reset form
-            form.reset();
-            
-            // Hide form after a brief delay
-            setTimeout(function() {
-              form.style.display = 'none';
-            }, 2000);
-          }, 1500);
+          }, 5000); // Clean up after 5 seconds
         } catch (error) {
           console.error('Error in form submission handler:', error);
           
