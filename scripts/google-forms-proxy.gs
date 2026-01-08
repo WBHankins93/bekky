@@ -1,0 +1,157 @@
+/**
+ * Google Apps Script Web App - Proxy for Google Forms Submission
+ * This script acts as a proxy to bypass Google Forms' 403 CSRF protection
+ * 
+ * SETUP INSTRUCTIONS:
+ * 1. Go to script.google.com
+ * 2. Create a new project
+ * 3. Paste this code into the editor
+ * 4. Deploy as a web app:
+ *    - Click "Deploy" > "New deployment"
+ *    - Select type: "Web app"
+ *    - Execute as: "Me"
+ *    - Who has access: "Anyone" (or "Anyone with Google account" if you want some auth)
+ *    - Click "Deploy"
+ * 5. Copy the Web App URL and use it in your form submission code
+ */
+
+// Replace with your actual Google Form's formResponse URL
+var GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdRxXg4w8HnBlzN-qXPAzi9xcsSNLcMWyAQ9LFEfWns841ecA/formResponse';
+
+/**
+ * Main function to handle POST requests
+ */
+function doPost(e) {
+  try {
+    // Log the incoming request for debugging
+    Logger.log('Received POST request');
+    Logger.log('Post data: ' + e.postData.getDataAsString());
+    
+    // Get the raw post data (URL-encoded string)
+    var postData = e.postData.getDataAsString();
+    
+    // Parse the URL-encoded data
+    var formData = {};
+    var pairs = postData.split('&');
+    
+    for (var i = 0; i < pairs.length; i++) {
+      var pair = pairs[i].split('=');
+      if (pair.length === 2) {
+        var key = decodeURIComponent(pair[0]);
+        var value = decodeURIComponent(pair[1].replace(/\+/g, ' '));
+        
+        // Handle multiple values for the same key (checkboxes)
+        if (formData[key]) {
+          // If key already exists, create array
+          if (!Array.isArray(formData[key])) {
+            formData[key] = [formData[key]];
+          }
+          formData[key].push(value);
+        } else {
+          formData[key] = value;
+        }
+      }
+    }
+    
+    Logger.log('Parsed form data: ' + JSON.stringify(formData));
+    
+    // Build the submission payload for Google Forms
+    // Google Forms expects entry.123456789 format
+    var payload = {};
+    
+    for (var key in formData) {
+      if (key.startsWith('entry.')) {
+        var value = formData[key];
+        
+        // Handle multiple values (checkboxes)
+        // When multiple values exist for same entry ID, send them as array
+        // UrlFetchApp will properly format this when making the request
+        if (Array.isArray(value)) {
+          payload[key] = value; // Send all checkbox values
+        } else {
+          payload[key] = value;
+        }
+      }
+    }
+    
+    Logger.log('Payload for Google Forms: ' + JSON.stringify(payload));
+    
+    // Submit to Google Forms using UrlFetchApp
+    var options = {
+      'method': 'post',
+      'payload': payload,
+      'muteHttpExceptions': true,
+      'followRedirects': true
+    };
+    
+    Logger.log('Submitting to Google Forms: ' + GOOGLE_FORM_URL);
+    
+    var response = UrlFetchApp.fetch(GOOGLE_FORM_URL, options);
+    var responseCode = response.getResponseCode();
+    var responseText = response.getContentText();
+    
+    Logger.log('Response Code: ' + responseCode);
+    Logger.log('Response length: ' + responseText.length);
+    
+    // Check if submission was successful
+    // Google Forms returns 200 with a redirect or success message
+    var isSuccess = false;
+    if (responseCode === 200) {
+      // Check response content for success indicators
+      if (responseText.includes('Your response has been recorded') || 
+          responseText.includes('Thanks for your response') ||
+          responseText.includes('formResponse') ||
+          responseText.length > 1000) { // Usually success pages are longer
+        isSuccess = true;
+      }
+    }
+    
+    if (isSuccess || responseCode === 0) {
+      Logger.log('SUCCESS: Form submitted successfully');
+      return ContentService
+        .createTextOutput(JSON.stringify({
+          'status': 'success',
+          'message': 'Form submitted successfully',
+          'responseCode': responseCode
+        }))
+        .setMimeType(ContentService.MimeType.JSON);
+    } else {
+      Logger.log('ERROR: Failed to submit - Response code: ' + responseCode);
+      // Return error response
+      return ContentService
+        .createTextOutput(JSON.stringify({
+          'status': 'error',
+          'message': 'Failed to submit form',
+          'responseCode': responseCode,
+          'responsePreview': responseText.substring(0, 500)
+        }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    
+  } catch (error) {
+    // Log error
+    Logger.log('ERROR: ' + error.toString());
+    Logger.log('Stack: ' + error.stack);
+    
+    // Return error response
+    return ContentService
+      .createTextOutput(JSON.stringify({
+        'status': 'error',
+        'message': 'Error processing request: ' + error.toString()
+      }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+/**
+ * Handle GET requests (optional - for testing)
+ */
+function doGet(e) {
+  return ContentService
+    .createTextOutput(JSON.stringify({
+      'status': 'ok',
+      'message': 'Google Forms Proxy is running. Use POST to submit forms.'
+    }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+

@@ -1077,7 +1077,16 @@
           var formData = new FormData(form);
           console.log('Form data collected');
           
-          // Google Forms action URL
+          // Google Apps Script Web App URL (proxy to bypass 403 CSRF protection)
+          // REPLACE THIS with your deployed Apps Script Web App URL after setup
+          // Get it from: script.google.com > Deploy > Manage deployments > Web app URL
+          // Format: https://script.google.com/macros/s/YOUR_WEB_APP_ID/exec
+          var proxyUrl = 'https://script.google.com/macros/s/YOUR_WEB_APP_ID/exec'; // REPLACE THIS!
+          
+          // Check if proxy URL is configured (if it still has placeholder, use direct Google Forms)
+          var useProxy = proxyUrl && !proxyUrl.includes('YOUR_WEB_APP_ID');
+          
+          // Direct Google Forms URL (will get 403 without proxy)
           var googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSdRxXg4w8HnBlzN-qXPAzi9xcsSNLcMWyAQ9LFEfWns841ecA/formResponse';
           
           // Build Google Forms data
@@ -1305,64 +1314,115 @@
             }
           }, 4000); // Wait 4 seconds for response (403 errors usually happen quickly)
           
-          document.body.appendChild(iframe);
-          
-          // Create a temporary form to submit via iframe
-          var tempForm = document.createElement('form');
-          tempForm.method = 'POST';
-          tempForm.action = googleFormUrl;
-          tempForm.target = iframeId;
-          tempForm.style.display = 'none';
-          tempForm.acceptCharset = 'UTF-8';
-          tempForm.enctype = 'application/x-www-form-urlencoded';
-          
-          // Add all form data as hidden inputs directly from URLSearchParams
-          // This preserves encoding and handles multiple values correctly
-          console.log('Creating form with', googleFormData.toString().split('&').length, 'fields...');
-          
-          // Build form directly from URLSearchParams (preserves encoding)
-          googleFormData.forEach(function(value, key) {
-            var input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = key; // key is already in format "entry.123456789"
-            input.value = value;
-            tempForm.appendChild(input);
-            console.log('Added field:', input.name, '=', input.value.substring(0, 50) + (input.value.length > 50 ? '...' : ''));
-          });
-          
-          document.body.appendChild(tempForm);
-          
-          // Wait a tiny bit for iframe to be ready, then submit
-          console.log('Submitting form to Google Forms...');
-          console.log('Form action:', tempForm.action);
-          console.log('Total inputs:', tempForm.querySelectorAll('input').length);
-          
-          setTimeout(function() {
-            try {
-              tempForm.submit();
-              console.log('Form submit() called successfully');
+          // Use fetch for proxy (better for JSON responses), or iframe for direct Google Forms
+          if (useProxy) {
+            // Submit via Apps Script proxy using fetch (can read JSON response)
+            console.log('Submitting via Apps Script proxy:', proxyUrl);
+            
+            fetch(proxyUrl, {
+              method: 'POST',
+              mode: 'cors',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+              },
+              body: googleFormData.toString()
+            })
+            .then(function(response) {
+              console.log('Proxy response status:', response.status);
+              return response.json();
+            })
+            .then(function(data) {
+              console.log('Proxy response:', data);
               
-              // Log a test URL to verify in Network tab
-              console.log('Check Network tab for POST request to:', googleFormUrl);
-            } catch(e) {
-              console.error('Error submitting form:', e);
+              clearTimeout(errorTimeout);
               
-              // Fallback: try fetch
-              console.log('Trying fetch fallback...');
-              fetch(googleFormUrl, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: googleFormData.toString()
-              }).then(function() {
-                console.log('Fallback fetch submission sent');
-              }).catch(function(e) {
-                console.error('Fallback fetch error:', e);
-              });
-            }
-          }, 100);
+              // Remove loading message
+              var loadingMsg = document.querySelector('.form-submission-message');
+              if (loadingMsg) {
+                loadingMsg.remove();
+              }
+              
+              if (data.status === 'success') {
+                // Show success
+                showMessage('✅ Application submitted successfully! We\'ll be in touch soon.', false);
+                
+                // Reset form
+                form.reset();
+                
+                // Hide form after a brief delay
+                setTimeout(function() {
+                  form.style.display = 'none';
+                }, 2000);
+              } else {
+                // Show error
+                var submitButton = form.querySelector('button[type="submit"]');
+                if (submitButton) {
+                  submitButton.disabled = false;
+                  submitButton.textContent = 'Submit Application';
+                }
+                
+                showMessage('⚠️ Error submitting application: ' + (data.message || 'Unknown error'), true);
+              }
+            })
+            .catch(function(error) {
+              console.error('Proxy submission error:', error);
+              clearTimeout(errorTimeout);
+              
+              // Remove loading message
+              var loadingMsg = document.querySelector('.form-submission-message');
+              if (loadingMsg) {
+                loadingMsg.remove();
+              }
+              
+              // Re-enable submit button
+              var submitButton = form.querySelector('button[type="submit"]');
+              if (submitButton) {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Submit Application';
+              }
+              
+              showMessage('⚠️ There was an error submitting your application. Please try again or contact us directly.', true);
+            });
+          } else {
+            // Fallback: Use iframe method (direct Google Forms - will get 403)
+            console.log('Proxy not configured, using direct Google Forms (may get 403)...');
+            console.log('Please set up Apps Script proxy - see docs/setup/GOOGLE_FORMS_PROXY_SETUP.md');
+            
+            document.body.appendChild(iframe);
+            
+            // Create a temporary form to submit via iframe
+            var tempForm = document.createElement('form');
+            tempForm.method = 'POST';
+            tempForm.action = googleFormUrl;
+            tempForm.target = iframeId;
+            tempForm.style.display = 'none';
+            tempForm.acceptCharset = 'UTF-8';
+            tempForm.enctype = 'application/x-www-form-urlencoded';
+            
+            // Add all form data as hidden inputs
+            console.log('Creating form with', googleFormData.toString().split('&').length, 'fields...');
+            
+            googleFormData.forEach(function(value, key) {
+              var input = document.createElement('input');
+              input.type = 'hidden';
+              input.name = key;
+              input.value = value;
+              tempForm.appendChild(input);
+              console.log('Added field:', input.name, '=', input.value.substring(0, 50) + (input.value.length > 50 ? '...' : ''));
+            });
+            
+            document.body.appendChild(tempForm);
+            
+            setTimeout(function() {
+              try {
+                tempForm.submit();
+                console.log('Form submit() called successfully');
+                console.log('Check Network tab for POST request to:', googleFormUrl);
+              } catch(e) {
+                console.error('Error submitting form:', e);
+              }
+            }, 100);
+          }
           
           // Clean up iframe and form after submission (regardless of success/failure)
           // The success/error messages are handled in iframe handlers above
