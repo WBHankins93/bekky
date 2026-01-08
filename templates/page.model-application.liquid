@@ -1065,5 +1065,123 @@
     // Initialize
     setupFieldListeners();
     checkAllSections();
+
+    // Google Forms Integration
+    var form = document.getElementById('model-application-form');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault(); // Stop default Shopify submission
+        
+        var formData = new FormData(form);
+        
+        // Google Forms action URL
+        var googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSdRxXg4w8HnBlzN-qXPAzi9xcsSNLcMWyAQ9LFEfWns841ecA/formResponse';
+        
+        // Build Google Forms data
+        var googleFormData = new URLSearchParams();
+        
+        // Simple text fields
+        var simpleFields = {
+          'contact[legal_name]': '2056245631',
+          'contact[preferred_name]': '1363513700',
+          'contact[pronouns]': '993866760',
+          'contact[date_of_birth]': '472789353',
+          'contact[location]': '1299264667',
+          'contact[phone]': '870948744',
+          'contact[email]': '1376238800',
+          'contact[instagram]': '361854997',
+          'contact[tiktok]': '2014271659',
+          'contact[twitter]': '82215949',
+          'contact[other_platforms]': '1087736889',
+          'contact[follower_count]': '450271462',
+          'contact[why_represent_bekky]': '1566124579',
+          'contact[what_bba_represents]': '430550869',
+          'contact[self_expression]': '689652548',
+          'contact[bba_definition]': '1405583744',
+          'contact[contribution]': '146543066',
+          'contact[scenario_response]': '205038714',
+          'contact[favorite_genre]': '1981060043',
+          'contact[favorite_djs]': '622949923',
+          'contact[clothing_requests]': '1597003385',
+          'contact[relationship_status]': '226297739',
+          'contact[travel_comfortable]': '1281173279',
+          'contact[festival_comfortable]': '1786034361',
+          'contact[substances_other]': '1020482954',
+          'contact[signature_name]': '1776958538',
+          'contact[signature_date]': '1283928147',
+          'contact[signature]': '1898170153'
+        };
+        
+        // Add simple fields
+        for (var key in simpleFields) {
+          var value = formData.get(key);
+          if (value) {
+            googleFormData.append('entry.' + simpleFields[key], value);
+          }
+        }
+        
+        // Checkbox arrays
+        var checkboxFields = {
+          'contact[energy_types][]': '118028275',
+          'contact[edm_genres][]': '493062940',
+          'contact[clothing_prefs][]': '596739250',
+          'contact[fabric_prefs][]': '2071065872',
+          'contact[substances][]': '673783121'
+        };
+        
+        // Add checkbox fields
+        for (var key in checkboxFields) {
+          var values = formData.getAll(key);
+          if (values && values.length > 0) {
+            values.forEach(function(value) {
+              googleFormData.append('entry.' + checkboxFields[key], value);
+            });
+          }
+        }
+        
+        // Add agreement checkboxes with specific values
+        if (formData.get('contact[merch_agreement]')) {
+          googleFormData.append('entry.1339082856', 'I understand and agree');
+        }
+        
+        if (formData.get('contact[code_conduct]')) {
+          googleFormData.append('entry.1597031769', 'I agree to follow the BBA Code of Conduct');
+        }
+        
+        if (formData.get('contact[model_statement]')) {
+          googleFormData.append('entry.2066399614', 'I agree');
+        }
+        
+        // Submit to Google Forms
+        fetch(googleFormUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: googleFormData.toString()
+        })
+        .then(function() {
+          // Show success message
+          window.scrollTo(0, 0);
+          
+          // Create success message
+          var successMsg = document.createElement('div');
+          successMsg.className = 'neon-card bg-bekky-green/10 border-2 border-bekky-green mb-8';
+          successMsg.innerHTML = '<p class="text-bekky-green text-lg text-center">✅ Application submitted successfully! We\'ll be in touch soon.</p>';
+          
+          // Insert at top
+          var container = document.querySelector('.max-w-4xl');
+          container.insertBefore(successMsg, container.firstChild);
+          
+          // Hide form
+          form.style.display = 'none';
+        })
+        .catch(function(error) {
+          console.error('Error:', error);
+          alert('There was an error submitting your application. Please try again.');
+        });
+      });
+    }
   });
 </script>
