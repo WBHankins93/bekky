@@ -1067,115 +1067,121 @@
     checkAllSections();
 
     // Google Forms Integration
+    console.log('Setting up Google Forms integration...');
     var form = document.getElementById('model-application-form');
-    if (form) {
+    
+    if (!form) {
+      console.error('Form not found! Form ID: model-application-form');
+    } else {
+      console.log('Form found, attaching submit handler...');
+      
       form.addEventListener('submit', function(e) {
+        console.log('Form submit event triggered');
         e.preventDefault(); // Stop default Shopify submission
         
-        // Disable submit button to prevent double submission
-        var submitButton = form.querySelector('button[type="submit"]');
-        if (submitButton) {
-          submitButton.disabled = true;
-          submitButton.textContent = 'Submitting...';
-        }
-        
-        var formData = new FormData(form);
-        
-        // Google Forms action URL
-        var googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSdRxXg4w8HnBlzN-qXPAzi9xcsSNLcMWyAQ9LFEfWns841ecA/formResponse';
-        
-        // Build Google Forms data
-        var googleFormData = new URLSearchParams();
-        
-        // Simple text/textarea/date fields (use get() for single values)
-        var simpleFields = {
-          'contact[legal_name]': '2056245631',
-          'contact[preferred_name]': '1363513700',
-          'contact[pronouns]': '993866760',
-          'contact[date_of_birth]': '472789353',
-          'contact[location]': '1299264667',
-          'contact[phone]': '870948744',
-          'contact[email]': '1376238800',
-          'contact[instagram]': '361854997',
-          'contact[tiktok]': '2014271659',
-          'contact[twitter]': '82215949',
-          'contact[other_platforms]': '1087736889',
-          'contact[follower_count]': '450271462', // Radio button - use get()
-          'contact[why_represent_bekky]': '1566124579',
-          'contact[what_bba_represents]': '430550869',
-          'contact[self_expression]': '689652548',
-          'contact[bba_definition]': '1405583744',
-          'contact[contribution]': '146543066',
-          'contact[scenario_response]': '205038714',
-          'contact[favorite_genre]': '1981060043',
-          'contact[favorite_djs]': '622949923',
-          'contact[clothing_requests]': '1597003385',
-          'contact[relationship_status]': '226297739', // Radio button - use get()
-          'contact[travel_comfortable]': '1281173279', // Radio button - use get()
-          'contact[festival_comfortable]': '1786034361', // Radio button - use get()
-          'contact[substances_other]': '1020482954',
-          'contact[signature_name]': '1776958538',
-          'contact[signature_date]': '1283928147',
-          'contact[signature]': '1898170153'
-        };
-        
-        // Add simple fields (text, textarea, date, radio)
-        for (var key in simpleFields) {
-          var value = formData.get(key);
-          if (value && value.trim() !== '') {
-            googleFormData.append('entry.' + simpleFields[key], value);
+        try {
+          // Disable submit button to prevent double submission
+          var submitButton = form.querySelector('button[type="submit"]');
+          if (submitButton) {
+            submitButton.disabled = true;
+            submitButton.textContent = 'Submitting...';
           }
-        }
-        
-        // Checkbox arrays (multiple values possible)
-        var checkboxFields = {
-          'contact[energy_types][]': '118028275',
-          'contact[edm_genres][]': '493062940',
-          'contact[clothing_prefs][]': '596739250',
-          'contact[fabric_prefs][]': '2071065872',
-          'contact[substances][]': '673783121'
-        };
-        
-        // Add checkbox fields (use getAll() for multiple values)
-        for (var key in checkboxFields) {
-          var values = formData.getAll(key);
-          if (values && values.length > 0) {
-            values.forEach(function(value) {
-              if (value && value.trim() !== '') {
-                googleFormData.append('entry.' + checkboxFields[key], value);
-              }
-            });
+          
+          var formData = new FormData(form);
+          console.log('Form data collected');
+          
+          // Google Forms action URL
+          var googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSdRxXg4w8HnBlzN-qXPAzi9xcsSNLcMWyAQ9LFEfWns841ecA/formResponse';
+          
+          // Build Google Forms data
+          var googleFormData = new URLSearchParams();
+          
+          // Simple text/textarea/date fields (use get() for single values)
+          var simpleFields = {
+            'contact[legal_name]': '2056245631',
+            'contact[preferred_name]': '1363513700',
+            'contact[pronouns]': '993866760',
+            'contact[date_of_birth]': '472789353',
+            'contact[location]': '1299264667',
+            'contact[phone]': '870948744',
+            'contact[email]': '1376238800',
+            'contact[instagram]': '361854997',
+            'contact[tiktok]': '2014271659',
+            'contact[twitter]': '82215949',
+            'contact[other_platforms]': '1087736889',
+            'contact[follower_count]': '450271462', // Radio button - use get()
+            'contact[why_represent_bekky]': '1566124579',
+            'contact[what_bba_represents]': '430550869',
+            'contact[self_expression]': '689652548',
+            'contact[bba_definition]': '1405583744',
+            'contact[contribution]': '146543066',
+            'contact[scenario_response]': '205038714',
+            'contact[favorite_genre]': '1981060043',
+            'contact[favorite_djs]': '622949923',
+            'contact[clothing_requests]': '1597003385',
+            'contact[relationship_status]': '226297739', // Radio button - use get()
+            'contact[travel_comfortable]': '1281173279', // Radio button - use get()
+            'contact[festival_comfortable]': '1786034361', // Radio button - use get()
+            'contact[substances_other]': '1020482954',
+            'contact[signature_name]': '1776958538',
+            'contact[signature_date]': '1283928147',
+            'contact[signature]': '1898170153'
+          };
+          
+          // Add simple fields (text, textarea, date, radio)
+          var fieldsAdded = 0;
+          for (var key in simpleFields) {
+            var value = formData.get(key);
+            if (value && value.trim() !== '') {
+              googleFormData.append('entry.' + simpleFields[key], value);
+              fieldsAdded++;
+            }
           }
-        }
-        
-        // Add agreement checkboxes with specific values
-        if (formData.get('contact[merch_agreement]')) {
-          googleFormData.append('entry.1339082856', 'I understand and agree');
-        }
-        
-        if (formData.get('contact[code_conduct]')) {
-          googleFormData.append('entry.1597031769', 'I agree to follow the BBA Code of Conduct');
-        }
-        
-        if (formData.get('contact[model_statement]')) {
-          googleFormData.append('entry.2066399614', 'I agree');
-        }
-        
-        // Debug: Log what we're sending (remove in production if needed)
-        console.log('Submitting to Google Forms:', googleFormData.toString());
-        
-        // Submit to Google Forms
-        // Note: Using 'no-cors' mode means we can't read the response, but submissions still work
-        fetch(googleFormUrl, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          body: googleFormData.toString()
-        })
-        .then(function() {
-          // Show success message
+          console.log('Added ' + fieldsAdded + ' simple fields');
+          
+          // Checkbox arrays (multiple values possible)
+          var checkboxFields = {
+            'contact[energy_types][]': '118028275',
+            'contact[edm_genres][]': '493062940',
+            'contact[clothing_prefs][]': '596739250',
+            'contact[fabric_prefs][]': '2071065872',
+            'contact[substances][]': '673783121'
+          };
+          
+          // Add checkbox fields (use getAll() for multiple values)
+          var checkboxesAdded = 0;
+          for (var key in checkboxFields) {
+            var values = formData.getAll(key);
+            if (values && values.length > 0) {
+              values.forEach(function(value) {
+                if (value && value.trim() !== '') {
+                  googleFormData.append('entry.' + checkboxFields[key], value);
+                  checkboxesAdded++;
+                }
+              });
+            }
+          }
+          console.log('Added ' + checkboxesAdded + ' checkbox values');
+          
+          // Add agreement checkboxes with specific values
+          if (formData.get('contact[merch_agreement]')) {
+            googleFormData.append('entry.1339082856', 'I understand and agree');
+          }
+          
+          if (formData.get('contact[code_conduct]')) {
+            googleFormData.append('entry.1597031769', 'I agree to follow the BBA Code of Conduct');
+          }
+          
+          if (formData.get('contact[model_statement]')) {
+            googleFormData.append('entry.2066399614', 'I agree');
+          }
+          
+          // Debug: Log what we're sending
+          console.log('Total fields to submit:', googleFormData.toString().split('&').length);
+          console.log('Submitting to Google Forms:', googleFormUrl);
+          console.log('Form data:', googleFormData.toString());
+          
+          // Show success message immediately (optimistic UI)
           window.scrollTo({ top: 0, behavior: 'smooth' });
           
           // Remove any existing success/error messages
@@ -1195,18 +1201,82 @@
             container.insertBefore(successMsg, container.firstChild);
           }
           
-          // Reset form
-          form.reset();
+          // Submit to Google Forms using hidden iframe (standard method for Google Forms)
+          var iframeId = 'hidden_iframe_' + Date.now();
+          var iframe = document.createElement('iframe');
+          iframe.name = iframeId;
+          iframe.id = iframeId;
+          iframe.style.display = 'none';
+          iframe.style.width = '0';
+          iframe.style.height = '0';
+          iframe.style.border = 'none';
+          document.body.appendChild(iframe);
           
-          // Hide form after a brief delay
+          // Create a temporary form to submit via iframe
+          var tempForm = document.createElement('form');
+          tempForm.method = 'POST';
+          tempForm.action = googleFormUrl;
+          tempForm.target = iframeId;
+          tempForm.style.display = 'none';
+          tempForm.acceptCharset = 'UTF-8';
+          
+          // Add all form data as hidden inputs
+          // URLSearchParams creates "entry.123=value&entry.456=value2" format
+          var formDataString = googleFormData.toString();
+          var pairs = formDataString.split('&');
+          
+          console.log('Creating form with', pairs.length, 'fields...');
+          
+          pairs.forEach(function(pair) {
+            var parts = pair.split('=');
+            if (parts.length === 2) {
+              var input = document.createElement('input');
+              input.type = 'hidden';
+              input.name = decodeURIComponent(parts[0]);
+              input.value = decodeURIComponent(parts[1].replace(/\+/g, ' '));
+              tempForm.appendChild(input);
+              console.log('Added field:', input.name, '=', input.value);
+            }
+          });
+          
+          document.body.appendChild(tempForm);
+          
+          // Submit the form to Google Forms
+          console.log('Submitting form to Google Forms...');
+          try {
+            tempForm.submit();
+            console.log('Form submitted successfully');
+          } catch(e) {
+            console.error('Error submitting form:', e);
+          }
+          
+          // Clean up and show success after a short delay
           setTimeout(function() {
-            form.style.display = 'none';
-          }, 2000);
-        })
-        .catch(function(error) {
-          console.error('Error submitting form:', error);
+            console.log('Form submission completed');
+            try {
+              if (document.body.contains(tempForm)) {
+                document.body.removeChild(tempForm);
+              }
+              if (document.body.contains(iframe)) {
+                document.body.removeChild(iframe);
+              }
+            } catch(e) {
+              console.log('Cleanup error (non-critical):', e);
+            }
+            
+            // Reset form
+            form.reset();
+            
+            // Hide form after a brief delay
+            setTimeout(function() {
+              form.style.display = 'none';
+            }, 2000);
+          }, 1500);
+        } catch (error) {
+          console.error('Error in form submission handler:', error);
           
           // Re-enable submit button
+          var submitButton = form.querySelector('button[type="submit"]');
           if (submitButton) {
             submitButton.disabled = false;
             submitButton.textContent = 'Submit Application';
@@ -1215,14 +1285,16 @@
           // Show error message
           var errorMsg = document.createElement('div');
           errorMsg.className = 'form-submission-message neon-card bg-red-500/10 border-2 border-red-500 mb-8';
-          errorMsg.innerHTML = '<p class="text-red-400 text-lg text-center">⚠️ There was an error submitting your application. Please try again or contact us directly.</p>';
+          errorMsg.innerHTML = '<p class="text-red-400 text-lg text-center">⚠️ There was an error submitting your application. Please check the console and try again.</p>';
           
           var container = document.querySelector('.max-w-4xl');
           if (container) {
             container.insertBefore(errorMsg, container.firstChild);
           }
-        });
+        }
       });
+      
+      console.log('Submit handler attached successfully');
     }
   });
 </script>
