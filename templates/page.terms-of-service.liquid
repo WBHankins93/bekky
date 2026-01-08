@@ -9,7 +9,7 @@
       <h1 class="display-heading mb-4 sm:mb-6 text-3xl sm:text-4xl md:text-6xl">
         Terms of Service
       </h1>
-      <p class="text-bekky-gray-light text-lg sm:text-xl max-w-2xl mx-auto text-center">
+      <p class="text-bekky-gray-light text-lg sm:text-xl max-w-2xl mx-auto text-center" style="text-align: center !important; margin-left: auto !important; margin-right: auto !important;">
         Last Updated: {{ 'now' | date: '%B %d, %Y' }}
       </p>
     </div>
@@ -222,6 +222,13 @@
   
   .prose strong {
     color: var(--bekky-gold-neon);
+  }
+  
+  .text-bekky-gray-light.text-lg.sm\:text-xl.max-w-2xl.mx-auto.text-center {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: block !important;
   }
 </style>
 
