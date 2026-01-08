@@ -1072,6 +1072,13 @@
       form.addEventListener('submit', function(e) {
         e.preventDefault(); // Stop default Shopify submission
         
+        // Disable submit button to prevent double submission
+        var submitButton = form.querySelector('button[type="submit"]');
+        if (submitButton) {
+          submitButton.disabled = true;
+          submitButton.textContent = 'Submitting...';
+        }
+        
         var formData = new FormData(form);
         
         // Google Forms action URL
@@ -1080,7 +1087,7 @@
         // Build Google Forms data
         var googleFormData = new URLSearchParams();
         
-        // Simple text fields
+        // Simple text/textarea/date fields (use get() for single values)
         var simpleFields = {
           'contact[legal_name]': '2056245631',
           'contact[preferred_name]': '1363513700',
@@ -1093,7 +1100,7 @@
           'contact[tiktok]': '2014271659',
           'contact[twitter]': '82215949',
           'contact[other_platforms]': '1087736889',
-          'contact[follower_count]': '450271462',
+          'contact[follower_count]': '450271462', // Radio button - use get()
           'contact[why_represent_bekky]': '1566124579',
           'contact[what_bba_represents]': '430550869',
           'contact[self_expression]': '689652548',
@@ -1103,24 +1110,24 @@
           'contact[favorite_genre]': '1981060043',
           'contact[favorite_djs]': '622949923',
           'contact[clothing_requests]': '1597003385',
-          'contact[relationship_status]': '226297739',
-          'contact[travel_comfortable]': '1281173279',
-          'contact[festival_comfortable]': '1786034361',
+          'contact[relationship_status]': '226297739', // Radio button - use get()
+          'contact[travel_comfortable]': '1281173279', // Radio button - use get()
+          'contact[festival_comfortable]': '1786034361', // Radio button - use get()
           'contact[substances_other]': '1020482954',
           'contact[signature_name]': '1776958538',
           'contact[signature_date]': '1283928147',
           'contact[signature]': '1898170153'
         };
         
-        // Add simple fields
+        // Add simple fields (text, textarea, date, radio)
         for (var key in simpleFields) {
           var value = formData.get(key);
-          if (value) {
+          if (value && value.trim() !== '') {
             googleFormData.append('entry.' + simpleFields[key], value);
           }
         }
         
-        // Checkbox arrays
+        // Checkbox arrays (multiple values possible)
         var checkboxFields = {
           'contact[energy_types][]': '118028275',
           'contact[edm_genres][]': '493062940',
@@ -1129,12 +1136,14 @@
           'contact[substances][]': '673783121'
         };
         
-        // Add checkbox fields
+        // Add checkbox fields (use getAll() for multiple values)
         for (var key in checkboxFields) {
           var values = formData.getAll(key);
           if (values && values.length > 0) {
             values.forEach(function(value) {
-              googleFormData.append('entry.' + checkboxFields[key], value);
+              if (value && value.trim() !== '') {
+                googleFormData.append('entry.' + checkboxFields[key], value);
+              }
             });
           }
         }
@@ -1152,7 +1161,11 @@
           googleFormData.append('entry.2066399614', 'I agree');
         }
         
+        // Debug: Log what we're sending (remove in production if needed)
+        console.log('Submitting to Google Forms:', googleFormData.toString());
+        
         // Submit to Google Forms
+        // Note: Using 'no-cors' mode means we can't read the response, but submissions still work
         fetch(googleFormUrl, {
           method: 'POST',
           mode: 'no-cors',
@@ -1163,23 +1176,51 @@
         })
         .then(function() {
           // Show success message
-          window.scrollTo(0, 0);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          
+          // Remove any existing success/error messages
+          var existingMsg = document.querySelector('.form-submission-message');
+          if (existingMsg) {
+            existingMsg.remove();
+          }
           
           // Create success message
           var successMsg = document.createElement('div');
-          successMsg.className = 'neon-card bg-bekky-green/10 border-2 border-bekky-green mb-8';
+          successMsg.className = 'form-submission-message neon-card bg-bekky-green/10 border-2 border-bekky-green mb-8';
           successMsg.innerHTML = '<p class="text-bekky-green text-lg text-center">✅ Application submitted successfully! We\'ll be in touch soon.</p>';
           
-          // Insert at top
+          // Insert at top of form container
           var container = document.querySelector('.max-w-4xl');
-          container.insertBefore(successMsg, container.firstChild);
+          if (container) {
+            container.insertBefore(successMsg, container.firstChild);
+          }
           
-          // Hide form
-          form.style.display = 'none';
+          // Reset form
+          form.reset();
+          
+          // Hide form after a brief delay
+          setTimeout(function() {
+            form.style.display = 'none';
+          }, 2000);
         })
         .catch(function(error) {
-          console.error('Error:', error);
-          alert('There was an error submitting your application. Please try again.');
+          console.error('Error submitting form:', error);
+          
+          // Re-enable submit button
+          if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = 'Submit Application';
+          }
+          
+          // Show error message
+          var errorMsg = document.createElement('div');
+          errorMsg.className = 'form-submission-message neon-card bg-red-500/10 border-2 border-red-500 mb-8';
+          errorMsg.innerHTML = '<p class="text-red-400 text-lg text-center">⚠️ There was an error submitting your application. Please try again or contact us directly.</p>';
+          
+          var container = document.querySelector('.max-w-4xl');
+          if (container) {
+            container.insertBefore(errorMsg, container.firstChild);
+          }
         });
       });
     }
