@@ -16,22 +16,9 @@
     </div>
 
     <div class="max-w-4xl mx-auto">
-      {%- form 'contact', id: 'model-application-form' -%}
-        {%- if form.posted_successfully? -%}
-          <div class="neon-card bg-bekky-green/10 border-2 border-bekky-green mb-8">
-            <p class="text-bekky-green text-lg text-center">
-              ✅ Application submitted successfully! We'll be in touch soon.
-            </p>
-          </div>
-        {%- endif -%}
-
-        {%- if form.errors -%}
-          <div class="neon-card bg-red-500/10 border-2 border-red-500 mb-8">
-            <p class="text-red-400">
-              There was an error submitting your application. Please check all required fields.
-            </p>
-          </div>
-        {%- endif -%}
+      {%- comment -%} Custom form (not using Shopify contact form) for Google Forms submission {%- endcomment -%}
+      <form id="model-application-form" method="POST">
+        {%- comment -%} Shopify form messages hidden since we handle submission via Google Forms {%- endcomment -%}
 
         {%- comment -%} Hidden field to identify this as model application {%- endcomment -%}
         <input type="hidden" name="contact[form_type]" value="model_application">
@@ -785,7 +772,7 @@
           <p class="text-bekky-gray-light text-sm mt-4">* Required fields</p>
         </div>
 
-      {%- endform -%}
+      </form>
     </div>
   </div>
 </div>
