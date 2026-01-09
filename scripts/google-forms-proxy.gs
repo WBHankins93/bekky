@@ -165,12 +165,18 @@ function doPost(e) {
     
     Logger.log('Response Code: ' + responseCode);
     Logger.log('Response length: ' + responseText.length);
-    Logger.log('Response preview: ' + responseText.substring(0, 200));
+    Logger.log('Response preview: ' + responseText.substring(0, 500));
     
     // Check if submission was successful
     // Google Forms returns 200 with a redirect or success message
     var isSuccess = false;
-    if (responseCode === 200) {
+    var errorMessage = '';
+    
+    if (responseCode === 403) {
+      errorMessage = 'Google Forms returned 403 Forbidden. The form may have restrictions on external submissions. Check Google Form settings.';
+      Logger.log('ERROR: 403 Forbidden from Google Forms');
+      Logger.log('Response text: ' + responseText);
+    } else if (responseCode === 200) {
       // Check response content for success indicators
       if (responseText.includes('Your response has been recorded') || 
           responseText.includes('Thanks for your response') ||
@@ -180,9 +186,11 @@ function doPost(e) {
         Logger.log('SUCCESS detected in response');
       } else {
         Logger.log('Response code 200 but no success indicators found');
+        errorMessage = 'Unexpected response from Google Forms (200 but no success message)';
       }
     } else {
       Logger.log('Non-200 response code: ' + responseCode);
+      errorMessage = 'Google Forms returned error code: ' + responseCode;
     }
     
     if (isSuccess || responseCode === 0) {
@@ -198,9 +206,11 @@ function doPost(e) {
         
     } else {
       Logger.log('ERROR: Failed to submit - Response code: ' + responseCode);
+      Logger.log('Error message: ' + errorMessage);
       
-      // Return HTML error response that stays in iframe
-      var html = '<!DOCTYPE html><html><head><title>Error</title></head><body style="margin:0;padding:0;background:transparent;"><script>window.parent.postMessage({status:"error", message:"Failed to submit form"}, "*");</script><div style="display:none;">Error</div></body></html>';
+      // Return HTML error response that stays in iframe with detailed error
+      var errorMsg = errorMessage || 'Failed to submit form (Response code: ' + responseCode + ')';
+      var html = '<!DOCTYPE html><html><head><title>Error</title></head><body style="margin:0;padding:0;background:transparent;"><script>window.parent.postMessage({status:"error", message:"' + errorMsg.replace(/"/g, '&quot;').replace(/'/g, '&#39;') + '"}, "*");</script><div style="display:none;">Error</div></body></html>';
       
       return HtmlService
         .createHtmlOutput(html)
