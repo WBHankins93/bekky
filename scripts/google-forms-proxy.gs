@@ -15,21 +15,16 @@
  * 5. Copy the Web App URL and use it in your form submission code
  */
 
-// Replace with your actual Google Form's formResponse URL
-// IMPORTANT: Make sure this matches your actual Google Form URL!
-var GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdRxXg4w8HnBlzN-qXPAzi9xcsSNLcMWyAQ9LFEfWns841ecA/formResponse';
-
 /**
  * Main function to handle POST requests
  * Handles both form data (from iframe) and raw POST data
  */
 function doPost(e) {
+  // Define GOOGLE_FORM_URL inside function to avoid scoping issues
+  // IMPORTANT: Make sure this matches your actual Google Form URL!
+  var GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdRxXg4w8HnBlzN-qXPAzi9xcsSNLcMWyAQ9LFEfWns841ecA/formResponse';
+  
   try {
-    // Verify GOOGLE_FORM_URL is defined
-    if (typeof GOOGLE_FORM_URL === 'undefined' || !GOOGLE_FORM_URL) {
-      throw new Error('GOOGLE_FORM_URL is not defined. Please set it at the top of the script.');
-    }
-    
     // Log the incoming request for debugging
     Logger.log('Received POST request');
     Logger.log('GOOGLE_FORM_URL: ' + GOOGLE_FORM_URL);

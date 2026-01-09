@@ -1322,21 +1322,58 @@
             console.log('Submitting via Apps Script proxy:', proxyUrl);
             
             // Submit via iframe (bypasses CORS)
-            // Make sure iframe is truly hidden and doesn't navigate away
-            iframe.style.position = 'absolute';
+            // Make sure iframe is truly hidden and CANNOT navigate away
+            iframe.style.position = 'fixed';
             iframe.style.left = '-9999px';
             iframe.style.top = '-9999px';
             iframe.style.width = '1px';
             iframe.style.height = '1px';
             iframe.style.opacity = '0';
             iframe.style.pointerEvents = 'none';
+            iframe.style.visibility = 'hidden';
+            iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-forms'); // Prevent navigation
+            iframe.setAttribute('frameborder', '0');
+            iframe.setAttribute('scrolling', 'no');
+            
+            // Append iframe to body FIRST (must be in DOM before form submission)
+            document.body.appendChild(iframe);
+            
+            // Create proxy form BEFORE setting up handlers
+            var proxyForm = document.createElement('form');
+            proxyForm.method = 'POST';
+            proxyForm.action = proxyUrl;
+            proxyForm.target = iframeId;
+            proxyForm.style.display = 'none';
+            proxyForm.enctype = 'application/x-www-form-urlencoded';
+            
+            // Add all form data to the proxy form
+            googleFormData.forEach(function(value, key) {
+              var input = document.createElement('input');
+              input.type = 'hidden';
+              input.name = key;
+              input.value = value;
+              proxyForm.appendChild(input);
+            });
+            
+            document.body.appendChild(proxyForm);
+            
+            // Track if we've received a message
+            var messageReceived = false;
+            var handled = false;
             
             // Listen for messages from iframe (Apps Script sends postMessage)
-            window.addEventListener('message', function(event) {
-              // Verify message is from our proxy (basic check - in production, verify origin)
-              if (event.data && (event.data.status === 'success' || event.data.status === 'error')) {
+            var messageHandler = function(event) {
+              // Basic origin check - in production you might want stricter validation
+              if (!event.data || typeof event.data !== 'object') return;
+              
+              if ((event.data.status === 'success' || event.data.status === 'error') && !handled) {
+                handled = true;
+                messageReceived = true;
                 console.log('Received message from proxy:', event.data);
                 
+                // Remove listener and timeouts
+                window.removeEventListener('message', messageHandler);
+                clearTimeout(fallbackTimeout);
                 clearTimeout(errorTimeout);
                 
                 // Remove loading message
@@ -1358,7 +1395,6 @@
                   }, 2000);
                 } else {
                   // Show error
-                  var submitButton = form.querySelector('button[type="submit"]');
                   if (submitButton) {
                     submitButton.disabled = false;
                     submitButton.textContent = 'Submit Application';
@@ -1368,74 +1404,7 @@
                 }
                 
                 // Clean up
-                try {
-                  if (document.body.contains(proxyForm)) {
-                    document.body.removeChild(proxyForm);
-                  }
-                  if (document.body.contains(iframe)) {
-                    document.body.removeChild(iframe);
-                  }
-                } catch(e) {
-                  console.log('Cleanup error (non-critical):', e);
-                }
-              }
-            });
-            
-            // Prevent iframe from navigating away
-            iframe.onload = function() {
-              console.log('Proxy iframe loaded - submission processed');
-              // Keep iframe hidden, don't navigate
-            };
-            
-            var proxyForm = document.createElement('form');
-            proxyForm.method = 'POST';
-            proxyForm.action = proxyUrl;
-            proxyForm.target = iframeId;
-            proxyForm.style.display = 'none';
-            proxyForm.enctype = 'application/x-www-form-urlencoded';
-            
-            // Add all form data to the proxy form
-            googleFormData.forEach(function(value, key) {
-              var input = document.createElement('input');
-              input.type = 'hidden';
-              input.name = key;
-              input.value = value;
-              proxyForm.appendChild(input);
-            });
-            
-            document.body.appendChild(proxyForm);
-            
-            // Submit the proxy form
-            setTimeout(function() {
-              try {
-                proxyForm.submit();
-                console.log('Proxy form submitted via iframe');
-                
-                // Since we can't read iframe response due to CORS, 
-                // we'll show success optimistically after a delay
-                // The Apps Script will process the submission in the background
-                clearTimeout(errorTimeout);
-                
-                // Wait a bit, then show success (optimistic - assumes it worked)
                 setTimeout(function() {
-                  // Remove loading message
-                  var loadingMsg = document.querySelector('.form-submission-message');
-                  if (loadingMsg) {
-                    loadingMsg.remove();
-                  }
-                  
-                  // Show success (proxy should have processed it)
-                  showMessage('✅ Application submitted successfully! We\'ll be in touch soon.', false);
-                  
-                  // Reset form
-                  form.reset();
-                  
-                  // Hide form after a brief delay
-                  setTimeout(function() {
-                    form.style.display = 'none';
-                  }, 2000);
-                  
-                  // Clean up proxy form and iframe
                   try {
                     if (document.body.contains(proxyForm)) {
                       document.body.removeChild(proxyForm);
@@ -1446,11 +1415,63 @@
                   } catch(e) {
                     console.log('Cleanup error (non-critical):', e);
                   }
-                }, 2000); // Wait 2 seconds for proxy to process
+                }, 3000);
+              }
+            };
+            
+            window.addEventListener('message', messageHandler);
+            
+            // Fallback: if no message received after 3 seconds, assume it worked (optimistic)
+            var fallbackTimeout = setTimeout(function() {
+              if (!messageReceived && !handled) {
+                handled = true;
+                window.removeEventListener('message', messageHandler);
+                clearTimeout(errorTimeout);
                 
+                // Remove loading message
+                var loadingMsg = document.querySelector('.form-submission-message');
+                if (loadingMsg) {
+                  loadingMsg.remove();
+                }
+                
+                // Show optimistic success (form was submitted, even if we can't verify)
+                showMessage('✅ Application submitted successfully! We\'ll be in touch soon.', false);
+                
+                // Reset form
+                form.reset();
+                
+                // Hide form after a brief delay
+                setTimeout(function() {
+                  form.style.display = 'none';
+                }, 2000);
+                
+                // Clean up
+                setTimeout(function() {
+                  try {
+                    if (document.body.contains(proxyForm)) {
+                      document.body.removeChild(proxyForm);
+                    }
+                    if (document.body.contains(iframe)) {
+                      document.body.removeChild(iframe);
+                    }
+                  } catch(e) {
+                    console.log('Cleanup error (non-critical):', e);
+                  }
+                }, 3000);
+              }
+            }, 3000);
+            
+            // Submit the proxy form
+            setTimeout(function() {
+              try {
+                proxyForm.submit();
+                console.log('Proxy form submitted via iframe');
               } catch(e) {
                 console.error('Error submitting proxy form:', e);
+                handled = true;
                 clearTimeout(errorTimeout);
+                clearTimeout(fallbackTimeout);
+                window.removeEventListener('message', messageHandler);
                 
                 // Remove loading message
                 var loadingMsg = document.querySelector('.form-submission-message');
