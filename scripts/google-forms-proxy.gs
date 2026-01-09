@@ -20,35 +20,52 @@ var GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdRxXg4w8HnBlzN-
 
 /**
  * Main function to handle POST requests
+ * Handles both form data (from iframe) and raw POST data
  */
 function doPost(e) {
   try {
     // Log the incoming request for debugging
     Logger.log('Received POST request');
-    Logger.log('Post data: ' + e.postData.getDataAsString());
     
-    // Get the raw post data (URL-encoded string)
-    var postData = e.postData.getDataAsString();
-    
-    // Parse the URL-encoded data
+    // Get form data - can come from e.parameters (form submission) or e.postData (raw POST)
     var formData = {};
-    var pairs = postData.split('&');
     
-    for (var i = 0; i < pairs.length; i++) {
-      var pair = pairs[i].split('=');
-      if (pair.length === 2) {
-        var key = decodeURIComponent(pair[0]);
-        var value = decodeURIComponent(pair[1].replace(/\+/g, ' '));
-        
-        // Handle multiple values for the same key (checkboxes)
-        if (formData[key]) {
-          // If key already exists, create array
-          if (!Array.isArray(formData[key])) {
-            formData[key] = [formData[key]];
-          }
-          formData[key].push(value);
+    if (e.parameters && Object.keys(e.parameters).length > 0) {
+      // Form submission via iframe (parameters format)
+      Logger.log('Processing form parameters');
+      for (var key in e.parameters) {
+        var value = e.parameters[key];
+        // e.parameters can be arrays for multiple values
+        if (Array.isArray(value)) {
+          formData[key] = value;
         } else {
           formData[key] = value;
+        }
+      }
+    } else if (e.postData) {
+      // Raw POST data (URL-encoded string)
+      Logger.log('Processing raw POST data');
+      var postData = e.postData.getDataAsString();
+      Logger.log('Post data: ' + postData);
+      
+      var pairs = postData.split('&');
+      
+      for (var i = 0; i < pairs.length; i++) {
+        var pair = pairs[i].split('=');
+        if (pair.length === 2) {
+          var key = decodeURIComponent(pair[0]);
+          var value = decodeURIComponent(pair[1].replace(/\+/g, ' '));
+          
+          // Handle multiple values for the same key (checkboxes)
+          if (formData[key]) {
+            // If key already exists, create array
+            if (!Array.isArray(formData[key])) {
+              formData[key] = [formData[key]];
+            }
+            formData[key].push(value);
+          } else {
+            formData[key] = value;
+          }
         }
       }
     }
