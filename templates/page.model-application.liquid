@@ -1083,11 +1083,18 @@
           // Format: https://script.google.com/macros/s/YOUR_WEB_APP_ID/exec
           var proxyUrl = 'https://script.google.com/macros/s/AKfycbzlAz3J_tufpXKlWrUA3POBW90FtMMPqFzODesDDD1O048pLj2zbHwkKBb8XmgQdew5Hg/exec'; // REPLACE THIS!
           
-          // FORCE DIRECT SUBMISSION: Bypass proxy and submit directly to Google Forms
-          var useProxy = false; // Disabled - using direct submission via iframe
+          // USE PROXY: Google Forms blocks direct external submissions (403)
+          // The proxy must be properly deployed and authorized
+          var useProxy = proxyUrl && !proxyUrl.includes('YOUR_WEB_APP_ID');
           
-          // Direct Google Forms URL (iframe submission bypasses CORS/CSRF)
+          // Direct Google Forms URL (used by proxy, not directly)
           var googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSdRxXg4w8HnBlzN-qXPAzi9xcsSNLcMWyAQ9LFEfWns841ecA/formResponse';
+          
+          if (!useProxy) {
+            console.error('ERROR: Proxy URL not configured. Form submissions will fail.');
+            showMessage('⚠️ Form submission is not configured. Please contact support.', true);
+            return;
+          }
           
           // Build Google Forms data
           var googleFormData = new URLSearchParams();
@@ -1347,15 +1354,20 @@
             proxyForm.enctype = 'application/x-www-form-urlencoded';
             
             // Add all form data to the proxy form
+            console.log('Adding ' + googleFormData.toString().split('&').length + ' fields to proxy form');
+            var fieldCount = 0;
             googleFormData.forEach(function(value, key) {
               var input = document.createElement('input');
               input.type = 'hidden';
               input.name = key;
               input.value = value;
               proxyForm.appendChild(input);
+              fieldCount++;
             });
+            console.log('Added ' + fieldCount + ' fields to proxy form');
             
             document.body.appendChild(proxyForm);
+            console.log('Proxy form added to DOM, submitting to:', proxyUrl);
             
             // Track if we've received a message
             var messageReceived = false;
