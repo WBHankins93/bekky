@@ -25,41 +25,56 @@ function doPost(e) {
   var GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdRxXg4w8HnBlzN-qXPAzi9xcsSNLcMWyAQ9LFEfWns841ecA/formResponse';
   
   try {
-    // Check if request is authorized (basic validation)
-    if (!e) {
-      throw new Error('No request data received');
-    }
     // Log the incoming request for debugging
     Logger.log('Received POST request');
+    Logger.log('Event object exists: ' + (e != null));
+    Logger.log('Event type: ' + typeof e);
+    
+    if (!e) {
+      throw new Error('No request data received - event object is null');
+    }
+    
     Logger.log('GOOGLE_FORM_URL: ' + GOOGLE_FORM_URL);
+    Logger.log('Has e.parameters: ' + (e.parameters != null));
+    Logger.log('Has e.postData: ' + (e.postData != null));
     
     // Get form data - can come from e.parameters (form submission) or e.postData (raw POST)
     var formData = {};
     
-    if (e.parameters && Object.keys(e.parameters).length > 0) {
-      // Form submission via iframe (parameters format)
-      Logger.log('Processing form parameters');
-      for (var key in e.parameters) {
-        var value = e.parameters[key];
-        // e.parameters can be arrays for multiple values
-        if (Array.isArray(value)) {
-          formData[key] = value;
-        } else {
-          formData[key] = value;
+    // Check for parameters first (form-encoded data)
+    if (e && e.parameters && typeof e.parameters === 'object') {
+      var paramKeys = Object.keys(e.parameters);
+      Logger.log('Found ' + paramKeys.length + ' parameters');
+      
+      if (paramKeys.length > 0) {
+        // Form submission via iframe (parameters format)
+        Logger.log('Processing form parameters');
+        for (var key in e.parameters) {
+          var value = e.parameters[key];
+          // e.parameters can be arrays for multiple values
+          if (Array.isArray(value)) {
+            formData[key] = value;
+          } else {
+            formData[key] = value;
+          }
         }
       }
-    } else if (e.postData) {
+    }
+    
+    // If no parameters, check for raw POST data
+    if (Object.keys(formData).length === 0 && e && e.postData && e.postData.getDataAsString) {
       // Raw POST data (URL-encoded string)
       Logger.log('Processing raw POST data');
       var postData = e.postData.getDataAsString();
-      Logger.log('Post data: ' + postData);
+      Logger.log('Post data length: ' + postData.length);
+      Logger.log('Post data preview: ' + postData.substring(0, 200));
       
       var pairs = postData.split('&');
       
       for (var i = 0; i < pairs.length; i++) {
         var pair = pairs[i].split('=');
         if (pair.length === 2) {
-          var key = decodeURIComponent(pair[0]);
+          var key = decodeURIComponent(pair[0].replace(/\+/g, ' '));
           var value = decodeURIComponent(pair[1].replace(/\+/g, ' '));
           
           // Handle multiple values for the same key (checkboxes)
@@ -76,7 +91,18 @@ function doPost(e) {
       }
     }
     
-    Logger.log('Parsed form data: ' + JSON.stringify(formData));
+    // If still no data, throw error with helpful message
+    if (Object.keys(formData).length === 0) {
+      Logger.log('ERROR: No form data found in request');
+      Logger.log('Event object: ' + JSON.stringify(e));
+      Logger.log('e.parameters: ' + (e.parameters ? JSON.stringify(e.parameters) : 'null'));
+      Logger.log('e.postData: ' + (e.postData ? 'exists (type: ' + typeof e.postData + ')' : 'null'));
+      
+      throw new Error('No form data received. Check that the form is submitting correctly. Event object: ' + JSON.stringify(e));
+    }
+    
+    Logger.log('Parsed form data keys: ' + Object.keys(formData).join(', '));
+    Logger.log('Parsed form data count: ' + Object.keys(formData).length);
     
     // Build the submission payload for Google Forms
     // Google Forms expects entry.123456789 format
