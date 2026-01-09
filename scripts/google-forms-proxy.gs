@@ -25,6 +25,10 @@ function doPost(e) {
   var GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdRxXg4w8HnBlzN-qXPAzi9xcsSNLcMWyAQ9LFEfWns841ecA/formResponse';
   
   try {
+    // Check if request is authorized (basic validation)
+    if (!e) {
+      throw new Error('No request data received');
+    }
     // Log the incoming request for debugging
     Logger.log('Received POST request');
     Logger.log('GOOGLE_FORM_URL: ' + GOOGLE_FORM_URL);
@@ -94,11 +98,35 @@ function doPost(e) {
     }
     
     Logger.log('Payload for Google Forms: ' + JSON.stringify(payload));
+    Logger.log('Payload count: ' + Object.keys(payload).length);
+    
+    // Build URL-encoded form data string for Google Forms
+    // Handle multiple values (checkboxes) by sending them with same key multiple times
+    var formDataPairs = [];
+    
+    for (var key in payload) {
+      var value = payload[key];
+      if (Array.isArray(value)) {
+        // For checkboxes, send each value separately with the same entry ID
+        for (var i = 0; i < value.length; i++) {
+          formDataPairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(value[i]));
+        }
+      } else {
+        formDataPairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
+      }
+    }
+    
+    var formDataString = formDataPairs.join('&');
+    
+    Logger.log('Form data pairs count: ' + formDataPairs.length);
+    Logger.log('Form data string length: ' + formDataString.length);
     
     // Submit to Google Forms using UrlFetchApp
+    // Use formDataString directly (UrlFetchApp handles URL-encoded strings)
     var options = {
       'method': 'post',
-      'payload': payload,
+      'payload': formDataString,
+      'contentType': 'application/x-www-form-urlencoded',
       'muteHttpExceptions': true,
       'followRedirects': true
     };
@@ -111,6 +139,7 @@ function doPost(e) {
     
     Logger.log('Response Code: ' + responseCode);
     Logger.log('Response length: ' + responseText.length);
+    Logger.log('Response preview: ' + responseText.substring(0, 200));
     
     // Check if submission was successful
     // Google Forms returns 200 with a redirect or success message
@@ -122,7 +151,12 @@ function doPost(e) {
           responseText.includes('formResponse') ||
           responseText.length > 1000) { // Usually success pages are longer
         isSuccess = true;
+        Logger.log('SUCCESS detected in response');
+      } else {
+        Logger.log('Response code 200 but no success indicators found');
       }
+    } else {
+      Logger.log('Non-200 response code: ' + responseCode);
     }
     
     if (isSuccess || responseCode === 0) {
@@ -151,9 +185,16 @@ function doPost(e) {
     // Log error
     Logger.log('ERROR: ' + error.toString());
     Logger.log('Stack: ' + error.stack);
+    Logger.log('Error type: ' + error.name);
+    
+    // Check if it's an authorization error
+    var errorMessage = error.toString();
+    if (errorMessage.includes('403') || errorMessage.includes('Forbidden') || errorMessage.includes('Authorization')) {
+      errorMessage = '403 Forbidden: The Apps Script is not authorized. Please visit the GET URL once to authorize it, or check that the deployment is set to "Anyone".';
+    }
     
     // Return HTML error response that stays in iframe
-    var html = '<!DOCTYPE html><html><head><title>Error</title></head><body style="margin:0;padding:0;background:transparent;"><script>window.parent.postMessage({status:"error", message:"' + error.toString().replace(/"/g, '&quot;') + '"}, "*");</script><div style="display:none;">Error</div></body></html>';
+    var html = '<!DOCTYPE html><html><head><title>Error</title></head><body style="margin:0;padding:0;background:transparent;"><script>window.parent.postMessage({status:"error", message:"' + errorMessage.replace(/"/g, '&quot;').replace(/'/g, '&#39;') + '"}, "*");</script><div style="display:none;">Error</div></body></html>';
     
     return HtmlService
       .createHtmlOutput(html)
@@ -162,14 +203,17 @@ function doPost(e) {
 }
 
 /**
- * Handle GET requests (optional - for testing)
+ * Handle GET requests (required - for authorization and testing)
+ * IMPORTANT: Run this function once after deploying to authorize the script
+ * This prevents 403 errors on POST requests
  */
 function doGet(e) {
-  return ContentService
-    .createTextOutput(JSON.stringify({
-      'status': 'ok',
-      'message': 'Google Forms Proxy is running. Use POST to submit forms.'
-    }))
-    .setMimeType(ContentService.MimeType.JSON);
+  // Return HTML that confirms the script is working
+  // This allows the script to be authorized via browser
+  var html = '<!DOCTYPE html><html><head><title>Google Forms Proxy - Status</title><style>body{font-family:Arial,sans-serif;padding:20px;text-align:center;background:#f5f5f5;} .container{background:white;padding:30px;border-radius:8px;max-width:500px;margin:50px auto;box-shadow:0 2px 4px rgba(0,0,0,0.1);} .success{color:#4CAF50;font-size:24px;margin-bottom:10px;} h1{color:#333;margin-top:0;} p{color:#666;line-height:1.6;} .status{background:#E8F5E9;border:1px solid #4CAF50;border-radius:4px;padding:15px;margin:20px 0;} .error{background:#FFEBEE;border:1px solid #F44336;color:#C62828;} code{background:#f5f5f5;padding:2px 6px;border-radius:3px;font-family:monospace;}</style></head><body><div class="container"><div class="success">✓</div><h1>Google Forms Proxy</h1><div class="status"><strong>Status:</strong> Running</div><p>The proxy is ready to receive form submissions.</p><p><strong>IMPORTANT:</strong> If you just deployed this script, visiting this page authorizes it. This prevents 403 errors on form submissions.</p><p>Test the proxy by submitting the model application form.</p></div></body></html>';
+  
+  return HtmlService
+    .createHtmlOutput(html)
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
 
