@@ -1322,6 +1322,71 @@
             console.log('Submitting via Apps Script proxy:', proxyUrl);
             
             // Submit via iframe (bypasses CORS)
+            // Make sure iframe is truly hidden and doesn't navigate away
+            iframe.style.position = 'absolute';
+            iframe.style.left = '-9999px';
+            iframe.style.top = '-9999px';
+            iframe.style.width = '1px';
+            iframe.style.height = '1px';
+            iframe.style.opacity = '0';
+            iframe.style.pointerEvents = 'none';
+            
+            // Listen for messages from iframe (Apps Script sends postMessage)
+            window.addEventListener('message', function(event) {
+              // Verify message is from our proxy (basic check - in production, verify origin)
+              if (event.data && (event.data.status === 'success' || event.data.status === 'error')) {
+                console.log('Received message from proxy:', event.data);
+                
+                clearTimeout(errorTimeout);
+                
+                // Remove loading message
+                var loadingMsg = document.querySelector('.form-submission-message');
+                if (loadingMsg) {
+                  loadingMsg.remove();
+                }
+                
+                if (event.data.status === 'success') {
+                  // Show success
+                  showMessage('✅ Application submitted successfully! We\'ll be in touch soon.', false);
+                  
+                  // Reset form
+                  form.reset();
+                  
+                  // Hide form after a brief delay
+                  setTimeout(function() {
+                    form.style.display = 'none';
+                  }, 2000);
+                } else {
+                  // Show error
+                  var submitButton = form.querySelector('button[type="submit"]');
+                  if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Submit Application';
+                  }
+                  
+                  showMessage('⚠️ Error submitting application: ' + (event.data.message || 'Unknown error'), true);
+                }
+                
+                // Clean up
+                try {
+                  if (document.body.contains(proxyForm)) {
+                    document.body.removeChild(proxyForm);
+                  }
+                  if (document.body.contains(iframe)) {
+                    document.body.removeChild(iframe);
+                  }
+                } catch(e) {
+                  console.log('Cleanup error (non-critical):', e);
+                }
+              }
+            });
+            
+            // Prevent iframe from navigating away
+            iframe.onload = function() {
+              console.log('Proxy iframe loaded - submission processed');
+              // Keep iframe hidden, don't navigate
+            };
+            
             var proxyForm = document.createElement('form');
             proxyForm.method = 'POST';
             proxyForm.action = proxyUrl;
@@ -1347,8 +1412,8 @@
                 console.log('Proxy form submitted via iframe');
                 
                 // Since we can't read iframe response due to CORS, 
-                // we'll show success optimistically and use timeout
-                // The Apps Script will still process the submission
+                // we'll show success optimistically after a delay
+                // The Apps Script will process the submission in the background
                 clearTimeout(errorTimeout);
                 
                 // Wait a bit, then show success (optimistic - assumes it worked)
@@ -1370,10 +1435,13 @@
                     form.style.display = 'none';
                   }, 2000);
                   
-                  // Clean up proxy form
+                  // Clean up proxy form and iframe
                   try {
                     if (document.body.contains(proxyForm)) {
                       document.body.removeChild(proxyForm);
+                    }
+                    if (document.body.contains(iframe)) {
+                      document.body.removeChild(iframe);
                     }
                   } catch(e) {
                     console.log('Cleanup error (non-critical):', e);

@@ -16,6 +16,7 @@
  */
 
 // Replace with your actual Google Form's formResponse URL
+// IMPORTANT: Make sure this matches your actual Google Form URL!
 var GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdRxXg4w8HnBlzN-qXPAzi9xcsSNLcMWyAQ9LFEfWns841ecA/formResponse';
 
 /**
@@ -24,8 +25,14 @@ var GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdRxXg4w8HnBlzN-
  */
 function doPost(e) {
   try {
+    // Verify GOOGLE_FORM_URL is defined
+    if (typeof GOOGLE_FORM_URL === 'undefined' || !GOOGLE_FORM_URL) {
+      throw new Error('GOOGLE_FORM_URL is not defined. Please set it at the top of the script.');
+    }
+    
     // Log the incoming request for debugging
     Logger.log('Received POST request');
+    Logger.log('GOOGLE_FORM_URL: ' + GOOGLE_FORM_URL);
     
     // Get form data - can come from e.parameters (form submission) or e.postData (raw POST)
     var formData = {};
@@ -125,24 +132,24 @@ function doPost(e) {
     
     if (isSuccess || responseCode === 0) {
       Logger.log('SUCCESS: Form submitted successfully');
-      return ContentService
-        .createTextOutput(JSON.stringify({
-          'status': 'success',
-          'message': 'Form submitted successfully',
-          'responseCode': responseCode
-        }))
-        .setMimeType(ContentService.MimeType.JSON);
+      
+      // Return HTML response that stays in iframe (doesn't redirect)
+      // This prevents the page from navigating away
+      var html = '<!DOCTYPE html><html><head><title>Success</title></head><body style="margin:0;padding:0;background:transparent;"><script>window.parent.postMessage({status:"success"}, "*");</script><div style="display:none;">Success</div></body></html>';
+      
+      return HtmlService
+        .createHtmlOutput(html)
+        .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+        
     } else {
       Logger.log('ERROR: Failed to submit - Response code: ' + responseCode);
-      // Return error response
-      return ContentService
-        .createTextOutput(JSON.stringify({
-          'status': 'error',
-          'message': 'Failed to submit form',
-          'responseCode': responseCode,
-          'responsePreview': responseText.substring(0, 500)
-        }))
-        .setMimeType(ContentService.MimeType.JSON);
+      
+      // Return HTML error response that stays in iframe
+      var html = '<!DOCTYPE html><html><head><title>Error</title></head><body style="margin:0;padding:0;background:transparent;"><script>window.parent.postMessage({status:"error", message:"Failed to submit form"}, "*");</script><div style="display:none;">Error</div></body></html>';
+      
+      return HtmlService
+        .createHtmlOutput(html)
+        .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
     }
     
   } catch (error) {
@@ -150,13 +157,12 @@ function doPost(e) {
     Logger.log('ERROR: ' + error.toString());
     Logger.log('Stack: ' + error.stack);
     
-    // Return error response
-    return ContentService
-      .createTextOutput(JSON.stringify({
-        'status': 'error',
-        'message': 'Error processing request: ' + error.toString()
-      }))
-      .setMimeType(ContentService.MimeType.JSON);
+    // Return HTML error response that stays in iframe
+    var html = '<!DOCTYPE html><html><head><title>Error</title></head><body style="margin:0;padding:0;background:transparent;"><script>window.parent.postMessage({status:"error", message:"' + error.toString().replace(/"/g, '&quot;') + '"}, "*");</script><div style="display:none;">Error</div></body></html>';
+    
+    return HtmlService
+      .createHtmlOutput(html)
+      .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
   }
 }
 
