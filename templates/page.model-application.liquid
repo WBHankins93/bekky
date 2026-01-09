@@ -1083,10 +1083,10 @@
           // Format: https://script.google.com/macros/s/YOUR_WEB_APP_ID/exec
           var proxyUrl = 'https://script.google.com/macros/s/AKfycbzlAz3J_tufpXKlWrUA3POBW90FtMMPqFzODesDDD1O048pLj2zbHwkKBb8XmgQdew5Hg/exec'; // REPLACE THIS!
           
-          // Check if proxy URL is configured (if it still has placeholder, use direct Google Forms)
-          var useProxy = proxyUrl && !proxyUrl.includes('YOUR_WEB_APP_ID');
+          // FORCE DIRECT SUBMISSION: Bypass proxy and submit directly to Google Forms
+          var useProxy = false; // Disabled - using direct submission via iframe
           
-          // Direct Google Forms URL (will get 403 without proxy)
+          // Direct Google Forms URL (iframe submission bypasses CORS/CSRF)
           var googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSdRxXg4w8HnBlzN-qXPAzi9xcsSNLcMWyAQ9LFEfWns841ecA/formResponse';
           
           // Build Google Forms data
@@ -1489,10 +1489,23 @@
               }
             }, 100);
           } else {
-            // Fallback: Use iframe method (direct Google Forms - will get 403)
-            console.log('Proxy not configured, using direct Google Forms (may get 403)...');
-            console.log('Please set up Apps Script proxy - see docs/setup/GOOGLE_FORMS_PROXY_SETUP.md');
+            // Direct submission to Google Forms via iframe (bypasses CORS/CSRF)
+            console.log('Submitting directly to Google Forms via iframe:', googleFormUrl);
             
+            // Make sure iframe is truly hidden and properly configured
+            iframe.style.position = 'fixed';
+            iframe.style.left = '-9999px';
+            iframe.style.top = '-9999px';
+            iframe.style.width = '1px';
+            iframe.style.height = '1px';
+            iframe.style.opacity = '0';
+            iframe.style.pointerEvents = 'none';
+            iframe.style.visibility = 'hidden';
+            iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-forms allow-top-navigation');
+            iframe.setAttribute('frameborder', '0');
+            iframe.setAttribute('scrolling', 'no');
+            
+            // Append iframe to body FIRST (must be in DOM before form submission)
             document.body.appendChild(iframe);
             
             // Create a temporary form to submit via iframe
