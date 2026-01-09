@@ -1077,118 +1077,56 @@
           var formData = new FormData(form);
           console.log('Form data collected');
           
-          // Google Apps Script Web App URL (proxy to bypass 403 CSRF protection)
-          // REPLACE THIS with your deployed Apps Script Web App URL after setup
-          // Get it from: script.google.com > Deploy > Manage deployments > Web app URL
-          // Format: https://script.google.com/macros/s/YOUR_WEB_APP_ID/exec
-          var proxyUrl = 'https://script.google.com/macros/s/AKfycbzlAz3J_tufpXKlWrUA3POBW90FtMMPqFzODesDDD1O048pLj2zbHwkKBb8XmgQdew5Hg/exec'; // REPLACE THIS!
+          // Formspree endpoint - REPLACE WITH YOUR FORMSPREE ENDPOINT
+          // Get it from: https://formspree.io/forms/YOUR_FORM_ID
+          var formspreeEndpoint = 'https://formspree.io/f/YOUR_FORM_ID'; // REPLACE THIS!
           
-          // USE PROXY: Google Forms blocks direct external submissions (403)
-          // The proxy must be properly deployed and authorized
-          var useProxy = proxyUrl && !proxyUrl.includes('YOUR_WEB_APP_ID');
-          
-          // Direct Google Forms URL (used by proxy, not directly)
-          var googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSdRxXg4w8HnBlzN-qXPAzi9xcsSNLcMWyAQ9LFEfWns841ecA/formResponse';
-          
-          if (!useProxy) {
-            console.error('ERROR: Proxy URL not configured. Form submissions will fail.');
+          if (formspreeEndpoint.includes('YOUR_FORM_ID')) {
+            console.error('ERROR: Formspree endpoint not configured. Form submissions will fail.');
             showMessage('⚠️ Form submission is not configured. Please contact support.', true);
+            if (submitButton) {
+              submitButton.disabled = false;
+              submitButton.textContent = 'Submit Application';
+            }
             return;
           }
           
-          // Build Google Forms data
-          var googleFormData = new URLSearchParams();
+          // Convert FormData to JSON object for Formspree
+          var submissionData = {};
           
-          // Simple text/textarea/date fields (use get() for single values)
-          var simpleFields = {
-            'contact[legal_name]': '2056245631',
-            'contact[preferred_name]': '1363513700',
-            'contact[pronouns]': '993866760',
-            'contact[date_of_birth]': '472789353',
-            'contact[location]': '1299264667',
-            'contact[phone]': '870948744',
-            'contact[email]': '1376238800',
-            'contact[instagram]': '361854997',
-            'contact[tiktok]': '2014271659',
-            'contact[twitter]': '82215949',
-            'contact[other_platforms]': '1087736889',
-            'contact[follower_count]': '450271462', // Radio button - use get()
-            'contact[why_represent_bekky]': '1566124579',
-            'contact[what_bba_represents]': '430550869',
-            'contact[self_expression]': '689652548',
-            'contact[bba_definition]': '1405583744',
-            'contact[contribution]': '146543066',
-            'contact[scenario_response]': '205038714',
-            'contact[favorite_genre]': '1981060043',
-            'contact[favorite_djs]': '622949923',
-            'contact[clothing_requests]': '1597003385',
-            'contact[relationship_status]': '226297739', // Radio button - use get()
-            'contact[travel_comfortable]': '1281173279', // Radio button - use get()
-            'contact[festival_comfortable]': '1786034361', // Radio button - use get()
-            'contact[substances_other]': '1020482954',
-            'contact[signature_name]': '1776958538',
-            'contact[signature_date]': '1283928147',
-            'contact[signature]': '1898170153'
-          };
-          
-          // Add simple fields (text, textarea, date, radio)
-          var fieldsAdded = 0;
-          for (var key in simpleFields) {
-            var value = formData.get(key);
-            if (value && value.trim() !== '') {
-              googleFormData.append('entry.' + simpleFields[key], value);
-              fieldsAdded++;
+          // Collect all form fields
+          for (var pair of formData.entries()) {
+            var key = pair[0];
+            var value = pair[1];
+            
+            // Handle checkbox arrays (multiple values)
+            if (key.endsWith('[]')) {
+              var baseKey = key.slice(0, -2); // Remove '[]'
+              if (!submissionData[baseKey]) {
+                submissionData[baseKey] = [];
+              }
+              if (value && value.trim() !== '') {
+                submissionData[baseKey].push(value);
+              }
+            } else {
+              // Single value fields
+              if (value && value.trim() !== '') {
+                submissionData[key] = value;
+              }
             }
           }
-          console.log('Added ' + fieldsAdded + ' simple fields');
           
-          // Checkbox arrays (multiple values possible)
-          var checkboxFields = {
-            'contact[energy_types][]': '118028275',
-            'contact[edm_genres][]': '493062940',
-            'contact[clothing_prefs][]': '596739250',
-            'contact[fabric_prefs][]': '2071065872',
-            'contact[substances][]': '673783121'
-          };
-          
-          // Add checkbox fields (use getAll() for multiple values)
-          var checkboxesAdded = 0;
-          for (var key in checkboxFields) {
-            var values = formData.getAll(key);
+          // Handle checkboxes that might not have [] suffix
+          var checkboxFields = ['contact[energy_types]', 'contact[edm_genres]', 'contact[clothing_prefs]', 'contact[fabric_prefs]', 'contact[substances]'];
+          checkboxFields.forEach(function(fieldName) {
+            var values = formData.getAll(fieldName);
             if (values && values.length > 0) {
-              values.forEach(function(value) {
-                if (value && value.trim() !== '') {
-                  googleFormData.append('entry.' + checkboxFields[key], value);
-                  checkboxesAdded++;
-                }
-              });
+              submissionData[fieldName] = values.filter(function(v) { return v && v.trim() !== ''; });
             }
-          }
-          console.log('Added ' + checkboxesAdded + ' checkbox values');
-          
-          // Add agreement checkboxes with specific values
-          if (formData.get('contact[merch_agreement]')) {
-            googleFormData.append('entry.1339082856', 'I understand and agree');
-          }
-          
-          if (formData.get('contact[code_conduct]')) {
-            googleFormData.append('entry.1597031769', 'I agree to follow the BBA Code of Conduct');
-          }
-          
-          if (formData.get('contact[model_statement]')) {
-            googleFormData.append('entry.2066399614', 'I agree');
-          }
-          
-          // Debug: Log what we're sending
-          console.log('=== GOOGLE FORMS SUBMISSION DEBUG ===');
-          console.log('Total fields to submit:', googleFormData.toString().split('&').length);
-          console.log('Submitting to Google Forms:', googleFormUrl);
-          console.log('Form data (full):', googleFormData.toString());
-          console.log('Form data (parsed):');
-          googleFormData.forEach(function(value, key) {
-            console.log('  ' + key + ' = ' + value);
           });
-          console.log('=====================================');
+          
+          console.log('Submitting to Formspree:', formspreeEndpoint);
+          console.log('Submission data:', submissionData);
           
           // Scroll to top
           window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1216,77 +1154,40 @@
           // Show loading message
           showMessage('⏳ Submitting your application...', false);
           
-          // Submit to Google Forms using hidden iframe (standard method for Google Forms)
-          var iframeId = 'hidden_iframe_' + Date.now();
-          var iframe = document.createElement('iframe');
-          iframe.name = iframeId;
-          iframe.id = iframeId;
-          iframe.style.display = 'none';
-          iframe.style.width = '0';
-          iframe.style.height = '0';
-          iframe.style.border = 'none';
-          
-          var submissionSuccess = false;
-          var errorTimeout;
-          
-          // Add load event listener to iframe to verify submission
-          iframe.onload = function() {
-            console.log('Google Forms iframe loaded');
+          // Submit to Formspree using fetch
+          fetch(formspreeEndpoint, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify(submissionData)
+          })
+          .then(function(response) {
+            console.log('Formspree response status:', response.status);
             
-            // Check if iframe content indicates success or error
-            try {
-              var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-              var bodyText = iframeDoc.body ? iframeDoc.body.innerText : '';
+            if (response.ok) {
+              // Success
+              showMessage('✅ Application submitted successfully! We\'ll be in touch soon.', false);
               
-              console.log('Iframe content:', bodyText);
+              // Reset form
+              form.reset();
               
-              // Google Forms usually shows "Your response has been recorded" on success
-              if (bodyText.includes('Your response has been recorded') || 
-                  bodyText.includes('Thanks for your response') ||
-                  iframeDoc.location.href.includes('/viewform')) {
-                submissionSuccess = true;
-                clearTimeout(errorTimeout);
-                
-                // Remove loading message
-                var loadingMsg = document.querySelector('.form-submission-message');
-                if (loadingMsg) {
-                  loadingMsg.remove();
-                }
-                
-                // Show success
-                showMessage('✅ Application submitted successfully! We\'ll be in touch soon.', false);
-                
-                // Reset form
-                form.reset();
-                
-                // Hide form after a brief delay
-                setTimeout(function() {
-                  form.style.display = 'none';
-                }, 2000);
-              } else {
-                // Check for error indicators
-                if (bodyText.includes('403') || bodyText.includes('Forbidden') || 
-                    bodyText.includes('error') || iframeDoc.location.href.includes('error')) {
-                  throw new Error('Google Forms returned an error');
-                }
-              }
-            } catch(e) {
-              console.error('Error checking iframe content (may be cross-origin):', e);
-              // If we can't check iframe content, assume it might have worked
-              // But we'll use the timeout to detect if it didn't
+              // Hide form after a brief delay
+              setTimeout(function() {
+                form.style.display = 'none';
+              }, 2000);
+            } else {
+              // Error response
+              return response.json().then(function(data) {
+                throw new Error(data.error || 'Failed to submit form');
+              }).catch(function() {
+                throw new Error('Failed to submit form (Status: ' + response.status + ')');
+              });
             }
-          };
-          
-          // Error handler for iframe
-          iframe.onerror = function() {
-            console.error('Iframe error occurred');
-            clearTimeout(errorTimeout);
-            
-            // Remove loading message
-            var loadingMsg = document.querySelector('.form-submission-message');
-            if (loadingMsg) {
-              loadingMsg.remove();
-            }
+          })
+          .catch(function(error) {
+            console.error('Formspree submission error:', error);
             
             // Re-enable submit button
             if (submitButton) {
@@ -1294,280 +1195,8 @@
               submitButton.textContent = 'Submit Application';
             }
             
-            showMessage('⚠️ There was an error submitting your application. Please try again or contact us directly.', true);
-          };
-          
-          // Timeout to detect if submission failed (if iframe doesn't load or returns 403)
-          errorTimeout = setTimeout(function() {
-            if (!submissionSuccess) {
-              console.error('Submission timeout or error detected');
-              
-              // Remove loading message
-              var loadingMsg = document.querySelector('.form-submission-message');
-              if (loadingMsg) {
-                loadingMsg.remove();
-              }
-              
-              // Re-enable submit button
-              if (submitButton) {
-                submitButton.disabled = false;
-                submitButton.textContent = 'Submit Application';
-              }
-              
-              // Check Network API if available to detect 403
-              // Note: We can't reliably detect 403 from iframe due to CORS
-              // but we can at least show a helpful error message
-              showMessage('⚠️ Unable to submit to Google Forms (403 Forbidden). This usually means the form is blocking external submissions. Please try submitting directly through the Google Form link or contact us directly.', true);
-            }
-          }, 4000); // Wait 4 seconds for response (403 errors usually happen quickly)
-          
-          // Use fetch for proxy (better for JSON responses), or iframe for direct Google Forms
-          if (useProxy) {
-            // Submit via Apps Script proxy using fetch
-            // Note: Google Apps Script web apps have CORS restrictions
-            // We'll use no-cors mode and submit via iframe as fallback to verify
-            console.log('Submitting via Apps Script proxy:', proxyUrl);
-            
-            // Submit via iframe (bypasses CORS)
-            // Make sure iframe is truly hidden and CANNOT navigate away
-            iframe.style.position = 'fixed';
-            iframe.style.left = '-9999px';
-            iframe.style.top = '-9999px';
-            iframe.style.width = '1px';
-            iframe.style.height = '1px';
-            iframe.style.opacity = '0';
-            iframe.style.pointerEvents = 'none';
-            iframe.style.visibility = 'hidden';
-            iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-forms allow-top-navigation');
-            iframe.setAttribute('frameborder', '0');
-            iframe.setAttribute('scrolling', 'no');
-            
-            // Append iframe to body FIRST (must be in DOM before form submission)
-            document.body.appendChild(iframe);
-            
-            // Create proxy form BEFORE setting up handlers
-            var proxyForm = document.createElement('form');
-            proxyForm.method = 'POST';
-            proxyForm.action = proxyUrl;
-            proxyForm.target = iframeId;
-            proxyForm.style.display = 'none';
-            proxyForm.enctype = 'application/x-www-form-urlencoded';
-            
-            // Add all form data to the proxy form
-            console.log('Adding ' + googleFormData.toString().split('&').length + ' fields to proxy form');
-            var fieldCount = 0;
-            googleFormData.forEach(function(value, key) {
-              var input = document.createElement('input');
-              input.type = 'hidden';
-              input.name = key;
-              input.value = value;
-              proxyForm.appendChild(input);
-              fieldCount++;
-            });
-            console.log('Added ' + fieldCount + ' fields to proxy form');
-            
-            document.body.appendChild(proxyForm);
-            console.log('Proxy form added to DOM, submitting to:', proxyUrl);
-            
-            // Track if we've received a message
-            var messageReceived = false;
-            var handled = false;
-            
-            // Listen for messages from iframe (Apps Script sends postMessage)
-            var messageHandler = function(event) {
-              // Basic origin check - in production you might want stricter validation
-              if (!event.data || typeof event.data !== 'object') return;
-              
-              if ((event.data.status === 'success' || event.data.status === 'error') && !handled) {
-                handled = true;
-                messageReceived = true;
-                console.log('Received message from proxy:', event.data);
-                
-                // Remove listener and timeouts
-                window.removeEventListener('message', messageHandler);
-                clearTimeout(fallbackTimeout);
-                clearTimeout(errorTimeout);
-                
-                // Remove loading message
-                var loadingMsg = document.querySelector('.form-submission-message');
-                if (loadingMsg) {
-                  loadingMsg.remove();
-                }
-                
-                if (event.data.status === 'success') {
-                  // Show success
-                  showMessage('✅ Application submitted successfully! We\'ll be in touch soon.', false);
-                  
-                  // Reset form
-                  form.reset();
-                  
-                  // Hide form after a brief delay
-                  setTimeout(function() {
-                    form.style.display = 'none';
-                  }, 2000);
-                } else {
-                  // Show error
-                  if (submitButton) {
-                    submitButton.disabled = false;
-                    submitButton.textContent = 'Submit Application';
-                  }
-                  
-                  showMessage('⚠️ Error submitting application: ' + (event.data.message || 'Unknown error'), true);
-                }
-                
-                // Clean up
-                setTimeout(function() {
-                  try {
-                    if (document.body.contains(proxyForm)) {
-                      document.body.removeChild(proxyForm);
-                    }
-                    if (document.body.contains(iframe)) {
-                      document.body.removeChild(iframe);
-                    }
-                  } catch(e) {
-                    console.log('Cleanup error (non-critical):', e);
-                  }
-                }, 3000);
-              }
-            };
-            
-            window.addEventListener('message', messageHandler);
-            
-            // Fallback: if no message received after 3 seconds, assume it worked (optimistic)
-            var fallbackTimeout = setTimeout(function() {
-              if (!messageReceived && !handled) {
-                handled = true;
-                window.removeEventListener('message', messageHandler);
-                clearTimeout(errorTimeout);
-                
-                // Remove loading message
-                var loadingMsg = document.querySelector('.form-submission-message');
-                if (loadingMsg) {
-                  loadingMsg.remove();
-                }
-                
-                // Show optimistic success (form was submitted, even if we can't verify)
-                showMessage('✅ Application submitted successfully! We\'ll be in touch soon.', false);
-                
-                // Reset form
-                form.reset();
-                
-                // Hide form after a brief delay
-                setTimeout(function() {
-                  form.style.display = 'none';
-                }, 2000);
-                
-                // Clean up
-                setTimeout(function() {
-                  try {
-                    if (document.body.contains(proxyForm)) {
-                      document.body.removeChild(proxyForm);
-                    }
-                    if (document.body.contains(iframe)) {
-                      document.body.removeChild(iframe);
-                    }
-                  } catch(e) {
-                    console.log('Cleanup error (non-critical):', e);
-                  }
-                }, 3000);
-              }
-            }, 3000);
-            
-            // Submit the proxy form
-            setTimeout(function() {
-              try {
-                proxyForm.submit();
-                console.log('Proxy form submitted via iframe');
-              } catch(e) {
-                console.error('Error submitting proxy form:', e);
-                handled = true;
-                clearTimeout(errorTimeout);
-                clearTimeout(fallbackTimeout);
-                window.removeEventListener('message', messageHandler);
-                
-                // Remove loading message
-                var loadingMsg = document.querySelector('.form-submission-message');
-                if (loadingMsg) {
-                  loadingMsg.remove();
-                }
-                
-                // Re-enable submit button
-                if (submitButton) {
-                  submitButton.disabled = false;
-                  submitButton.textContent = 'Submit Application';
-                }
-                
-                showMessage('⚠️ There was an error submitting your application. Please try again or contact us directly.', true);
-              }
-            }, 100);
-          } else {
-            // Direct submission to Google Forms via iframe (bypasses CORS/CSRF)
-            console.log('Submitting directly to Google Forms via iframe:', googleFormUrl);
-            
-            // Make sure iframe is truly hidden and properly configured
-            iframe.style.position = 'fixed';
-            iframe.style.left = '-9999px';
-            iframe.style.top = '-9999px';
-            iframe.style.width = '1px';
-            iframe.style.height = '1px';
-            iframe.style.opacity = '0';
-            iframe.style.pointerEvents = 'none';
-            iframe.style.visibility = 'hidden';
-            iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-forms allow-top-navigation');
-            iframe.setAttribute('frameborder', '0');
-            iframe.setAttribute('scrolling', 'no');
-            
-            // Append iframe to body FIRST (must be in DOM before form submission)
-            document.body.appendChild(iframe);
-            
-            // Create a temporary form to submit via iframe
-            var tempForm = document.createElement('form');
-            tempForm.method = 'POST';
-            tempForm.action = googleFormUrl;
-            tempForm.target = iframeId;
-            tempForm.style.display = 'none';
-            tempForm.acceptCharset = 'UTF-8';
-            tempForm.enctype = 'application/x-www-form-urlencoded';
-            
-            // Add all form data as hidden inputs
-            console.log('Creating form with', googleFormData.toString().split('&').length, 'fields...');
-            
-            googleFormData.forEach(function(value, key) {
-              var input = document.createElement('input');
-              input.type = 'hidden';
-              input.name = key;
-              input.value = value;
-              tempForm.appendChild(input);
-              console.log('Added field:', input.name, '=', input.value.substring(0, 50) + (input.value.length > 50 ? '...' : ''));
-            });
-            
-            document.body.appendChild(tempForm);
-            
-            setTimeout(function() {
-              try {
-                tempForm.submit();
-                console.log('Form submit() called successfully');
-                console.log('Check Network tab for POST request to:', googleFormUrl);
-              } catch(e) {
-                console.error('Error submitting form:', e);
-              }
-            }, 100);
-          }
-          
-          // Clean up iframe and form after submission (regardless of success/failure)
-          // The success/error messages are handled in iframe handlers above
-          setTimeout(function() {
-            try {
-              if (document.body.contains(tempForm)) {
-                document.body.removeChild(tempForm);
-              }
-              if (document.body.contains(iframe)) {
-                document.body.removeChild(iframe);
-              }
-            } catch(e) {
-              console.log('Cleanup error (non-critical):', e);
-            }
-          }, 5000); // Clean up after 5 seconds
+            showMessage('⚠️ Error submitting application: ' + (error.message || 'Please try again or contact us directly.'), true);
+          });
         } catch (error) {
           console.error('Error in form submission handler:', error);
           
