@@ -1131,14 +1131,15 @@
           // Scroll to top
           window.scrollTo({ top: 0, behavior: 'smooth' });
           
-          // Remove any existing success/error messages
-          var existingMsg = document.querySelector('.form-submission-message');
-          if (existingMsg) {
-            existingMsg.remove();
-          }
-          
-          // Helper function to show message
+          // Helper function to show message (removes existing messages first)
           function showMessage(message, isError) {
+            // Remove any existing messages first
+            var existingMsgs = document.querySelectorAll('.form-submission-message');
+            existingMsgs.forEach(function(msg) {
+              msg.remove();
+            });
+            
+            // Create and show new message
             var msgDiv = document.createElement('div');
             msgDiv.className = 'form-submission-message neon-card ' + 
               (isError ? 'bg-red-500/10 border-2 border-red-500' : 'bg-bekky-green/10 border-2 border-bekky-green') + 
